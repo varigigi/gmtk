@@ -115,6 +115,7 @@ AM_CONDITIONAL([BUILD_GTK3],[true])
 
 AC_OUTPUT([
 Makefile
-src/libgmtk-0.1.pc
+src/libgmtk.pc
+src/libgmlib.pc
 src/Makefile
 po/Makefile.in])

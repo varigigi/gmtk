@@ -11,14 +11,11 @@ AM_CFLAGS =\
 	 -Wall\
 	 -g
 
-if BUILD_GTK3
-lib_LTLIBRARIES = libgmtk3.la libgmtk2.la libgmlib.la
-else
-lib_LTLIBRARIES = libgmtk2.la libgmlib.la
-endif
+lib_LTLIBRARIES = libgmlib.la libgmtk.la 
 
-libgmtk3_la_SOURCES = \
+libgmtk_la_SOURCES = \
 	gmtk.h \
+	gmtk_common.h \
 	gmtk_audio_meter.c \
 	gmtk_audio_meter.h \
 	gmtk_media_player.c \
@@ -28,32 +25,16 @@ libgmtk3_la_SOURCES = \
 	gmtk_output_combo_box.c \
 	gmtk_output_combo_box.h
 
-libgmtk3_la_CFLAGS = -fPIC \
+libgmtk_la_CFLAGS = -fPIC \
 	$(GTK_CFLAGS) \
 	$(ALSA_CFLAGS)
 
-libgmtk3_la_LDFLAGS = 
+libgmtk_la_LDFLAGS = 
 
-libgmtk3_la_LIBADD = $(GMTK_LIBS)
-
-libgmtk2_la_SOURCES = \
-	gmtk.h \
-	gmtk_audio_meter.c \
-	gmtk_audio_meter.h \
-	gmtk_media_player.c \
-	gmtk_media_player.h \
-	gmtk_media_tracker.c \
-	gmtk_media_tracker.h \
-	gmtk_output_combo_box.c \
-	gmtk_output_combo_box.h
-
-libgmtk2_la_CFLAGS = -fPIC \
-	$(GTK_CFLAGS) \
-	$(ALSA_CFLAGS)
-
-libgmtk2_la_LDFLAGS = 
-
-libgmtk2_la_LIBADD = $(GMTK_LIBS)
+libgmtk_la_LIBADD = \
+    $(GTK_LIBS) \
+    $(ALSA_LIBS)
+    
 
 libgmlib_la_SOURCES = \
 	gmlib.h \
@@ -103,7 +84,8 @@ include_HEADERS = \
 	gmtk_output_combo_box.h
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libgmtk-0.1.pc
+pkgconfig_DATA = libgmtk.pc libgmlib.pc
 
 EXTRA_DIST = \
-	libgmtk-0.1.pc.in
+	libgmtk.pc.in \
+	libgmlib.pc.in

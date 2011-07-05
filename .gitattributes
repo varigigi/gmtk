@@ -48,6 +48,7 @@ src/gmlib.h -text
 src/gmtk.h -text
 src/gmtk_audio_meter.c -text
 src/gmtk_audio_meter.h -text
+src/gmtk_common.h -text
 src/gmtk_media_player.c -text
 src/gmtk_media_player.h -text
 src/gmtk_media_tracker.c -text
@@ -55,4 +56,5 @@ src/gmtk_media_tracker.h -text
 src/gmtk_output_combo_box.c -text
 src/gmtk_output_combo_box.h -text
 src/lib.c -text
-src/libgmtk-0.1.pc.in -text
+src/libgmlib.pc.in -text
+src/libgmtk.pc.in -text

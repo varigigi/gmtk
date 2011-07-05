@@ -23,6 +23,7 @@
  */
 
 #include "gmtk_audio_meter.h"
+#include "gmtk_common.h"
 
 G_DEFINE_TYPE(GmtkAudioMeter, gmtk_audio_meter, GTK_TYPE_DRAWING_AREA);
 static GObjectClass *parent_class = NULL;
@@ -31,32 +32,11 @@ static GObjectClass *parent_class = NULL;
 static gboolean gmtk_audio_meter_draw(GtkWidget * meter, cairo_t * cr);
 #endif
 
+extern void gmtk_get_allocation(GtkWidget * widget, GtkAllocation * allocation);
+extern GdkWindow *gmtk_get_window(GtkWidget * widget);
+
 static gboolean gmtk_audio_meter_expose(GtkWidget * meter, GdkEventExpose * event);
 static void gmtk_audio_meter_dispose(GObject * object);
-extern GdkWindow *get_window(GtkWidget * widget);
-extern void get_allocation(GtkWidget * widget, GtkAllocation * allocation);
-/*
-void get_allocation(GtkWidget * widget, GtkAllocation * allocation);
-GdkWindow *get_window(GtkWidget * widget);
-
-void get_allocation(GtkWidget * widget, GtkAllocation * allocation)
-{
-#ifdef GTK2_18_ENABLED
-    gtk_widget_get_allocation(widget, allocation);
-#else
-    allocation = &(widget->allocation);
-#endif
-}
-
-GdkWindow *get_window(GtkWidget * widget)
-{
-#ifdef GTK2_14_ENABLED
-    return gtk_widget_get_window(widget);
-#else
-    return widget->window;
-#endif
-}
-*/
 
 static void gmtk_audio_meter_class_init(GmtkAudioMeterClass * class)
 {
@@ -116,7 +96,7 @@ static void draw(GtkWidget * meter)
     cairo_pattern_t *pattern;
     GtkStyle *style;
 
-    get_allocation(meter, &alloc);
+    gmtk_get_allocation(meter, &alloc);
     style = gtk_widget_get_style(meter);
 
 
@@ -225,9 +205,9 @@ static gboolean gmtk_audio_meter_expose(GtkWidget * meter, GdkEventExpose * even
 {
     PangoLayout *p;
 
-    gdk_window_begin_paint_region(get_window(meter), event->region);
+    gdk_window_begin_paint_region(gmtk_get_window(meter), event->region);
     if (GMTK_AUDIO_METER(meter)->data_valid) {
-        GMTK_AUDIO_METER(meter)->cr = gdk_cairo_create(get_window(GTK_WIDGET(meter)));
+        GMTK_AUDIO_METER(meter)->cr = gdk_cairo_create(gmtk_get_window(GTK_WIDGET(meter)));
         draw(meter);
         cairo_destroy(GMTK_AUDIO_METER(meter)->cr);
 
@@ -235,11 +215,11 @@ static gboolean gmtk_audio_meter_expose(GtkWidget * meter, GdkEventExpose * even
         p = gtk_widget_create_pango_layout(meter, "No Data");
 #ifdef GTK3_ENABLED
 #else
-        gdk_draw_layout(get_window(meter), gtk_widget_get_style(meter)->fg_gc[0], 0, 0, p);
+        gdk_draw_layout(gmtk_get_window(meter), gtk_widget_get_style(meter)->fg_gc[0], 0, 0, p);
 #endif
         g_object_unref(p);
     }
-    gdk_window_end_paint(get_window(meter));
+    gdk_window_end_paint(gmtk_get_window(meter));
     return FALSE;
 }
 
@@ -278,8 +258,8 @@ void gmtk_audio_meter_set_data(GmtkAudioMeter * meter, GArray * data)
         meter->data_valid = TRUE;
     }
 
-    if (get_window(GTK_WIDGET(meter)))
-        gdk_window_invalidate_rect(get_window(GTK_WIDGET(meter)), NULL, FALSE);
+    if (gmtk_get_window(GTK_WIDGET(meter)))
+        gdk_window_invalidate_rect(gmtk_get_window(GTK_WIDGET(meter)), NULL, FALSE);
 }
 
 void gmtk_audio_meter_set_data_full(GmtkAudioMeter * meter, GArray * data, GArray * max_data)
@@ -308,8 +288,8 @@ void gmtk_audio_meter_set_data_full(GmtkAudioMeter * meter, GArray * data, GArra
         meter->data_valid = TRUE;
     }
 
-    if (get_window(GTK_WIDGET(meter)))
-        gdk_window_invalidate_rect(get_window(GTK_WIDGET(meter)), NULL, FALSE);
+    if (gmtk_get_window(GTK_WIDGET(meter)))
+        gdk_window_invalidate_rect(gmtk_get_window(GTK_WIDGET(meter)), NULL, FALSE);
 }
 
 void gmtk_audio_meter_set_max_division_width(GmtkAudioMeter * meter, gint max_division_width)

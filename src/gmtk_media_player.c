@@ -45,8 +45,6 @@ gboolean thread_query(gpointer data);
 gboolean thread_complete(GIOChannel * source, GIOCondition condition, gpointer data);
 
 gboolean write_to_mplayer(GmtkMediaPlayer * player, const gchar * cmd);
-
-extern void get_allocation(GtkWidget * widget, GtkAllocation * allocation);
 gboolean detect_mplayer_features(GmtkMediaPlayer * player);
 
 static void socket_realized(GtkWidget * widget, gpointer data)
@@ -490,18 +488,18 @@ static gboolean player_key_press_event_callback(GtkWidget * widget, GdkEventKey 
         case GDK_KP_Add:
             player->zoom += 0.10;
             player->zoom = CLAMP(player->zoom, 0.1, 10.0);
-            get_allocation(GTK_WIDGET(player), &alloc);
+            gmtk_get_allocation(GTK_WIDGET(player), &alloc);
             gmtk_media_player_size_allocate(GTK_WIDGET(player), &alloc);
             break;
         case GDK_KP_Subtract:
             player->zoom -= 0.10;
             player->zoom = CLAMP(player->zoom, 0.1, 10.0);
-            get_allocation(GTK_WIDGET(player), &alloc);
+            gmtk_get_allocation(GTK_WIDGET(player), &alloc);
             gmtk_media_player_size_allocate(GTK_WIDGET(player), &alloc);
             break;
         case GDK_KP_Enter:
             player->zoom = 1.0;
-            get_allocation(GTK_WIDGET(player), &alloc);
+            gmtk_get_allocation(GTK_WIDGET(player), &alloc);
             gmtk_media_player_size_allocate(GTK_WIDGET(player), &alloc);
             break;
         case GDK_j:
@@ -1634,7 +1632,7 @@ void gmtk_media_player_set_aspect(GmtkMediaPlayer * player, GmtkMediaPlayerAspec
     GtkAllocation alloc;
 
     player->aspect_ratio = aspect;
-    get_allocation(GTK_WIDGET(player), &alloc);
+    gmtk_get_allocation(GTK_WIDGET(player), &alloc);
     gmtk_media_player_size_allocate(GTK_WIDGET(player), &alloc);
 }
 
@@ -2572,7 +2570,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
         if (strstr(mplayer_output->str, "VO:") != NULL) {
             buf = strstr(mplayer_output->str, "VO:");
             sscanf(buf, "VO: [%[^]]] %ix%i => %ix%i", vm, &w, &h, &(player->video_width), &(player->video_height));
-            get_allocation(GTK_WIDGET(player), &allocation);
+            gmtk_get_allocation(GTK_WIDGET(player), &allocation);
             player->media_state = MEDIA_STATE_PLAY;
             if (player->restart) {
                 g_signal_emit_by_name(player, "restart-complete", NULL);
@@ -2595,7 +2593,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
         if (strstr(mplayer_output->str, "Video: no video") != NULL) {
             player->video_width = 0;
             player->video_height = 0;
-            get_allocation(GTK_WIDGET(player), &allocation);
+            gmtk_get_allocation(GTK_WIDGET(player), &allocation);
             if (player->restart) {
                 g_signal_emit_by_name(player, "restart-complete", NULL);
             } else {
