@@ -5,9 +5,9 @@ datarootdir=@datarootdir@
 datadir=@datadir@
 includedir=@includedir@/gmtk
 
-Name: libgmtk
-Description: Sample library created by Anjuta project wizard.
+Name: gmlib
+Description: Gnome Mplayer shared library
 Version: @VERSION@
 Requires: 
-Libs: -L${libdir} -lgmtk -lgmlib
+Libs: -L${libdir}
 Cflags: -I${includedir}

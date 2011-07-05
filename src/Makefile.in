@@ -38,15 +38,15 @@ build_triplet = @build@
 host_triplet = @host@
 subdir = src
 DIST_COMMON = $(include_HEADERS) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(srcdir)/libgmlib.pc.in \
-	$(srcdir)/libgmtk.pc.in
+	$(srcdir)/Makefile.in $(srcdir)/gmlib.pc.in \
+	$(srcdir)/gmtk.pc.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = libgmtk.pc libgmlib.pc
+CONFIG_CLEAN_FILES = gmtk.pc gmlib.pc
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -385,10 +385,10 @@ include_HEADERS = \
 	gmtk_output_combo_box.h
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libgmtk.pc libgmlib.pc
+pkgconfig_DATA = gmtk.pc gmlib.pc
 EXTRA_DIST = \
-	libgmtk.pc.in \
-	libgmlib.pc.in
+	gmtk.pc.in \
+	gmlib.pc.in
 
 all: all-am
 
@@ -424,9 +424,9 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
-libgmtk.pc: $(top_builddir)/config.status $(srcdir)/libgmtk.pc.in
+gmtk.pc: $(top_builddir)/config.status $(srcdir)/gmtk.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-libgmlib.pc: $(top_builddir)/config.status $(srcdir)/libgmlib.pc.in
+gmlib.pc: $(top_builddir)/config.status $(srcdir)/gmlib.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)

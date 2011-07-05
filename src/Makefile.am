@@ -84,8 +84,8 @@ include_HEADERS = \
 	gmtk_output_combo_box.h
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libgmtk.pc libgmlib.pc
+pkgconfig_DATA = gmtk.pc gmlib.pc
 
 EXTRA_DIST = \
-	libgmtk.pc.in \
-	libgmlib.pc.in
+	gmtk.pc.in \
+	gmlib.pc.in

@@ -13961,7 +13961,7 @@ fi
 
 
 
-ac_config_files="$ac_config_files Makefile src/libgmtk.pc src/libgmlib.pc src/Makefile po/Makefile.in"
+ac_config_files="$ac_config_files Makefile src/gmtk.pc src/gmlib.pc src/Makefile po/Makefile.in"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -14987,8 +14987,8 @@ do
     "default-1") CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-    "src/libgmtk.pc") CONFIG_FILES="$CONFIG_FILES src/libgmtk.pc" ;;
-    "src/libgmlib.pc") CONFIG_FILES="$CONFIG_FILES src/libgmlib.pc" ;;
+    "src/gmtk.pc") CONFIG_FILES="$CONFIG_FILES src/gmtk.pc" ;;
+    "src/gmlib.pc") CONFIG_FILES="$CONFIG_FILES src/gmlib.pc" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "po/Makefile.in") CONFIG_FILES="$CONFIG_FILES po/Makefile.in" ;;
     "po/stamp-it") CONFIG_COMMANDS="$CONFIG_COMMANDS po/stamp-it" ;;
