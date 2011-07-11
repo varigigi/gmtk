@@ -622,6 +622,9 @@ GIO_DEFINES
 GIO_LIBS
 GIO_CFLAGS
 USE_GSETTINGS
+USE_GCONF
+GCONF_SCHEMAS_INSTALL_FALSE
+GCONF_SCHEMAS_INSTALL_TRUE
 GLIB2_14_DEFINES
 GLIB2_14_LIBS
 GLIB2_14_CFLAGS
@@ -827,7 +830,9 @@ with_gnu_ld
 with_sysroot
 enable_libtool_lock
 enable_gtk3
-with_gconf
+enable_gsettings
+enable_gconf
+enable_keystore
 with_gio
 with_alsa
 with_pulseaudio
@@ -1507,6 +1512,9 @@ Optional Features:
                           optimize for fast installation @<:@default=yes@:>@
   --disable-libtool-lock  avoid locking (might break parallel builds)
   --enable-gtk3           compile using GTK3
+  --enable-gsettings      compile using GSettings for preference storage
+  --enable-gconf          compile using GConf for preference storage
+  --enable-keystore       compile using KeyStore for preference storage
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -1516,7 +1524,6 @@ Optional Packages:
   --with-gnu-ld           assume the C compiler uses GNU ld @<:@default=no@:>@
   --with-sysroot=DIR Search for dependent libraries within DIR
                         (or the compiler's sysroot if not specified).
-  --with-gconf            Use Gconf to store preferences
   --with-gio              Use GIO for file I/O
   --with-alsa             Read volume from alsa devices
   --with-pulseaudio       PulseAudio device and volume support
@@ -13164,13 +13171,13 @@ fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$GLIB2_26_PKG_ERRORS" >&5
 
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.24 features" >&5
-$as_echo "$as_me: Using GLIB 2.24 features" >&6;}
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.26 features" >&5
+$as_echo "$as_me: Using GLIB 2.26 features" >&6;}
 elif test $pkg_failed = untried; then
      	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.24 features" >&5
-$as_echo "$as_me: Using GLIB 2.24 features" >&6;}
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.26 features" >&5
+$as_echo "$as_me: Using GLIB 2.26 features" >&6;}
 else
 	GLIB2_26_CFLAGS=$pkg_cv_GLIB2_26_CFLAGS
 	GLIB2_26_LIBS=$pkg_cv_GLIB2_26_LIBS
@@ -14033,13 +14040,13 @@ fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$GLIB2_26_PKG_ERRORS" >&5
 
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.24 features" >&5
-$as_echo "$as_me: Using GLIB 2.24 features" >&6;}
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.26 features" >&5
+$as_echo "$as_me: Using GLIB 2.26 features" >&6;}
 elif test $pkg_failed = untried; then
      	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.24 features" >&5
-$as_echo "$as_me: Using GLIB 2.24 features" >&6;}
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.26 features" >&5
+$as_echo "$as_me: Using GLIB 2.26 features" >&6;}
 else
 	GLIB2_26_CFLAGS=$pkg_cv_GLIB2_26_CFLAGS
 	GLIB2_26_LIBS=$pkg_cv_GLIB2_26_LIBS
@@ -14055,91 +14062,70 @@ fi
 fi
 
 
-
-@%:@ Check whether --with-gconf was given.
-if test "${with_gconf+set}" = set; then :
-  withval=$with_gconf; 
+@%:@ Check whether --enable-gsettings was given.
+if test "${enable_gsettings+set}" = set; then :
+  enableval=$enable_gsettings; case "${enableval}" in
+    yes) enable_gsettings=yes ;;
+    no) enable_gesttings=no ;;
+    *) as_fn_error $? "bad value ${enableval} for --enable-gsettings" "$LINENO" 5 ;;
+    esac
 else
-  with_gconf=check
+  enable_gsettings=check
 fi
 
-if test "x$with_gconf" != xyes; then :
-  
-pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for GLIB2_26" >&5
-$as_echo_n "checking for GLIB2_26... " >&6; }
 
-if test -n "$GLIB2_26_CFLAGS"; then
-    pkg_cv_GLIB2_26_CFLAGS="$GLIB2_26_CFLAGS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"glib-2.0 >= 2.26.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "glib-2.0 >= 2.26.0") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_GLIB2_26_CFLAGS=`$PKG_CONFIG --cflags "glib-2.0 >= 2.26.0" 2>/dev/null`
+@%:@ Check whether --enable-gconf was given.
+if test "${enable_gconf+set}" = set; then :
+  enableval=$enable_gconf; case "${enableval}" in
+    yes) enable_gconf=yes ;;
+    no) enable_gconf=no ;;
+    *) as_fn_error $? "bad value ${enableval} for --enable-gconf" "$LINENO" 5 ;;
+    esac
 else
-  pkg_failed=yes
+  enable_gconf=check
 fi
- else
-    pkg_failed=untried
-fi
-if test -n "$GLIB2_26_LIBS"; then
-    pkg_cv_GLIB2_26_LIBS="$GLIB2_26_LIBS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"glib-2.0 >= 2.26.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "glib-2.0 >= 2.26.0") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_GLIB2_26_LIBS=`$PKG_CONFIG --libs "glib-2.0 >= 2.26.0" 2>/dev/null`
+
+
+@%:@ Check whether --enable-keystore was given.
+if test "${enable_keystore+set}" = set; then :
+  enableval=$enable_keystore; case "${enableval}" in
+    yes) enable_keystore=yes ;;
+    no) enable_keystore=no ;;
+    *) as_fn_error $? "bad value ${enableval} for --enable-keystore" "$LINENO" 5 ;;
+    esac
 else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
+  enable_keystore=check
 fi
 
 
-
-if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-        
-if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
-        _pkg_short_errors_supported=yes
+if test "$enable_keystore" = "yes" || test "$enable_gconf" = "yes" || test "$enable_gsettings" = "yes"; then
+    if test "$enable_keystore" = "yes"; then
+        { $as_echo "$as_me:${as_lineno-$LINENO}: Using keystore backend" >&5
+$as_echo "$as_me: Using keystore backend" >&6;}
+        use_gconf=no
+        use_gsettings=no
+        USE_GSETTINGS=0
+        USE_GCONF=0
+         if false; then
+  GCONF_SCHEMAS_INSTALL_TRUE=
+  GCONF_SCHEMAS_INSTALL_FALSE='#'
 else
-        _pkg_short_errors_supported=no
+  GCONF_SCHEMAS_INSTALL_TRUE='#'
+  GCONF_SCHEMAS_INSTALL_FALSE=
 fi
-        if test $_pkg_short_errors_supported = yes; then
-	        GLIB2_26_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors "glib-2.0 >= 2.26.0" 2>&1`
-        else 
-	        GLIB2_26_PKG_ERRORS=`$PKG_CONFIG --print-errors "glib-2.0 >= 2.26.0" 2>&1`
-        fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$GLIB2_26_PKG_ERRORS" >&5
 
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB < 2.26 specific features" >&5
-$as_echo "$as_me: Using GLIB < 2.26 specific features" >&6;}
-elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB < 2.26 specific features" >&5
-$as_echo "$as_me: Using GLIB < 2.26 specific features" >&6;}
-else
-	GLIB2_26_CFLAGS=$pkg_cv_GLIB2_26_CFLAGS
-	GLIB2_26_LIBS=$pkg_cv_GLIB2_26_LIBS
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-$as_echo "yes" >&6; }
-	with_gconf=no with_gsettings=yes USE_GSETTINGS=1  GLIB2_26_DEFINES="-DGLIB2_26_ENABLED" 
-$as_echo "@%:@define GLIB2_26_ENABLED 1" >>confdefs.h
-
-fi
+    fi
     
-fi    
-    
+else
+    { $as_echo "$as_me:${as_lineno-$LINENO}: Determining backend" >&5
+$as_echo "$as_me: Determining backend" >&6;}
+
+fi
+
+
+
+
+   
 
 @%:@ Check whether --with-gio was given.
 if test "${with_gio+set}" = set; then :
@@ -14542,6 +14528,10 @@ fi
   ac_config_commands="$ac_config_commands po/stamp-it"
 
 
+if test -z "${GCONF_SCHEMAS_INSTALL_TRUE}" && test -z "${GCONF_SCHEMAS_INSTALL_FALSE}"; then
+  as_fn_error $? "conditional \"GCONF_SCHEMAS_INSTALL\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
 
 : "${CONFIG_STATUS=./config.status}"
 ac_write_fail=0

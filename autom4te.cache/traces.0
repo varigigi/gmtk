@@ -2879,8 +2879,8 @@ m4trace:configure.ac:47: -1- PKG_CHECK_EXISTS([glib-2.0 >= 2.24.0], [pkg_cv_[]GL
 m4trace:configure.ac:47: -1- _PKG_SHORT_ERRORS_SUPPORTED
 m4trace:configure.ac:47: -1- m4_pattern_allow([^GLIB2_24_ENABLED$])
 m4trace:configure.ac:47: -1- m4_pattern_allow([^GLIB2_24_DEFINES$])
-m4trace:configure.ac:47: -1- PKG_CHECK_MODULES([GLIB2_26], [glib-2.0 >= 2.26.0], [GLIB2_26_DEFINES="-DGLIB2_26_ENABLED" AC_DEFINE([GLIB2_26_ENABLED],[1],[Define to 1 if you have GLIB 2.26 or higher])], [{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.24 features" >&5
-$as_echo "$as_me: Using GLIB 2.24 features" >&6;}])
+m4trace:configure.ac:47: -1- PKG_CHECK_MODULES([GLIB2_26], [glib-2.0 >= 2.26.0], [GLIB2_26_DEFINES="-DGLIB2_26_ENABLED" AC_DEFINE([GLIB2_26_ENABLED],[1],[Define to 1 if you have GLIB 2.26 or higher])], [{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.26 features" >&5
+$as_echo "$as_me: Using GLIB 2.26 features" >&6;}])
 m4trace:configure.ac:47: -1- m4_pattern_allow([^GLIB2_26_CFLAGS$])
 m4trace:configure.ac:47: -1- m4_pattern_allow([^GLIB2_26_LIBS$])
 m4trace:configure.ac:47: -1- PKG_CHECK_EXISTS([glib-2.0 >= 2.26.0], [pkg_cv_[]GLIB2_26_CFLAGS=`$PKG_CONFIG --[]cflags "glib-2.0 >= 2.26.0" 2>/dev/null`], [pkg_failed=yes])
@@ -2976,8 +2976,8 @@ m4trace:configure.ac:73: -1- PKG_CHECK_EXISTS([glib-2.0 >= 2.24.0], [pkg_cv_[]GL
 m4trace:configure.ac:73: -1- _PKG_SHORT_ERRORS_SUPPORTED
 m4trace:configure.ac:73: -1- m4_pattern_allow([^GLIB2_24_ENABLED$])
 m4trace:configure.ac:73: -1- m4_pattern_allow([^GLIB2_24_DEFINES$])
-m4trace:configure.ac:73: -1- PKG_CHECK_MODULES([GLIB2_26], [glib-2.0 >= 2.26.0], [GLIB2_26_DEFINES="-DGLIB2_26_ENABLED" AC_DEFINE([GLIB2_26_ENABLED],[1],[Define to 1 if you have GLIB 2.26 or higher])], [{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.24 features" >&5
-$as_echo "$as_me: Using GLIB 2.24 features" >&6;}])
+m4trace:configure.ac:73: -1- PKG_CHECK_MODULES([GLIB2_26], [glib-2.0 >= 2.26.0], [GLIB2_26_DEFINES="-DGLIB2_26_ENABLED" AC_DEFINE([GLIB2_26_ENABLED],[1],[Define to 1 if you have GLIB 2.26 or higher])], [{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.26 features" >&5
+$as_echo "$as_me: Using GLIB 2.26 features" >&6;}])
 m4trace:configure.ac:73: -1- m4_pattern_allow([^GLIB2_26_CFLAGS$])
 m4trace:configure.ac:73: -1- m4_pattern_allow([^GLIB2_26_LIBS$])
 m4trace:configure.ac:73: -1- PKG_CHECK_EXISTS([glib-2.0 >= 2.26.0], [pkg_cv_[]GLIB2_26_CFLAGS=`$PKG_CONFIG --[]cflags "glib-2.0 >= 2.26.0" 2>/dev/null`], [pkg_failed=yes])
@@ -2985,58 +2985,65 @@ m4trace:configure.ac:73: -1- PKG_CHECK_EXISTS([glib-2.0 >= 2.26.0], [pkg_cv_[]GL
 m4trace:configure.ac:73: -1- _PKG_SHORT_ERRORS_SUPPORTED
 m4trace:configure.ac:73: -1- m4_pattern_allow([^GLIB2_26_ENABLED$])
 m4trace:configure.ac:73: -1- m4_pattern_allow([^GLIB2_26_DEFINES$])
-m4trace:configure.ac:119: -1- PKG_CHECK_MODULES([GLIB2_26], [glib-2.0 >= 2.26.0], [with_gconf=no with_gsettings=yes USE_GSETTINGS=1 AC_SUBST(USE_GSETTINGS) GLIB2_26_DEFINES="-DGLIB2_26_ENABLED" AC_DEFINE([GLIB2_26_ENABLED],[1],[Define to 1 if you have GLIB 2.26 or higher])], [{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB < 2.26 specific features" >&5
-$as_echo "$as_me: Using GLIB < 2.26 specific features" >&6;}])
-m4trace:configure.ac:119: -1- m4_pattern_allow([^GLIB2_26_CFLAGS$])
-m4trace:configure.ac:119: -1- m4_pattern_allow([^GLIB2_26_LIBS$])
-m4trace:configure.ac:119: -1- PKG_CHECK_EXISTS([glib-2.0 >= 2.26.0], [pkg_cv_[]GLIB2_26_CFLAGS=`$PKG_CONFIG --[]cflags "glib-2.0 >= 2.26.0" 2>/dev/null`], [pkg_failed=yes])
-m4trace:configure.ac:119: -1- PKG_CHECK_EXISTS([glib-2.0 >= 2.26.0], [pkg_cv_[]GLIB2_26_LIBS=`$PKG_CONFIG --[]libs "glib-2.0 >= 2.26.0" 2>/dev/null`], [pkg_failed=yes])
-m4trace:configure.ac:119: -1- _PKG_SHORT_ERRORS_SUPPORTED
-m4trace:configure.ac:119: -1- m4_pattern_allow([^USE_GSETTINGS$])
-m4trace:configure.ac:119: -1- m4_pattern_allow([^GLIB2_26_ENABLED$])
-m4trace:configure.ac:128: -1- PKG_CHECK_MODULES([GIO], [gio-2.0], [GIO_DEFINES="-DGIO_ENABLED" AC_DEFINE([GIO_ENABLED],[1],[Define to 1 if you have GIO support])], [{ $as_echo "$as_me:${as_lineno-$LINENO}: Compiling without gio support" >&5
+m4trace:configure.ac:115: -2- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:209: AC_HELP_STRING is expanded from...
+configure.ac:115: the top level])
+m4trace:configure.ac:124: -2- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:209: AC_HELP_STRING is expanded from...
+configure.ac:124: the top level])
+m4trace:configure.ac:133: -2- _m4_warn([obsolete], [The macro `AC_HELP_STRING' is obsolete.
+You should run autoupdate.], [../../lib/autoconf/general.m4:209: AC_HELP_STRING is expanded from...
+configure.ac:133: the top level])
+m4trace:configure.ac:148: -1- AM_CONDITIONAL([GCONF_SCHEMAS_INSTALL], [false])
+m4trace:configure.ac:148: -1- m4_pattern_allow([^GCONF_SCHEMAS_INSTALL_TRUE$])
+m4trace:configure.ac:148: -1- m4_pattern_allow([^GCONF_SCHEMAS_INSTALL_FALSE$])
+m4trace:configure.ac:148: -1- _AM_SUBST_NOTMAKE([GCONF_SCHEMAS_INSTALL_TRUE])
+m4trace:configure.ac:148: -1- _AM_SUBST_NOTMAKE([GCONF_SCHEMAS_INSTALL_FALSE])
+m4trace:configure.ac:156: -1- m4_pattern_allow([^USE_GCONF$])
+m4trace:configure.ac:157: -1- m4_pattern_allow([^USE_GSETTINGS$])
+m4trace:configure.ac:165: -1- PKG_CHECK_MODULES([GIO], [gio-2.0], [GIO_DEFINES="-DGIO_ENABLED" AC_DEFINE([GIO_ENABLED],[1],[Define to 1 if you have GIO support])], [{ $as_echo "$as_me:${as_lineno-$LINENO}: Compiling without gio support" >&5
 $as_echo "$as_me: Compiling without gio support" >&6;}])
-m4trace:configure.ac:128: -1- m4_pattern_allow([^GIO_CFLAGS$])
-m4trace:configure.ac:128: -1- m4_pattern_allow([^GIO_LIBS$])
-m4trace:configure.ac:128: -1- PKG_CHECK_EXISTS([gio-2.0], [pkg_cv_[]GIO_CFLAGS=`$PKG_CONFIG --[]cflags "gio-2.0" 2>/dev/null`], [pkg_failed=yes])
-m4trace:configure.ac:128: -1- PKG_CHECK_EXISTS([gio-2.0], [pkg_cv_[]GIO_LIBS=`$PKG_CONFIG --[]libs "gio-2.0" 2>/dev/null`], [pkg_failed=yes])
-m4trace:configure.ac:128: -1- _PKG_SHORT_ERRORS_SUPPORTED
-m4trace:configure.ac:128: -1- m4_pattern_allow([^GIO_ENABLED$])
-m4trace:configure.ac:128: -1- m4_pattern_allow([^GIO_DEFINES$])
-m4trace:configure.ac:128: -1- m4_pattern_allow([^GIO_CFLAGS$])
-m4trace:configure.ac:128: -1- m4_pattern_allow([^GIO_LIBS$])
-m4trace:configure.ac:140: -1- PKG_CHECK_MODULES([ALSA], [alsa], [ALSA_DEFINES="-DHAVE_ASOUNDLIB" AC_DEFINE([HAVE_ASOUNDLIB],[1],[Define to 1 if you have asoundlib development packages])], [{ $as_echo "$as_me:${as_lineno-$LINENO}: Compiling without asound support" >&5
+m4trace:configure.ac:165: -1- m4_pattern_allow([^GIO_CFLAGS$])
+m4trace:configure.ac:165: -1- m4_pattern_allow([^GIO_LIBS$])
+m4trace:configure.ac:165: -1- PKG_CHECK_EXISTS([gio-2.0], [pkg_cv_[]GIO_CFLAGS=`$PKG_CONFIG --[]cflags "gio-2.0" 2>/dev/null`], [pkg_failed=yes])
+m4trace:configure.ac:165: -1- PKG_CHECK_EXISTS([gio-2.0], [pkg_cv_[]GIO_LIBS=`$PKG_CONFIG --[]libs "gio-2.0" 2>/dev/null`], [pkg_failed=yes])
+m4trace:configure.ac:165: -1- _PKG_SHORT_ERRORS_SUPPORTED
+m4trace:configure.ac:165: -1- m4_pattern_allow([^GIO_ENABLED$])
+m4trace:configure.ac:165: -1- m4_pattern_allow([^GIO_DEFINES$])
+m4trace:configure.ac:165: -1- m4_pattern_allow([^GIO_CFLAGS$])
+m4trace:configure.ac:165: -1- m4_pattern_allow([^GIO_LIBS$])
+m4trace:configure.ac:177: -1- PKG_CHECK_MODULES([ALSA], [alsa], [ALSA_DEFINES="-DHAVE_ASOUNDLIB" AC_DEFINE([HAVE_ASOUNDLIB],[1],[Define to 1 if you have asoundlib development packages])], [{ $as_echo "$as_me:${as_lineno-$LINENO}: Compiling without asound support" >&5
 $as_echo "$as_me: Compiling without asound support" >&6;}])
-m4trace:configure.ac:140: -1- m4_pattern_allow([^ALSA_CFLAGS$])
-m4trace:configure.ac:140: -1- m4_pattern_allow([^ALSA_LIBS$])
-m4trace:configure.ac:140: -1- PKG_CHECK_EXISTS([alsa], [pkg_cv_[]ALSA_CFLAGS=`$PKG_CONFIG --[]cflags "alsa" 2>/dev/null`], [pkg_failed=yes])
-m4trace:configure.ac:140: -1- PKG_CHECK_EXISTS([alsa], [pkg_cv_[]ALSA_LIBS=`$PKG_CONFIG --[]libs "alsa" 2>/dev/null`], [pkg_failed=yes])
-m4trace:configure.ac:140: -1- _PKG_SHORT_ERRORS_SUPPORTED
-m4trace:configure.ac:140: -1- m4_pattern_allow([^HAVE_ASOUNDLIB$])
-m4trace:configure.ac:140: -1- m4_pattern_allow([^ALSA_DEFINES$])
-m4trace:configure.ac:140: -1- m4_pattern_allow([^ALSA_CFLAGS$])
-m4trace:configure.ac:140: -1- m4_pattern_allow([^ALSA_LIBS$])
-m4trace:configure.ac:152: -1- PKG_CHECK_MODULES([PULSE], [libpulse libpulse-mainloop-glib], [AC_DEFINE([HAVE_PULSEAUDIO],[1],[Define to 1 if you have PulseAudio development packages])], [{ $as_echo "$as_me:${as_lineno-$LINENO}: Compiling without PulseAudio support" >&5
+m4trace:configure.ac:177: -1- m4_pattern_allow([^ALSA_CFLAGS$])
+m4trace:configure.ac:177: -1- m4_pattern_allow([^ALSA_LIBS$])
+m4trace:configure.ac:177: -1- PKG_CHECK_EXISTS([alsa], [pkg_cv_[]ALSA_CFLAGS=`$PKG_CONFIG --[]cflags "alsa" 2>/dev/null`], [pkg_failed=yes])
+m4trace:configure.ac:177: -1- PKG_CHECK_EXISTS([alsa], [pkg_cv_[]ALSA_LIBS=`$PKG_CONFIG --[]libs "alsa" 2>/dev/null`], [pkg_failed=yes])
+m4trace:configure.ac:177: -1- _PKG_SHORT_ERRORS_SUPPORTED
+m4trace:configure.ac:177: -1- m4_pattern_allow([^HAVE_ASOUNDLIB$])
+m4trace:configure.ac:177: -1- m4_pattern_allow([^ALSA_DEFINES$])
+m4trace:configure.ac:177: -1- m4_pattern_allow([^ALSA_CFLAGS$])
+m4trace:configure.ac:177: -1- m4_pattern_allow([^ALSA_LIBS$])
+m4trace:configure.ac:189: -1- PKG_CHECK_MODULES([PULSE], [libpulse libpulse-mainloop-glib], [AC_DEFINE([HAVE_PULSEAUDIO],[1],[Define to 1 if you have PulseAudio development packages])], [{ $as_echo "$as_me:${as_lineno-$LINENO}: Compiling without PulseAudio support" >&5
 $as_echo "$as_me: Compiling without PulseAudio support" >&6;}])
-m4trace:configure.ac:152: -1- m4_pattern_allow([^PULSE_CFLAGS$])
-m4trace:configure.ac:152: -1- m4_pattern_allow([^PULSE_LIBS$])
-m4trace:configure.ac:152: -1- PKG_CHECK_EXISTS([libpulse libpulse-mainloop-glib], [pkg_cv_[]PULSE_CFLAGS=`$PKG_CONFIG --[]cflags "libpulse libpulse-mainloop-glib" 2>/dev/null`], [pkg_failed=yes])
-m4trace:configure.ac:152: -1- PKG_CHECK_EXISTS([libpulse libpulse-mainloop-glib], [pkg_cv_[]PULSE_LIBS=`$PKG_CONFIG --[]libs "libpulse libpulse-mainloop-glib" 2>/dev/null`], [pkg_failed=yes])
-m4trace:configure.ac:152: -1- _PKG_SHORT_ERRORS_SUPPORTED
-m4trace:configure.ac:152: -1- m4_pattern_allow([^HAVE_PULSEAUDIO$])
-m4trace:configure.ac:152: -1- m4_pattern_allow([^PULSE_DEFINES$])
-m4trace:configure.ac:152: -1- m4_pattern_allow([^PULSE_CFLAGS$])
-m4trace:configure.ac:152: -1- m4_pattern_allow([^PULSE_LIBS$])
-m4trace:configure.ac:160: -1- m4_pattern_allow([^GLIB2_26_DEFINES$])
-m4trace:configure.ac:162: -1- _m4_warn([obsolete], [AC_OUTPUT should be used without arguments.
+m4trace:configure.ac:189: -1- m4_pattern_allow([^PULSE_CFLAGS$])
+m4trace:configure.ac:189: -1- m4_pattern_allow([^PULSE_LIBS$])
+m4trace:configure.ac:189: -1- PKG_CHECK_EXISTS([libpulse libpulse-mainloop-glib], [pkg_cv_[]PULSE_CFLAGS=`$PKG_CONFIG --[]cflags "libpulse libpulse-mainloop-glib" 2>/dev/null`], [pkg_failed=yes])
+m4trace:configure.ac:189: -1- PKG_CHECK_EXISTS([libpulse libpulse-mainloop-glib], [pkg_cv_[]PULSE_LIBS=`$PKG_CONFIG --[]libs "libpulse libpulse-mainloop-glib" 2>/dev/null`], [pkg_failed=yes])
+m4trace:configure.ac:189: -1- _PKG_SHORT_ERRORS_SUPPORTED
+m4trace:configure.ac:189: -1- m4_pattern_allow([^HAVE_PULSEAUDIO$])
+m4trace:configure.ac:189: -1- m4_pattern_allow([^PULSE_DEFINES$])
+m4trace:configure.ac:189: -1- m4_pattern_allow([^PULSE_CFLAGS$])
+m4trace:configure.ac:189: -1- m4_pattern_allow([^PULSE_LIBS$])
+m4trace:configure.ac:197: -1- m4_pattern_allow([^GLIB2_26_DEFINES$])
+m4trace:configure.ac:199: -1- _m4_warn([obsolete], [AC_OUTPUT should be used without arguments.
 You should run autoupdate.], [])
-m4trace:configure.ac:162: -1- m4_pattern_allow([^LIB@&t@OBJS$])
-m4trace:configure.ac:162: -1- m4_pattern_allow([^LTLIBOBJS$])
-m4trace:configure.ac:162: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
-m4trace:configure.ac:162: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
-m4trace:configure.ac:162: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
-m4trace:configure.ac:162: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
-m4trace:configure.ac:162: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
-m4trace:configure.ac:162: -1- _AC_AM_CONFIG_HEADER_HOOK(["$ac_file"])
-m4trace:configure.ac:162: -1- _AM_OUTPUT_DEPENDENCY_COMMANDS
-m4trace:configure.ac:162: -1- _LT_PROG_LTMAIN
+m4trace:configure.ac:199: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+m4trace:configure.ac:199: -1- m4_pattern_allow([^LTLIBOBJS$])
+m4trace:configure.ac:199: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
+m4trace:configure.ac:199: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
+m4trace:configure.ac:199: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
+m4trace:configure.ac:199: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
+m4trace:configure.ac:199: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
+m4trace:configure.ac:199: -1- _AC_AM_CONFIG_HEADER_HOOK(["$ac_file"])
+m4trace:configure.ac:199: -1- _AM_OUTPUT_DEPENDENCY_COMMANDS
+m4trace:configure.ac:199: -1- _LT_PROG_LTMAIN

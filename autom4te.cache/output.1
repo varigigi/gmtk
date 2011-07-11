@@ -622,6 +622,17 @@ GIO_DEFINES
 GIO_LIBS
 GIO_CFLAGS
 USE_GSETTINGS
+USE_GCONF
+GCONF_SCHEMA_FILE_DIR
+GCONF_SCHEMA_CONFIG_SOURCE
+GLIB_COMPILE_SCHEMAS
+gsettingsschemadir
+GSETTINGS_DISABLE_SCHEMAS_COMPILE
+GSETTINGS_RULES
+GCONF_SCHEMAS_INSTALL_FALSE
+GCONF_SCHEMAS_INSTALL_TRUE
+GCONF_LIBS
+GCONF_CFLAGS
 GLIB2_14_DEFINES
 GLIB2_14_LIBS
 GLIB2_14_CFLAGS
@@ -827,7 +838,13 @@ with_gnu_ld
 with_sysroot
 enable_libtool_lock
 enable_gtk3
-with_gconf
+enable_gsettings
+enable_gconf
+enable_keystore
+enable_schemas_compile
+with_gconf_source
+with_gconf_schema_file_dir
+enable_schemas_install
 with_gio
 with_alsa
 with_pulseaudio
@@ -868,6 +885,8 @@ GTK2_24_CFLAGS
 GTK2_24_LIBS
 GLIB2_14_CFLAGS
 GLIB2_14_LIBS
+GCONF_CFLAGS
+GCONF_LIBS
 GIO_CFLAGS
 GIO_LIBS
 ALSA_CFLAGS
@@ -1507,6 +1526,13 @@ Optional Features:
                           optimize for fast installation @<:@default=yes@:>@
   --disable-libtool-lock  avoid locking (might break parallel builds)
   --enable-gtk3           compile using GTK3
+  --enable-gsettings      compile using GSettings for preference storage
+  --enable-gconf          compile using GConf for preference storage
+  --enable-keystore       compile using KeyStore for preference storage
+  --disable-schemas-compile 
+                          Disable regeneration of gschemas.compiled on install
+  --disable-schemas-install 
+                          Disable the schemas installation
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -1516,7 +1542,10 @@ Optional Packages:
   --with-gnu-ld           assume the C compiler uses GNU ld @<:@default=no@:>@
   --with-sysroot=DIR Search for dependent libraries within DIR
                         (or the compiler's sysroot if not specified).
-  --with-gconf            Use Gconf to store preferences
+  --with-gconf-source=sourceaddress 
+                          Config database for installing schema files.
+  --with-gconf-schema-file-dir=dir 
+                          Directory for installing schema files.
   --with-gio              Use GIO for file I/O
   --with-alsa             Read volume from alsa devices
   --with-pulseaudio       PulseAudio device and volume support
@@ -1577,6 +1606,9 @@ Some influential environment variables:
               C compiler flags for GLIB2_14, overriding pkg-config
   GLIB2_14_LIBS 
               linker flags for GLIB2_14, overriding pkg-config
+  GCONF_CFLAGS 
+              C compiler flags for GCONF, overriding pkg-config
+  GCONF_LIBS  linker flags for GCONF, overriding pkg-config
   GIO_CFLAGS  C compiler flags for GIO, overriding pkg-config
   GIO_LIBS    linker flags for GIO, overriding pkg-config
   ALSA_CFLAGS C compiler flags for ALSA, overriding pkg-config
@@ -13160,13 +13192,13 @@ fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$GLIB2_26_PKG_ERRORS" >&5
 
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.24 features" >&5
-$as_echo "$as_me: Using GLIB 2.24 features" >&6;}
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.26 features" >&5
+$as_echo "$as_me: Using GLIB 2.26 features" >&6;}
 elif test $pkg_failed = untried; then
      	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.24 features" >&5
-$as_echo "$as_me: Using GLIB 2.24 features" >&6;}
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.26 features" >&5
+$as_echo "$as_me: Using GLIB 2.26 features" >&6;}
 else
 	GLIB2_26_CFLAGS=$pkg_cv_GLIB2_26_CFLAGS
 	GLIB2_26_LIBS=$pkg_cv_GLIB2_26_LIBS
@@ -14029,13 +14061,13 @@ fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$GLIB2_26_PKG_ERRORS" >&5
 
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.24 features" >&5
-$as_echo "$as_me: Using GLIB 2.24 features" >&6;}
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.26 features" >&5
+$as_echo "$as_me: Using GLIB 2.26 features" >&6;}
 elif test $pkg_failed = untried; then
      	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.24 features" >&5
-$as_echo "$as_me: Using GLIB 2.24 features" >&6;}
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB 2.26 features" >&5
+$as_echo "$as_me: Using GLIB 2.26 features" >&6;}
 else
 	GLIB2_26_CFLAGS=$pkg_cv_GLIB2_26_CFLAGS
 	GLIB2_26_LIBS=$pkg_cv_GLIB2_26_LIBS
@@ -14050,17 +14082,141 @@ fi
 
 fi
 
-
-
-@%:@ Check whether --with-gconf was given.
-if test "${with_gconf+set}" = set; then :
-  withval=$with_gconf; 
+@%:@ Check whether --enable-gsettings was given.
+if test "${enable_gsettings+set}" = set; then :
+  enableval=$enable_gsettings; case "${enableval}" in
+    yes) enable_gsettings=yes ;;
+    no) enable_gesttings=no ;;
+    *) as_fn_error $? "bad value ${enableval} for --enable-gsettings" "$LINENO" 5 ;;
+    esac
 else
-  with_gconf=check
+  enable_gsettings=check
 fi
 
-if test "x$with_gconf" != xyes; then :
-  
+
+@%:@ Check whether --enable-gconf was given.
+if test "${enable_gconf+set}" = set; then :
+  enableval=$enable_gconf; case "${enableval}" in
+    yes) enable_gconf=yes ;;
+    no) enable_gconf=no ;;
+    *) as_fn_error $? "bad value ${enableval} for --enable-gconf" "$LINENO" 5 ;;
+    esac
+else
+  enable_gconf=check
+fi
+
+
+@%:@ Check whether --enable-keystore was given.
+if test "${enable_keystore+set}" = set; then :
+  enableval=$enable_keystore; case "${enableval}" in
+    yes) enable_keystore=yes ;;
+    no) enable_keystore=no ;;
+    *) as_fn_error $? "bad value ${enableval} for --enable-keystore" "$LINENO" 5 ;;
+    esac
+else
+  enable_keystore=check
+fi
+
+
+if test "$enable_keystore" = "yes" || test "$enable_gconf" = "yes" || test "$enable_gsettings" = "yes"; then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: Using specified backend" >&5
+$as_echo "$as_me: Using specified backend" >&6;}    
+else
+    { $as_echo "$as_me:${as_lineno-$LINENO}: Determining backend" >&5
+$as_echo "$as_me: Determining backend" >&6;}
+
+    
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for GCONF" >&5
+$as_echo_n "checking for GCONF... " >&6; }
+
+if test -n "$GCONF_CFLAGS"; then
+    pkg_cv_GCONF_CFLAGS="$GCONF_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gconf-2.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "gconf-2.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_GCONF_CFLAGS=`$PKG_CONFIG --cflags "gconf-2.0" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$GCONF_LIBS"; then
+    pkg_cv_GCONF_LIBS="$GCONF_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gconf-2.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "gconf-2.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_GCONF_LIBS=`$PKG_CONFIG --libs "gconf-2.0" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+        
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        GCONF_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors "gconf-2.0" 2>&1`
+        else 
+	        GCONF_PKG_ERRORS=`$PKG_CONFIG --print-errors "gconf-2.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$GCONF_PKG_ERRORS" >&5
+
+	as_fn_error $? "Package requirements (gconf-2.0) were not met:
+
+$GCONF_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables GCONF_CFLAGS
+and GCONF_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details." "$LINENO" 5
+        
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables GCONF_CFLAGS
+and GCONF_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details" "$LINENO" 5; }
+        
+else
+	GCONF_CFLAGS=$pkg_cv_GCONF_CFLAGS
+	GCONF_LIBS=$pkg_cv_GCONF_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+	enable_gconf=yes
+fi
+    
 pkg_failed=no
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for GLIB2_26" >&5
 $as_echo_n "checking for GLIB2_26... " >&6; }
@@ -14117,25 +14273,377 @@ fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$GLIB2_26_PKG_ERRORS" >&5
 
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB < 2.26 specific features" >&5
-$as_echo "$as_me: Using GLIB < 2.26 specific features" >&6;}
+	as_fn_error $? "Package requirements (glib-2.0 >= 2.26.0) were not met:
+
+$GLIB2_26_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables GLIB2_26_CFLAGS
+and GLIB2_26_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details." "$LINENO" 5
+        
 elif test $pkg_failed = untried; then
      	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: Using GLIB < 2.26 specific features" >&5
-$as_echo "$as_me: Using GLIB < 2.26 specific features" >&6;}
+	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables GLIB2_26_CFLAGS
+and GLIB2_26_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details" "$LINENO" 5; }
+        
 else
 	GLIB2_26_CFLAGS=$pkg_cv_GLIB2_26_CFLAGS
 	GLIB2_26_LIBS=$pkg_cv_GLIB2_26_LIBS
         { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
-	with_gconf=no with_gsettings=yes USE_GSETTINGS=1  GLIB2_26_DEFINES="-DGLIB2_26_ENABLED" 
-$as_echo "@%:@define GLIB2_26_ENABLED 1" >>confdefs.h
+	enable_gsettings=yes
+fi
 
 fi
+
+if test "$enable_keystore" = "yes"; then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: Using keystore backend" >&5
+$as_echo "$as_me: Using keystore backend" >&6;}
+    use_gsettings=no
+    USE_GSETTINGS=0
+    use_gconf=no
+    USE_GCONF=0
+     if false; then
+  GCONF_SCHEMAS_INSTALL_TRUE=
+  GCONF_SCHEMAS_INSTALL_FALSE='#'
+else
+  GCONF_SCHEMAS_INSTALL_TRUE='#'
+  GCONF_SCHEMAS_INSTALL_FALSE=
+fi
+
+    GSETTINGS_RULES=""
+        
+elif test "$enable_gsettings" = "yes"; then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: Using GSettings backend" >&5
+$as_echo "$as_me: Using GSettings backend" >&6;}
+    use_gsettings=yes
+    USE_GSETTINGS=1
+    use_gconf=no
+    USE_GCONF=0
     
-fi    
+$as_echo "@%:@define HAVE_GSETTINGS 1" >>confdefs.h
+
+     if false; then
+  GCONF_SCHEMAS_INSTALL_TRUE=
+  GCONF_SCHEMAS_INSTALL_FALSE='#'
+else
+  GCONF_SCHEMAS_INSTALL_TRUE='#'
+  GCONF_SCHEMAS_INSTALL_FALSE=
+fi
+
     
+  
+  @%:@ Check whether --enable-schemas-compile was given.
+if test "${enable_schemas_compile+set}" = set; then :
+  enableval=$enable_schemas_compile; case ${enableval} in
+                  yes) GSETTINGS_DISABLE_SCHEMAS_COMPILE=""  ;;
+                  no)  GSETTINGS_DISABLE_SCHEMAS_COMPILE="1" ;;
+                  *) as_fn_error $? "bad value ${enableval} for --enable-schemas-compile" "$LINENO" 5 ;;
+                 esac
+fi
+
+  
+  
+
+
+
+
+
+if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
+	if test -n "$ac_tool_prefix"; then
+  # Extract the first word of "${ac_tool_prefix}pkg-config", so it can be a program name with args.
+set dummy ${ac_tool_prefix}pkg-config; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_PKG_CONFIG+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $PKG_CONFIG in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_PKG_CONFIG="$PKG_CONFIG" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_path_PKG_CONFIG="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+PKG_CONFIG=$ac_cv_path_PKG_CONFIG
+if test -n "$PKG_CONFIG"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $PKG_CONFIG" >&5
+$as_echo "$PKG_CONFIG" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+fi
+if test -z "$ac_cv_path_PKG_CONFIG"; then
+  ac_pt_PKG_CONFIG=$PKG_CONFIG
+  # Extract the first word of "pkg-config", so it can be a program name with args.
+set dummy pkg-config; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_ac_pt_PKG_CONFIG+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $ac_pt_PKG_CONFIG in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_ac_pt_PKG_CONFIG="$ac_pt_PKG_CONFIG" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_path_ac_pt_PKG_CONFIG="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+ac_pt_PKG_CONFIG=$ac_cv_path_ac_pt_PKG_CONFIG
+if test -n "$ac_pt_PKG_CONFIG"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_pt_PKG_CONFIG" >&5
+$as_echo "$ac_pt_PKG_CONFIG" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+  if test "x$ac_pt_PKG_CONFIG" = x; then
+    PKG_CONFIG=""
+  else
+    case $cross_compiling:$ac_tool_warned in
+yes:)
+{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: using cross tools not prefixed with host triplet" >&5
+$as_echo "$as_me: WARNING: using cross tools not prefixed with host triplet" >&2;}
+ac_tool_warned=yes ;;
+esac
+    PKG_CONFIG=$ac_pt_PKG_CONFIG
+  fi
+else
+  PKG_CONFIG="$ac_cv_path_PKG_CONFIG"
+fi
+
+fi
+if test -n "$PKG_CONFIG"; then
+	_pkg_min_version=0.16
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking pkg-config is at least version $_pkg_min_version" >&5
+$as_echo_n "checking pkg-config is at least version $_pkg_min_version... " >&6; }
+	if $PKG_CONFIG --atleast-pkgconfig-version $_pkg_min_version; then
+		{ $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+	else
+		{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+		PKG_CONFIG=""
+	fi
+fi
+  gsettingsschemadir=${datadir}/glib-2.0/schemas
+
+  if test x$cross_compiling != xyes; then
+    GLIB_COMPILE_SCHEMAS=`$PKG_CONFIG --variable glib_compile_schemas gio-2.0`
+  else
+    # Extract the first word of "glib-compile-schemas", so it can be a program name with args.
+set dummy glib-compile-schemas; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_GLIB_COMPILE_SCHEMAS+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $GLIB_COMPILE_SCHEMAS in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_GLIB_COMPILE_SCHEMAS="$GLIB_COMPILE_SCHEMAS" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_path_GLIB_COMPILE_SCHEMAS="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+GLIB_COMPILE_SCHEMAS=$ac_cv_path_GLIB_COMPILE_SCHEMAS
+if test -n "$GLIB_COMPILE_SCHEMAS"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $GLIB_COMPILE_SCHEMAS" >&5
+$as_echo "$GLIB_COMPILE_SCHEMAS" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+  fi
+  
+  if test "x$GLIB_COMPILE_SCHEMAS" = "x"; then
+    as_fn_error $? "glib-compile-schemas not found." "$LINENO" 5
+  else
+    :
+  fi
+
+  GSETTINGS_RULES='
+.PHONY : uninstall-gsettings-schemas install-gsettings-schemas clean-gsettings-schemas
+
+mostlyclean-am: clean-gsettings-schemas
+
+gsettings__enum_file = $(addsuffix .enums.xml,$(gsettings_ENUM_NAMESPACE))
+
+%.gschema.valid: %.gschema.xml $(gsettings__enum_file)
+	$(AM_V_GEN) if test -f "$<"; then d=; else d="$(srcdir)/"; fi; $(GLIB_COMPILE_SCHEMAS) --strict --dry-run $(addprefix --schema-file=,$(gsettings__enum_file)) --schema-file=$${d}$< && touch $@
+
+all-am: $(gsettings_SCHEMAS:.xml=.valid)
+uninstall-am: uninstall-gsettings-schemas
+install-data-am: install-gsettings-schemas
+
+.SECONDARY: $(gsettings_SCHEMAS)
+
+install-gsettings-schemas: $(gsettings_SCHEMAS) $(gsettings__enum_file)
+	@$(NORMAL_INSTALL)
+	if test -n "$^"; then \
+		test -z "$(gsettingsschemadir)" || $(MKDIR_P) "$(DESTDIR)$(gsettingsschemadir)"; \
+		$(INSTALL_DATA) $^ "$(DESTDIR)$(gsettingsschemadir)"; \
+		test -n "$(GSETTINGS_DISABLE_SCHEMAS_COMPILE)$(DESTDIR)" || $(GLIB_COMPILE_SCHEMAS) $(gsettingsschemadir); \
+	fi
+
+uninstall-gsettings-schemas:
+	@$(NORMAL_UNINSTALL)
+	@list='\''$(gsettings_SCHEMAS) $(gsettings__enum_file)'\''; test -n "$(gsettingsschemadir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e '\''s|^.*/||'\''`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '\''$(DESTDIR)$(gsettingsschemadir)'\'' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(gsettingsschemadir)" && rm -f $$files
+	test -n "$(GSETTINGS_DISABLE_SCHEMAS_COMPILE)$(DESTDIR)" || $(GLIB_COMPILE_SCHEMAS) $(gsettingsschemadir)
+
+clean-gsettings-schemas:
+	rm -f $(gsettings_SCHEMAS:.xml=.valid) $(gsettings__enum_file)
+
+ifdef gsettings_ENUM_NAMESPACE
+$(gsettings__enum_file): $(gsettings_ENUM_FILES)
+	$(AM_V_GEN) glib-mkenums --comments '\''<!-- @comment@ -->'\'' --fhead "<schemalist>" --vhead "  <@type@ id='\''$(gsettings_ENUM_NAMESPACE).@EnumName@'\''>" --vprod "    <value nick='\''@valuenick@'\'' value='\''@valuenum@'\''/>" --vtail "  </@type@>" --ftail "</schemalist>" $^ > $@.tmp && mv $@.tmp $@
+endif
+'
+  
+
+
+
+
+
+elif test "$enable_gconf" = "yes"; then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: Using GConf backend" >&5
+$as_echo "$as_me: Using GConf backend" >&6;}
+    use_gsettings=no
+    USE_GSETTINGS=0
+    use_gconf=yes
+    USE_GCONF=1
+    
+$as_echo "@%:@define HAVE_GCONF 1" >>confdefs.h
+
+    
+  if test "x$GCONF_SCHEMA_INSTALL_SOURCE" = "x"; then
+    GCONF_SCHEMA_CONFIG_SOURCE=`gconftool-2 --get-default-source`
+  else
+    GCONF_SCHEMA_CONFIG_SOURCE=$GCONF_SCHEMA_INSTALL_SOURCE
+  fi
+
+  
+@%:@ Check whether --with-gconf-source was given.
+if test "${with_gconf_source+set}" = set; then :
+  withval=$with_gconf_source; GCONF_SCHEMA_CONFIG_SOURCE="$withval"
+fi
+
+
+  
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: Using config source $GCONF_SCHEMA_CONFIG_SOURCE for schema installation" >&5
+$as_echo "Using config source $GCONF_SCHEMA_CONFIG_SOURCE for schema installation" >&6; }
+
+  if test "x$GCONF_SCHEMA_FILE_DIR" = "x"; then
+    GCONF_SCHEMA_FILE_DIR='$(sysconfdir)/gconf/schemas'
+  fi
+
+  
+@%:@ Check whether --with-gconf-schema-file-dir was given.
+if test "${with_gconf_schema_file_dir+set}" = set; then :
+  withval=$with_gconf_schema_file_dir; GCONF_SCHEMA_FILE_DIR="$withval"
+fi
+
+
+  
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: Using $GCONF_SCHEMA_FILE_DIR as install directory for schema files" >&5
+$as_echo "Using $GCONF_SCHEMA_FILE_DIR as install directory for schema files" >&6; }
+
+  @%:@ Check whether --enable-schemas-install was given.
+if test "${enable_schemas_install+set}" = set; then :
+  enableval=$enable_schemas_install; case ${enableval} in
+       yes|no) ;;
+       *) as_fn_error $? "bad value ${enableval} for --enable-schemas-install" "$LINENO" 5 ;;
+      esac
+fi
+
+   if test "$enable_schemas_install" != no; then
+  GCONF_SCHEMAS_INSTALL_TRUE=
+  GCONF_SCHEMAS_INSTALL_FALSE='#'
+else
+  GCONF_SCHEMAS_INSTALL_TRUE='#'
+  GCONF_SCHEMAS_INSTALL_FALSE=
+fi
+
+
+    GSETTINGS_RULES=""
+        
+fi
+
+
+
+
+   
 
 @%:@ Check whether --with-gio was given.
 if test "${with_gio+set}" = set; then :
@@ -14538,6 +15046,18 @@ fi
   ac_config_commands="$ac_config_commands po/stamp-it"
 
 
+if test -z "${GCONF_SCHEMAS_INSTALL_TRUE}" && test -z "${GCONF_SCHEMAS_INSTALL_FALSE}"; then
+  as_fn_error $? "conditional \"GCONF_SCHEMAS_INSTALL\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${GCONF_SCHEMAS_INSTALL_TRUE}" && test -z "${GCONF_SCHEMAS_INSTALL_FALSE}"; then
+  as_fn_error $? "conditional \"GCONF_SCHEMAS_INSTALL\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${GCONF_SCHEMAS_INSTALL_TRUE}" && test -z "${GCONF_SCHEMAS_INSTALL_FALSE}"; then
+  as_fn_error $? "conditional \"GCONF_SCHEMAS_INSTALL\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
 
 : "${CONFIG_STATUS=./config.status}"
 ac_write_fail=0

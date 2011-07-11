@@ -24,7 +24,7 @@
 
 #include "gm_pref_store.h"
 
-#if GIO_ENABLED && GLIB2_26_ENABLED
+#if HAVE_GSETTINGS
 #include <gio/gio.h>
 #else
 #ifdef HAVE_GCONF
@@ -36,7 +36,7 @@
 #include <stdio.h>
 
 struct _GmPrefStore {
-#if GIO_ENABLED && GLIB2_26_ENABLED
+#if HAVE_GSETTINGS
     GSettings *settings;
 #else
 #ifdef HAVE_GCONF
@@ -53,7 +53,7 @@ GmPrefStore *gm_pref_store_new(const gchar * context)
 
     GmPrefStore *store = (GmPrefStore *) g_new0(GmPrefStore, 1);
 
-#if GIO_ENABLED && GLIB2_26_ENABLED
+#if HAVE_GSETTINGS
     store->context = g_strdup_printf("apps.%s.preferences", context);
     store->settings = g_settings_new(store->context);
 #else
@@ -81,7 +81,7 @@ GmPrefStore *gm_pref_store_new(const gchar * context)
 void gm_pref_store_free(GmPrefStore * store)
 {
 
-#if GIO_ENABLED && GLIB2_26_ENABLED
+#if HAVE_GSETTINGS
     g_object_unref(store->settings);
     store->settings = NULL;
 #else
@@ -122,7 +122,7 @@ gboolean gm_pref_store_get_boolean(GmPrefStore * store, const gchar * key)
     if (store == NULL)
         return FALSE;
 
-#if GIO_ENABLED && GLIB2_26_ENABLED
+#if HAVE_GSETTINGS
     value = g_settings_get_boolean(store->settings, key);
 #else
 #ifdef HAVE_GCONF
@@ -147,7 +147,7 @@ gboolean gm_pref_store_get_boolean_with_default(GmPrefStore * store, const gchar
     if (store == NULL)
         return default_value;
 
-#if GIO_ENABLED && GLIB2_26_ENABLED
+#if HAVE_GSETTINGS
     value = g_settings_get_boolean(store->settings, key);
 #else
 #ifdef HAVE_GCONF
@@ -183,7 +183,7 @@ void gm_pref_store_set_boolean(GmPrefStore * store, const gchar * key, gboolean 
 
     if (store == NULL)
         return;
-#if GIO_ENABLED && GLIB2_26_ENABLED
+#if HAVE_GSETTINGS
     g_settings_set_boolean(store->settings, key, value);
 #else
 #ifdef HAVE_GCONF
@@ -207,7 +207,7 @@ gint gm_pref_store_get_int(GmPrefStore * store, const gchar * key)
 
     if (store == NULL)
         return value;
-#if GIO_ENABLED && GLIB2_26_ENABLED
+#if HAVE_GSETTINGS
     value = g_settings_get_int(store->settings, key);
 #else
 #ifdef HAVE_GCONF
@@ -234,7 +234,7 @@ gint gm_pref_store_get_int_with_default(GmPrefStore * store, const gchar * key, 
     if (store == NULL)
         return default_value;
 
-#if GIO_ENABLED && GLIB2_26_ENABLED
+#if HAVE_GSETTINGS
     value = g_settings_get_int(store->settings, key);
 #else
 #ifdef HAVE_GCONF
@@ -273,7 +273,7 @@ void gm_pref_store_set_int(GmPrefStore * store, const gchar * key, gint value)
     if (store == NULL)
         return;
 
-#if GIO_ENABLED && GLIB2_26_ENABLED
+#if HAVE_GSETTINGS
     g_settings_set_int(store->settings, key, value);
 #else
 #ifdef HAVE_GCONF
@@ -298,7 +298,7 @@ gfloat gm_pref_store_get_float(GmPrefStore * store, const gchar * key)
     if (store == NULL)
         return value;
 
-#if GIO_ENABLED && GLIB2_26_ENABLED
+#if HAVE_GSETTINGS
     value = g_settings_get_double(store->settings, key);
 #else
 #ifdef HAVE_GCONF
@@ -322,7 +322,7 @@ void gm_pref_store_set_float(GmPrefStore * store, const gchar * key, gfloat valu
 
     if (store == NULL)
         return;
-#if GIO_ENABLED && GLIB2_26_ENABLED
+#if HAVE_GSETTINGS
     g_settings_set_double(store->settings, key, value);
 #else
 #ifdef HAVE_GCONF
@@ -347,7 +347,7 @@ gchar *gm_pref_store_get_string(GmPrefStore * store, const gchar * key)
     if (store == NULL)
         return value;
 
-#if GIO_ENABLED && GLIB2_26_ENABLED
+#if HAVE_GSETTINGS
     value = g_settings_get_string(store->settings, key);
 #else
 #ifdef HAVE_GCONF
@@ -371,7 +371,7 @@ void gm_pref_store_set_string(GmPrefStore * store, const gchar * key, gchar * va
 
     if (store == NULL)
         return;
-#if GIO_ENABLED && GLIB2_26_ENABLED
+#if HAVE_GSETTINGS
     if (value == NULL) {
         g_settings_reset(store->settings, key);
     } else {
@@ -401,7 +401,7 @@ void gm_pref_store_unset(GmPrefStore * store, const gchar * key)
 
     if (store == NULL)
         return;
-#if GIO_ENABLED && GLIB2_26_ENABLED
+#if HAVE_GSETTINGS
     g_settings_reset(store->settings, key);
 #else
 #ifdef HAVE_GCONF

@@ -65,7 +65,7 @@ AS_IF([test "x$ENABLE_GTK3" == "xyes"],
     PKG_CHECK_MODULES(GLIB2_24,[glib-2.0 >= 2.24.0],[GLIB2_24_DEFINES="-DGLIB2_24_ENABLED" AC_DEFINE([GLIB2_24_ENABLED],[1],[Define to 1 if you have GLIB 2.24 or higher])],AC_MSG_NOTICE([Using GLIB 2.24 features]))
     AC_SUBST(GLIB2_24_DEFINES)
 
-    PKG_CHECK_MODULES(GLIB2_26,[glib-2.0 >= 2.26.0],[GLIB2_26_DEFINES="-DGLIB2_26_ENABLED" AC_DEFINE([GLIB2_26_ENABLED],[1],[Define to 1 if you have GLIB 2.26 or higher])],AC_MSG_NOTICE([Using GLIB 2.24 features]))
+    PKG_CHECK_MODULES(GLIB2_26,[glib-2.0 >= 2.26.0],[GLIB2_26_DEFINES="-DGLIB2_26_ENABLED" AC_DEFINE([GLIB2_26_ENABLED],[1],[Define to 1 if you have GLIB 2.26 or higher])],AC_MSG_NOTICE([Using GLIB 2.26 features]))
     AC_SUBST(GLIB2_26_DEFINES)
     
     ])
@@ -105,21 +105,82 @@ AS_IF([test "x$ENABLE_GTK3" != "xyes"],
     PKG_CHECK_MODULES(GLIB2_24,[glib-2.0 >= 2.24.0],[GLIB2_24_DEFINES="-DGLIB2_24_ENABLED" AC_DEFINE([GLIB2_24_ENABLED],[1],[Define to 1 if you have GLIB 2.24 or higher])],AC_MSG_NOTICE([Using GLIB 2.24 features]))
     AC_SUBST(GLIB2_24_DEFINES)
 
-    PKG_CHECK_MODULES(GLIB2_26,[glib-2.0 >= 2.26.0],[GLIB2_26_DEFINES="-DGLIB2_26_ENABLED" AC_DEFINE([GLIB2_26_ENABLED],[1],[Define to 1 if you have GLIB 2.26 or higher])],AC_MSG_NOTICE([Using GLIB 2.24 features]))
+    PKG_CHECK_MODULES(GLIB2_26,[glib-2.0 >= 2.26.0],[GLIB2_26_DEFINES="-DGLIB2_26_ENABLED" AC_DEFINE([GLIB2_26_ENABLED],[1],[Define to 1 if you have GLIB 2.26 or higher])],AC_MSG_NOTICE([Using GLIB 2.26 features]))
     AC_SUBST(GLIB2_26_DEFINES)
 
 ])
 
+AC_ARG_ENABLE([gsettings],
+    AC_HELP_STRING([--enable-gsettings],[compile using GSettings for preference storage]),
+    [case "${enableval}" in
+    yes) enable_gsettings=yes ;;
+    no) enable_gesttings=no ;;
+    *) AC_MSG_ERROR(bad value ${enableval} for --enable-gsettings) ;;
+    esac], 
+    [enable_gsettings=check])
 
-AC_ARG_WITH([gconf],
-    [AS_HELP_STRING([--with-gconf],
-        [Use Gconf to store preferences])],
-        [],
-        [with_gconf=check])
-AS_IF([test "x$with_gconf" != xyes],        
-    [PKG_CHECK_MODULES(GLIB2_26,[glib-2.0 >= 2.26.0],[with_gconf=no with_gsettings=yes USE_GSETTINGS=1 AC_SUBST(USE_GSETTINGS) GLIB2_26_DEFINES="-DGLIB2_26_ENABLED" AC_DEFINE([GLIB2_26_ENABLED],[1],[Define to 1 if you have GLIB 2.26 or higher])],AC_MSG_NOTICE([Using GLIB < 2.26 specific features]))
-    ])    
-    
+AC_ARG_ENABLE([gconf],
+    AC_HELP_STRING([--enable-gconf],[compile using GConf for preference storage]),
+    [case "${enableval}" in
+    yes) enable_gconf=yes ;;
+    no) enable_gconf=no ;;
+    *) AC_MSG_ERROR(bad value ${enableval} for --enable-gconf) ;;
+    esac], 
+    [enable_gconf=check])
+
+AC_ARG_ENABLE([keystore],
+    AC_HELP_STRING([--enable-keystore],[compile using KeyStore for preference storage]),
+    [case "${enableval}" in
+    yes) enable_keystore=yes ;;
+    no) enable_keystore=no ;;
+    *) AC_MSG_ERROR(bad value ${enableval} for --enable-keystore) ;;
+    esac], 
+    [enable_keystore=check])
+
+if test "$enable_keystore" = "yes" || test "$enable_gconf" = "yes" || test "$enable_gsettings" = "yes"; then
+    AC_MSG_NOTICE([Using specified backend])    
+else
+    AC_MSG_NOTICE([Determining backend])
+
+    PKG_CHECK_MODULES(GCONF, [gconf-2.0], [enable_gconf=yes])
+    PKG_CHECK_MODULES(GLIB2_26,[glib-2.0 >= 2.26.0],[enable_gsettings=yes])
+
+fi
+
+if test "$enable_keystore" = "yes"; then
+    AC_MSG_NOTICE([Using keystore backend])
+    use_gsettings=no
+    USE_GSETTINGS=0
+    use_gconf=no
+    USE_GCONF=0
+    AM_CONDITIONAL([GCONF_SCHEMAS_INSTALL],[false])
+    GSETTINGS_RULES=""
+    AC_SUBST(GSETTINGS_RULES)    
+elif test "$enable_gsettings" = "yes"; then
+    AC_MSG_NOTICE([Using GSettings backend])
+    use_gsettings=yes
+    USE_GSETTINGS=1
+    use_gconf=no
+    USE_GCONF=0
+    AC_DEFINE([HAVE_GSETTINGS],[1],[Define to 1 to use GSettings to store preferences])
+    AM_CONDITIONAL([GCONF_SCHEMAS_INSTALL],[false])
+    GLIB_GSETTINGS
+elif test "$enable_gconf" = "yes"; then
+    AC_MSG_NOTICE([Using GConf backend])
+    use_gsettings=no
+    USE_GSETTINGS=0
+    use_gconf=yes
+    USE_GCONF=1
+    AC_DEFINE([HAVE_GCONF],[1],[Define to 1 to use GConf to store preferences])
+    AM_GCONF_SOURCE_2
+    GSETTINGS_RULES=""
+    AC_SUBST(GSETTINGS_RULES)    
+fi
+
+AC_SUBST(USE_GCONF)
+AC_SUBST(USE_GSETTINGS)
+
+   
 AC_ARG_WITH([gio],
     [AS_HELP_STRING([--with-gio],
         [Use GIO for file I/O])],
