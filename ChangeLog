@@ -1,3 +1,4 @@
+    Have configure autodetect gtk3
     Apply patch from gnome-mplayer changes (SVN r2152 - r2148)
     Make code work
     Initial import of code
