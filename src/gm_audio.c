@@ -208,7 +208,7 @@ gboolean gm_audio_query_devices()
 
 #ifdef HAVE_PULSEAUDIO
 
-	pa_glib_mainloop *loop = pa_glib_mainloop_new(g_main_context_default());
+    pa_glib_mainloop *loop = pa_glib_mainloop_new(g_main_context_default());
     gm_audio_context = pa_context_new(pa_glib_mainloop_get_api(loop), "gm_audio_context");
     if (gm_audio_context) {
         pa_context_connect(gm_audio_context, NULL, 0, NULL);
