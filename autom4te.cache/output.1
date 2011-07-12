@@ -628,6 +628,7 @@ GCONF_SCHEMA_CONFIG_SOURCE
 GLIB_COMPILE_SCHEMAS
 gsettingsschemadir
 GSETTINGS_DISABLE_SCHEMAS_COMPILE
+BACKEND
 GSETTINGS_RULES
 GCONF_SCHEMAS_INSTALL_FALSE
 GCONF_SCHEMAS_INSTALL_TRUE
@@ -12933,7 +12934,7 @@ else
 fi
 
 
-if test "x$ENABLE_GTK3" == xcheck; then :
+if test "x$ENABLE_GTK3" = xcheck; then :
   ENABLE_GTK3=no
         
 pkg_failed=no
@@ -13029,7 +13030,7 @@ fi
         
 fi    
     
-if test "x$ENABLE_GTK3" == "xyes"; then :
+if test "x$ENABLE_GTK3" = "xyes"; then :
   
     
         
@@ -14326,7 +14327,9 @@ else
 fi
 
     GSETTINGS_RULES=""
-        
+    
+    BACKEND=keystore
+       
 elif test "$enable_gsettings" = "yes"; then
     { $as_echo "$as_me:${as_lineno-$LINENO}: Using GSettings backend" >&5
 $as_echo "$as_me: Using GSettings backend" >&6;}
@@ -14576,6 +14579,8 @@ endif
 
 
 
+    BACKEND=gsettings
+       
 elif test "$enable_gconf" = "yes"; then
     { $as_echo "$as_me:${as_lineno-$LINENO}: Using GConf backend" >&5
 $as_echo "$as_me: Using GConf backend" >&6;}
@@ -14638,6 +14643,8 @@ fi
 
     GSETTINGS_RULES=""
         
+    BACKEND=gconf
+       
 fi
 
 

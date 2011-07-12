@@ -39,12 +39,12 @@ AC_ARG_ENABLE(gtk3,
     esac], 
     [ENABLE_GTK3=check])
 
-AS_IF([test "x$ENABLE_GTK3" == xcheck],        
+AS_IF([test "x$ENABLE_GTK3" = xcheck],        
         [ENABLE_GTK3=no
         PKG_CHECK_MODULES(GTK,[gtk+-3.0 >= 3 glib-2.0 gthread-2.0],[ENABLE_GTK3=yes])
         ])    
     
-AS_IF([test "x$ENABLE_GTK3" == "xyes"],   
+AS_IF([test "x$ENABLE_GTK3" = "xyes"],   
     [
     
     dnl PKG_CHECK_MODULES(GTK, [gtk+-3.0 glib-2.0 gthread-2.0]) 
@@ -155,7 +155,9 @@ if test "$enable_keystore" = "yes"; then
     USE_GCONF=0
     AM_CONDITIONAL([GCONF_SCHEMAS_INSTALL],[false])
     GSETTINGS_RULES=""
-    AC_SUBST(GSETTINGS_RULES)    
+    AC_SUBST(GSETTINGS_RULES)
+    BACKEND=keystore
+    AC_SUBST(BACKEND)   
 elif test "$enable_gsettings" = "yes"; then
     AC_MSG_NOTICE([Using GSettings backend])
     use_gsettings=yes
@@ -165,6 +167,8 @@ elif test "$enable_gsettings" = "yes"; then
     AC_DEFINE([HAVE_GSETTINGS],[1],[Define to 1 to use GSettings to store preferences])
     AM_CONDITIONAL([GCONF_SCHEMAS_INSTALL],[false])
     GLIB_GSETTINGS
+    BACKEND=gsettings
+    AC_SUBST(BACKEND)   
 elif test "$enable_gconf" = "yes"; then
     AC_MSG_NOTICE([Using GConf backend])
     use_gsettings=no
@@ -175,6 +179,8 @@ elif test "$enable_gconf" = "yes"; then
     AM_GCONF_SOURCE_2
     GSETTINGS_RULES=""
     AC_SUBST(GSETTINGS_RULES)    
+    BACKEND=gconf
+    AC_SUBST(BACKEND)   
 fi
 
 AC_SUBST(USE_GCONF)

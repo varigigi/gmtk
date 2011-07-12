@@ -4,6 +4,7 @@ libdir=@libdir@
 datarootdir=@datarootdir@
 datadir=@datadir@
 includedir=@includedir@/gmtk
+preference_backend=@BACKEND@
 
 Name: gmlib
 Description: Gnome Mplayer shared library
