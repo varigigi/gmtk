@@ -1,3 +1,4 @@
+    Cleanup some cache files, fix gtk3 check error on installs without gtk3
     Add configure flags --enable-keystore, --enable-gsettings, --enable-gconf to make prefstore backend selectable
     Have configure autodetect gtk3
     Apply patch from gnome-mplayer changes (SVN r2152 - r2148)
