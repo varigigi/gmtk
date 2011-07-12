@@ -1,3 +1,5 @@
+    Need to start doing po translations, I'll see what I can steal from the other components
+    Bump version to 1.0.4
     Cleanup some cache files, fix gtk3 check error on installs without gtk3
     Add configure flags --enable-keystore, --enable-gsettings, --enable-gconf to make prefstore backend selectable
     Have configure autodetect gtk3

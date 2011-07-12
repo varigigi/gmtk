@@ -10,5 +10,5 @@ Name: gmlib
 Description: Gnome Mplayer shared library
 Version: @VERSION@
 Requires: 
-Libs: -L${libdir}
+Libs: -L${libdir} -lgmlib
 Cflags: -I${includedir}

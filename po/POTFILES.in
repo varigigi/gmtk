@@ -1,3 +1,6 @@
 # List of source files containing translatable strings.
 
-src/lib.c
+src/gm_audio.c
+src/gmtk_media_player.c
+src/gmtk_media_tracker.c
+src/gmtk_output_combo_box.c
