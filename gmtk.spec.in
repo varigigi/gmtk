@@ -1,0 +1,56 @@
+Name:		gmtk           
+Version:        @VERSION@
+Release:        1%{?dist}
+Summary:        Library of common functions and widgets for gnome-mplayer and gecko-mediaplayer 
+
+License:        GPLv2+
+URL:            http://code.google.com/p/gmtk/ 
+Source0:        http://code.google.com/p/gmtk/files/gmtk-@VERSION@.tar.gz 
+
+BuildRequires:  pkgconfig alsa-lib-devel pulseaudio-libs-devel  
+Requires:	mplayer       
+
+%description
+Library of common functions and widgets for gnome-mplayer and gecko-mediaplayer
+
+%package        devel
+Summary:        Development files for %{name}
+Requires:       %{name} = %{version}-%{release}
+
+%description    devel
+The %{name}-devel package contains libraries and header files for
+developing applications that use %{name}.
+
+
+%prep
+%setup -q
+
+
+%build
+%configure --disable-static
+make %{?_smp_mflags}
+
+
+%install
+rm -rf $RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT
+find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
+
+
+%post -p /sbin/ldconfig
+
+%postun -p /sbin/ldconfig
+
+
+%files
+%{_docdir}/%{name}
+%{_libdir}/*.so.*
+
+%files devel
+%doc
+%{_includedir}/*
+%{_libdir}/*.so
+%{_libdir}/pkgconfig
+
+
+%changelog

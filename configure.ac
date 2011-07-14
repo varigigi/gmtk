@@ -228,6 +228,7 @@ AC_SUBST(GLIB2_26_DEFINES)
 
 AC_OUTPUT([
 Makefile
+gmtk.spec
 src/gmtk.pc
 src/gmlib.pc
 src/Makefile

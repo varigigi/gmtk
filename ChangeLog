@@ -1,3 +1,4 @@
+    Add in .spec.in file to allow proper RPM package creation
     Need to start doing po translations, I'll see what I can steal from the other components
     Bump version to 1.0.4
     Cleanup some cache files, fix gtk3 check error on installs without gtk3

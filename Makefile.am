@@ -3,7 +3,7 @@
 
 SUBDIRS = src po
 
-gmtkdocdir = ${prefix}/doc/gmtk
+gmtkdocdir = ${docdir}
 gmtkdoc_DATA = \
 	README\
 	COPYING\
@@ -17,12 +17,20 @@ INTLTOOL_FILES = intltool-extract.in \
 	intltool-update.in
 
 EXTRA_DIST = $(gmtkdoc_DATA) \
-	$(INTLTOOL_FILES)
+	$(INTLTOOL_FILES) \
+	gmtk.spec.in
 
 DISTCLEANFILES = intltool-extract \
 	intltool-merge \
 	intltool-update \
 	po/.intltool-merge-cache
+
+dist-hook:
+	for specfile in *.spec; do \
+		if test -f $$specfile; then \
+			cp -p $$specfile $(distdir); \
+		fi \
+	done
 
 # Remove doc directory on uninstall
 uninstall-local:
