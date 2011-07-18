@@ -1,3 +1,5 @@
+    Have mplayer use gl_nosw when hardware codecs are enabled, when vo is gl or gl2
+    Fix feature enabling in gm_pref_store, it was always defaulting to the keystore
     Add in better support for hardware codecs based on comments from Uoti
     Add in .spec.in file to allow proper RPM package creation
     Need to start doing po translations, I'll see what I can steal from the other components

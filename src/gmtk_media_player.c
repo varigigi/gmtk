@@ -1930,7 +1930,14 @@ gpointer launch_mplayer(gpointer data)
 
             } else {
 
-                argv[argn++] = g_strdup_printf("%s", player->vo);
+                if (g_ascii_strncasecmp(player->vo, "gl", strlen("gl")) == 0 && player->enable_hardware_codecs) {
+                    argv[argn++] = g_strdup_printf("gl_nosw");
+                } else if (g_ascii_strncasecmp(player->vo, "gl2", strlen("gl2")) == 0 && player->enable_hardware_codecs) {
+                    argv[argn++] = g_strdup_printf("gl_nosw");
+                } else {
+                    argv[argn++] = g_strdup_printf("%s", player->vo);
+                }
+
                 if (player->deinterlace) {
                     argv[argn++] = g_strdup_printf("-vf-pre");
                     argv[argn++] = g_strdup_printf("yadif,softskip,scale");
