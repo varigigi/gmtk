@@ -74,7 +74,8 @@ typedef enum {
     ERROR_RETRY_WITHOUT_DIVX_VDPAU,
     ERROR_RETRY_WITHOUT_XVMC,
     ERROR_RETRY_ALSA_BUSY,
-    ERROR_RETRY_VDPAU
+    ERROR_RETRY_VDPAU,
+    ERROR_RETRY_WITHOUT_HARDWARE_CODECS
 } GmtkMediaPlayerPlaybackError;
 
 typedef enum {
@@ -171,7 +172,9 @@ typedef enum {
     ATTRIBUTE_TITLE,
     ATTRIBUTE_ARTIST,
     ATTRIBUTE_ALBUM,
-    ATTRIBUTE_RETRY_ON_FULL_CACHE
+    ATTRIBUTE_RETRY_ON_FULL_CACHE,
+    ATTRIBUTE_ENABLE_HARDWARE_CODECS,
+    ATTRIBUTE_ENABLE_CRYSTALHD_CODECS
 } GmtkMediaPlayerMediaAttributes;
 
 typedef enum {
@@ -315,6 +318,8 @@ struct _GmtkMediaPlayer {
     gboolean enable_divx;
     gboolean disable_xvmc;
     gboolean retry_on_full_cache;
+    gboolean enable_hardware_codecs;
+    gboolean enable_crystalhd_codecs;
 
     gboolean deinterlace;
     gboolean frame_drop;

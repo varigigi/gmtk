@@ -89,3 +89,12 @@ pkgconfig_DATA = gmtk.pc gmlib.pc
 EXTRA_DIST = \
 	gmtk.pc.in \
 	gmlib.pc.in
+	
+indent:
+	indent -kr -l120 -i4 -nut *.c
+	indent -kr -l120 -i4 -nut *.h
+	rm *~
+	
+cppcheck:
+	cppcheck -q -a -v -f -j3 .
+

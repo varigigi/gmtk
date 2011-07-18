@@ -55,7 +55,9 @@ static void socket_realized(GtkWidget * widget, gpointer data)
     player->socket_id = gtk_socket_get_id(GTK_SOCKET(widget));
     style = gtk_widget_get_style(GTK_WIDGET(player));
     gtk_widget_modify_bg(GTK_WIDGET(player), GTK_STATE_NORMAL, &(style->black));
-    gtk_widget_modify_bg(GTK_WIDGET(player->socket), GTK_STATE_NORMAL, &(style->black));
+    if (!(g_ascii_strncasecmp(player->vo, "vdpau", strlen("vdpau")) == 0)) {
+        gtk_widget_modify_bg(GTK_WIDGET(player->socket), GTK_STATE_NORMAL, &(style->black));
+    }
 }
 
 
@@ -535,7 +537,7 @@ static gboolean player_key_press_event_callback(GtkWidget * widget, GdkEventKey 
             break;
         case GDK_d:
             write_to_mplayer(player, "frame_drop\n");
-            cmd = g_strdup_printf("osd_show_property_text \"%s: ${framedropping}\"\n", _("framedropping"));
+            cmd = g_strdup_printf("osd_show_property_text \"%s: ${framedropping}\"\n", _("Frame Dropping"));
             write_to_mplayer(player, cmd);
             g_free(cmd);
             break;
@@ -822,6 +824,8 @@ GmtkMediaPlayerMediaState gmtk_media_player_get_state(GmtkMediaPlayer * player)
 
 void gmtk_media_player_send_command(GmtkMediaPlayer * player, GmtkMediaPlayerCommand command)
 {
+    gchar *cmd = NULL;
+
     if (player->player_state == PLAYER_STATE_RUNNING) {
         switch (command) {
         case COMMAND_SHOW_DVD_MENU:
@@ -851,7 +855,9 @@ void gmtk_media_player_send_command(GmtkMediaPlayer * player, GmtkMediaPlayerCom
 
         case COMMAND_SWITCH_FRAME_DROP:
             write_to_mplayer(player, "frame_drop\n");
-            write_to_mplayer(player, "osd_show_property_text \"framedropping: ${framedropping}\"\n");
+            cmd = g_strdup_printf("osd_show_property_text \"%s ${framedropping}\"\n", _("Frame Dropping"));
+            write_to_mplayer(player, cmd);
+            g_free(cmd);
             break;
 
         default:
@@ -871,6 +877,13 @@ void gmtk_media_player_set_attribute_boolean(GmtkMediaPlayer * player,
         player->sub_visible = value;
         if (player->player_state == PLAYER_STATE_RUNNING) {
             cmd = g_strdup_printf("set_property sub_visibility %i\n", value);
+            write_to_mplayer(player, cmd);
+            g_free(cmd);
+            if (value) {
+                cmd = g_strdup_printf("osd_show_property_text \"%s\"\n", _("Subtitles Visible"));
+            } else {
+                cmd = g_strdup_printf("osd_show_property_text \"%s\"\n", _("Subtitles Hidden"));
+            }
             write_to_mplayer(player, cmd);
             g_free(cmd);
         }
@@ -932,6 +945,14 @@ void gmtk_media_player_set_attribute_boolean(GmtkMediaPlayer * player,
 
     case ATTRIBUTE_HARDWARE_AC3:
         player->hardware_ac3 = value;
+        break;
+
+    case ATTRIBUTE_ENABLE_HARDWARE_CODECS:
+        player->enable_hardware_codecs = value;
+        break;
+
+    case ATTRIBUTE_ENABLE_CRYSTALHD_CODECS:
+        player->enable_crystalhd_codecs = value;
         break;
 
     default:
@@ -1021,6 +1042,14 @@ gboolean gmtk_media_player_get_attribute_boolean(GmtkMediaPlayer * player, GmtkM
 
     case ATTRIBUTE_RETRY_ON_FULL_CACHE:
         ret = player->retry_on_full_cache;
+        break;
+
+    case ATTRIBUTE_ENABLE_HARDWARE_CODECS:
+        ret = player->enable_hardware_codecs;
+        break;
+
+    case ATTRIBUTE_ENABLE_CRYSTALHD_CODECS:
+        ret = player->enable_crystalhd_codecs;
         break;
 
     default:
@@ -1809,6 +1838,9 @@ gpointer launch_mplayer(gpointer data)
     GList *list;
     GmtkMediaPlayerSubtitle *subtitle;
     GmtkMediaPlayerAudioTrack *track;
+    gchar *codecs_vdpau = NULL;
+    gchar *codecs_crystalhd = NULL;
+    gchar *codecs = NULL;
 
     player->seekable = FALSE;
     player->has_chapters = FALSE;
@@ -1875,11 +1907,14 @@ gpointer launch_mplayer(gpointer data)
                     argv[argn++] = g_strdup_printf("%s,gl,x11", player->vo);
                 }
 
-                argv[argn++] = g_strdup_printf("-vc");
-                if (player->enable_divx) {
-                    argv[argn++] = g_strdup_printf("ffmpeg12vdpau,ffh264vdpau,ffwmv3vdpau,ffvc1vdpau,ffodivxvdpau,");
-                } else {
-                    argv[argn++] = g_strdup_printf("ffmpeg12vdpau,ffh264vdpau,ffwmv3vdpau,ffvc1vdpau,");
+                // told by uau that vdpau without hardware decoding is often what you want
+                if (player->enable_hardware_codecs) {
+                    if (player->enable_divx) {
+                        codecs_vdpau =
+                            g_strdup_printf("ffmpeg12vdpau,ffh264vdpau,ffwmv3vdpau,ffvc1vdpau,ffodivxvdpau,");
+                    } else {
+                        codecs_vdpau = g_strdup_printf("ffmpeg12vdpau,ffh264vdpau,ffwmv3vdpau,ffvc1vdpau,");
+                    }
                 }
 
             } else if (g_ascii_strncasecmp(player->vo, "vvapi", strlen("vvapi")) == 0) {
@@ -1892,15 +1927,6 @@ gpointer launch_mplayer(gpointer data)
                 } else {
                     argv[argn++] = g_strdup_printf("%s,xv,", player->vo);
                 }
-
-            } else if (g_ascii_strncasecmp(player->vo, "crystalhd", strlen("crystalhd")) == 0) {
-
-                argv[argn++] = g_strdup_printf("%s,", player->vo);
-
-                argv[argn++] = g_strdup_printf("-vc");
-                argv[argn++] =
-                    g_strdup_printf
-                    ("ffmpeg2crystalhd,ffdivxcrystalhd,ffwmv3crystalhd,ffvc1crystalhd,ffh264crystalhd,ffodivxcrystalhd,");
 
             } else {
 
@@ -1922,6 +1948,30 @@ gpointer launch_mplayer(gpointer data)
 
             }
         }
+
+        if (player->enable_crystalhd_codecs) {
+            codecs_crystalhd = g_strdup_printf
+                ("ffmpeg2crystalhd,ffdivxcrystalhd,ffwmv3crystalhd,ffvc1crystalhd,ffh264crystalhd,ffodivxcrystalhd,");
+        }
+
+        if (codecs_vdpau && codecs_crystalhd) {
+            codecs = g_strconcat(codecs_vdpau, codecs_crystalhd, NULL);
+            g_free(codecs_vdpau);
+            g_free(codecs_crystalhd);
+        } else if (codecs_vdpau) {
+            codecs = g_strdup(codecs_vdpau);
+            g_free(codecs_vdpau);
+        } else if (codecs_crystalhd) {
+            codecs = g_strdup(codecs_crystalhd);
+            g_free(codecs_crystalhd);
+        }
+
+        if (codecs != NULL) {
+            argv[argn++] = g_strdup_printf("-vc");
+            argv[argn++] = g_strdup_printf("%s", codecs);
+            g_free(codecs);
+        }
+
         if (player->ao != NULL) {
 
             argv[argn++] = g_strdup_printf("-ao");
@@ -1931,23 +1981,22 @@ gpointer launch_mplayer(gpointer data)
                 argv[argn++] = g_strdup_printf("-mixer-channel");
                 argv[argn++] = g_strdup_printf("%s", player->alsa_mixer);
             }
+        }
 
-            argv[argn++] = g_strdup_printf("-channels");
-            switch (player->audio_channels) {
-            case 1:
-                argv[argn++] = g_strdup_printf("4");
-                break;
-            case 2:
-                argv[argn++] = g_strdup_printf("6");
-                break;
-            case 3:
-                argv[argn++] = g_strdup_printf("8");
-                break;
-            default:
-                argv[argn++] = g_strdup_printf("2");
-                break;
-            }
-
+        argv[argn++] = g_strdup_printf("-channels");
+        switch (player->audio_channels) {
+        case 1:
+            argv[argn++] = g_strdup_printf("4");
+            break;
+        case 2:
+            argv[argn++] = g_strdup_printf("6");
+            break;
+        case 3:
+            argv[argn++] = g_strdup_printf("8");
+            break;
+        default:
+            argv[argn++] = g_strdup_printf("2");
+            break;
         }
 
         if (player->hardware_ac3) {
@@ -2355,6 +2404,10 @@ gpointer launch_mplayer(gpointer data)
         case ERROR_RETRY_VDPAU:
             break;
 
+        case ERROR_RETRY_WITHOUT_HARDWARE_CODECS:
+            player->enable_hardware_codecs = FALSE;
+            break;
+
         default:
             break;
         }
@@ -2444,6 +2497,11 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
     if (strstr(mplayer_output->str, "Failed creating VDPAU decoder") != NULL) {
         if (player->enable_divx)
             player->playback_error = ERROR_RETRY_WITHOUT_DIVX_VDPAU;
+    }
+
+    if (strstr(mplayer_output->str, "decoding to PIX_FMT_NONE is not supported") != NULL) {
+        if (player->enable_divx)
+            player->playback_error = ERROR_RETRY_WITHOUT_HARDWARE_CODECS;
     }
 
     if (strstr(mplayer_output->str, "The selected video_out device is incompatible with this codec") != NULL) {
