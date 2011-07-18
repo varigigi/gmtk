@@ -328,6 +328,7 @@ static void gmtk_media_player_init(GmtkMediaPlayer * player)
     player->channel_out = NULL;
     player->channel_err = NULL;
     player->retry_on_full_cache = FALSE;
+    player->profile = NULL;
 }
 
 static void gmtk_media_player_dispose(GObject * object)
@@ -1332,6 +1333,17 @@ void gmtk_media_player_set_attribute_string(GmtkMediaPlayer * player,
         }
         break;
 
+    case ATTRIBUTE_PROFILE:
+        if (player->profile != NULL) {
+            g_free(player->profile);
+        }
+        if (value == NULL || strlen(value) == 0) {
+            player->profile = NULL;
+        } else {
+            player->profile = g_strdup(value);
+        }
+        break;
+
     default:
         if (player->debug)
             printf("Unsupported Attribute\n");
@@ -1420,6 +1432,10 @@ const gchar *gmtk_media_player_get_attribute_string(GmtkMediaPlayer * player, Gm
 
     case ATTRIBUTE_ALBUM:
         value = player->album;
+        break;
+
+    case ATTRIBUTE_PROFILE:
+        value = player->profile;
         break;
 
     default:
@@ -1892,11 +1908,13 @@ gpointer launch_mplayer(gpointer data)
             argv[argn++] = g_strdup_printf("%s", player->mplayer_binary);
         }
 
+        // use the profile to set up some default values
+        if (player->profile != NULL) {
+            argv[argn++] = g_strdup_printf("-profile");
+            argv[argn++] = g_strdup(player->profile);
+        }
 
         if (player->vo != NULL) {
-            // use the profile to set up some default values
-            argv[argn++] = g_strdup_printf("-profile");
-            argv[argn++] = g_strdup_printf("gnome-mplayer");
             argv[argn++] = g_strdup_printf("-vo");
 
             if (g_ascii_strncasecmp(player->vo, "vdpau", strlen("vdpau")) == 0) {
@@ -2691,6 +2709,8 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                 create_event_double(player, "cache-percent-changed", 0.0);
             }
             create_event_int(player, "attribute-changed", ATTRIBUTE_AF_EXPORT_FILENAME);
+            create_event_int(player, "attribute-changed", ATTRIBUTE_AUDIO_TRACK);
+            create_event_int(player, "attribute-changed", ATTRIBUTE_SUBTITLE);
         }
 
         if (strstr(mplayer_output->str, "Video: no video") != NULL) {
@@ -2710,6 +2730,8 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                 create_event_double(player, "cache-percent-changed", 0.0);
             }
             create_event_int(player, "attribute-changed", ATTRIBUTE_AF_EXPORT_FILENAME);
+            create_event_int(player, "attribute-changed", ATTRIBUTE_AUDIO_TRACK);
+            create_event_int(player, "attribute-changed", ATTRIBUTE_SUBTITLE);
         }
 
         if (strstr(mplayer_output->str, "ANS_TIME_POSITION") != 0) {
@@ -2748,8 +2770,10 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
 
         if (strstr(mplayer_output->str, "ANS_switch_audio") != 0) {
             buf = strstr(mplayer_output->str, "ANS_switch_audio");
+            id = player->audio_track_id;
             sscanf(buf, "ANS_switch_audio=%i", &player->audio_track_id);
-            create_event_int(player, "attribute-changed", ATTRIBUTE_AUDIO_TRACK);
+            if (id != player->audio_track_id)
+                create_event_int(player, "attribute-changed", ATTRIBUTE_AUDIO_TRACK);
         }
 
         if (strstr(mplayer_output->str, "ANS_sub_source") != 0) {

@@ -19,9 +19,14 @@ dnl ***************************************************************************
 GETTEXT_PACKAGE=gmtk
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
-AM_GLIB_GNU_GETTEXT
-IT_PROG_INTLTOOL([0.35.0])
 
+
+dnl Add the languages which your application supports here.
+ALL_LINGUAS=""
+AC_SUBST(ALL_LINGUAS)
+AM_GLIB_GNU_GETTEXT
+
+IT_PROG_INTLTOOL([0.35.0])
 
 AM_PROG_LIBTOOL
 
