@@ -1,3 +1,4 @@
+    Cleaned up tabs from RPM spec.in
     Cleaned up the RPM spec.in
     Updated Portuguese translation, and others
     Clean up some compiler warnings when building the rpm

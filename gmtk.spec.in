@@ -1,4 +1,4 @@
-Name:		gmtk           
+Name:           gmtk           
 Version:        @VERSION@
 Release:        1%{?dist}
 Summary:        Library of common functions and widgets for gnome-mplayer and gecko-mediaplayer 
@@ -16,7 +16,7 @@ BuildRequires:  gtk2-devel
 %endif
 BuildRequires:  intltool
 BuildRequires:  pulseaudio-libs-devel
-Requires:	mplayer
+Requires:       mplayer
 
 %description
 Library of common functions and widgets for gnome-mplayer and gecko-mediaplayer
