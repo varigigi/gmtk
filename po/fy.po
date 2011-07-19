@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mplayer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-19 08:06-0600\n"
+"POT-Creation-Date: 2011-07-19 09:49-0600\n"
 "PO-Revision-Date: 2009-09-14 09:18+0000\n"
 "Last-Translator: Frisian <fy@li.org>\n"
 "Language-Team: Frisian <fy@li.org>\n"
@@ -19,75 +19,75 @@ msgstr ""
 "X-Launchpad-Export-Date: 2011-06-09 16:08+0000\n"
 "X-Generator: Launchpad (build 13175)\n"
 
-#: ../src/gm_audio.c:78 ../src/gm_audio.c:253
-#: ../src/gmtk_output_combo_box.c:147
+#: ../src/gm_audio.c:78 ../src/gm_audio.c:252
+#: ../src/gmtk_output_combo_box.c:148
 msgid "Default"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:541 ../src/gmtk_media_player.c:859
+#: ../src/gmtk_media_player.c:542 ../src/gmtk_media_player.c:860
 msgid "Frame Dropping"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:761
+#: ../src/gmtk_media_player.c:762
 #, c-format
 msgid "Loading..."
 msgstr ""
 
-#: ../src/gmtk_media_player.c:884
+#: ../src/gmtk_media_player.c:885
 msgid "Subtitles Visible"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:886
+#: ../src/gmtk_media_player.c:887
 msgid "Subtitles Hidden"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:2555
+#: ../src/gmtk_media_player.c:2556
 #, c-format
 msgid "Failed to open %s"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:2591
+#: ../src/gmtk_media_player.c:2592
 #, c-format
 msgid "Compressed SWF format not supported"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:2619
+#: ../src/gmtk_media_player.c:2620
 msgid "GNOME MPlayer Error"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:2682
+#: ../src/gmtk_media_player.c:2683
 #, c-format
 msgid "Cache fill: %2.2f%%"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:2826 ../src/gmtk_media_player.c:2827
-#: ../src/gmtk_media_player.c:2875 ../src/gmtk_media_player.c:2907
-#: ../src/gmtk_media_player.c:2908 ../src/gmtk_media_player.c:2940
-#: ../src/gmtk_media_player.c:2971
+#: ../src/gmtk_media_player.c:2827 ../src/gmtk_media_player.c:2828
+#: ../src/gmtk_media_player.c:2876 ../src/gmtk_media_player.c:2908
+#: ../src/gmtk_media_player.c:2909 ../src/gmtk_media_player.c:2941
+#: ../src/gmtk_media_player.c:2972
 #, c-format
 msgid "Unknown"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:2886
+#: ../src/gmtk_media_player.c:2887
 #, c-format
 msgid "External Subtitle #%i"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:3071
+#: ../src/gmtk_media_player.c:3072
 #, c-format
 msgid "Screenshot saved to '%s'"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:3074 ../src/gmtk_media_player.c:3170
+#: ../src/gmtk_media_player.c:3075 ../src/gmtk_media_player.c:3171
 msgid "GNOME MPlayer Notification"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:3167
+#: ../src/gmtk_media_player.c:3168
 #, c-format
 msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:3413
+#: ../src/gmtk_media_player.c:3414
 #, c-format
 msgid "You might want to consider upgrading mplayer to a newer version\n"
 msgstr ""

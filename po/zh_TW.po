@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mplayer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-19 08:06-0600\n"
+"POT-Creation-Date: 2011-07-19 09:49-0600\n"
 "PO-Revision-Date: 2011-06-06 12:13+0000\n"
 "Last-Translator: Pin-hsien Li <pspeter9931@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) <community@linuxhall.org>\n"
@@ -19,75 +19,75 @@ msgstr ""
 "X-Launchpad-Export-Date: 2011-06-09 16:08+0000\n"
 "X-Generator: Launchpad (build 13175)\n"
 
-#: ../src/gm_audio.c:78 ../src/gm_audio.c:253
-#: ../src/gmtk_output_combo_box.c:147
+#: ../src/gm_audio.c:78 ../src/gm_audio.c:252
+#: ../src/gmtk_output_combo_box.c:148
 msgid "Default"
 msgstr "預設"
 
-#: ../src/gmtk_media_player.c:541 ../src/gmtk_media_player.c:859
+#: ../src/gmtk_media_player.c:542 ../src/gmtk_media_player.c:860
 msgid "Frame Dropping"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:761
+#: ../src/gmtk_media_player.c:762
 #, c-format
 msgid "Loading..."
 msgstr "載入中…"
 
-#: ../src/gmtk_media_player.c:884
+#: ../src/gmtk_media_player.c:885
 msgid "Subtitles Visible"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:886
+#: ../src/gmtk_media_player.c:887
 msgid "Subtitles Hidden"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:2555
+#: ../src/gmtk_media_player.c:2556
 #, c-format
 msgid "Failed to open %s"
 msgstr "開啟 %s 失敗"
 
-#: ../src/gmtk_media_player.c:2591
+#: ../src/gmtk_media_player.c:2592
 #, c-format
 msgid "Compressed SWF format not supported"
 msgstr "未支援壓縮的 SWF 格式"
 
-#: ../src/gmtk_media_player.c:2619
+#: ../src/gmtk_media_player.c:2620
 msgid "GNOME MPlayer Error"
 msgstr "GNOME MPlayer 錯誤"
 
-#: ../src/gmtk_media_player.c:2682
+#: ../src/gmtk_media_player.c:2683
 #, c-format
 msgid "Cache fill: %2.2f%%"
 msgstr "填滿快取：%2.2f%%"
 
-#: ../src/gmtk_media_player.c:2826 ../src/gmtk_media_player.c:2827
-#: ../src/gmtk_media_player.c:2875 ../src/gmtk_media_player.c:2907
-#: ../src/gmtk_media_player.c:2908 ../src/gmtk_media_player.c:2940
-#: ../src/gmtk_media_player.c:2971
+#: ../src/gmtk_media_player.c:2827 ../src/gmtk_media_player.c:2828
+#: ../src/gmtk_media_player.c:2876 ../src/gmtk_media_player.c:2908
+#: ../src/gmtk_media_player.c:2909 ../src/gmtk_media_player.c:2941
+#: ../src/gmtk_media_player.c:2972
 #, c-format
 msgid "Unknown"
 msgstr "未知"
 
-#: ../src/gmtk_media_player.c:2886
+#: ../src/gmtk_media_player.c:2887
 #, c-format
 msgid "External Subtitle #%i"
 msgstr "外部字幕 #%i"
 
-#: ../src/gmtk_media_player.c:3071
+#: ../src/gmtk_media_player.c:3072
 #, c-format
 msgid "Screenshot saved to '%s'"
 msgstr "畫面快照已儲存至‵%s′"
 
-#: ../src/gmtk_media_player.c:3074 ../src/gmtk_media_player.c:3170
+#: ../src/gmtk_media_player.c:3075 ../src/gmtk_media_player.c:3171
 msgid "GNOME MPlayer Notification"
 msgstr "GNOME MPlayer 通知"
 
-#: ../src/gmtk_media_player.c:3167
+#: ../src/gmtk_media_player.c:3168
 #, c-format
 msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr "MPlayer 必須升級至新的版本"
 
-#: ../src/gmtk_media_player.c:3413
+#: ../src/gmtk_media_player.c:3414
 #, c-format
 msgid "You might want to consider upgrading mplayer to a newer version\n"
 msgstr "您可以考慮將 mplayer 升級至新的版本\n"
