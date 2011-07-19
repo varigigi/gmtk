@@ -45,6 +45,7 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %files
 %{_docdir}/%{name}
 %{_libdir}/*.so.*
+%{_datadir}/locale
 
 %files devel
 %doc
