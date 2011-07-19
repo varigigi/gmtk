@@ -1,3 +1,4 @@
+    Import translations from gnome-mplayer
     Fix some problems with initial audio language selection when using mplayer2
     Have mplayer use gl_nosw when hardware codecs are enabled, when vo is gl or gl2
     Fix feature enabling in gm_pref_store, it was always defaulting to the keystore
