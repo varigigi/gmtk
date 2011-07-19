@@ -147,8 +147,8 @@ if test "$enable_keystore" = "yes" || test "$enable_gconf" = "yes" || test "$ena
 else
     AC_MSG_NOTICE([Determining backend])
 
-    PKG_CHECK_MODULES(GCONF, [gconf-2.0], [enable_gconf=yes])
-    PKG_CHECK_MODULES(GLIB2_26,[glib-2.0 >= 2.26.0],[enable_gsettings=yes])
+    PKG_CHECK_MODULES(GCONF, [gconf-2.0], [enable_gconf=yes], [enable_gconf=no])
+    PKG_CHECK_MODULES(GLIB2_26,[glib-2.0 >= 2.26.0],[enable_gsettings=yes], [enable_gsettings=no])
 
 fi
 
