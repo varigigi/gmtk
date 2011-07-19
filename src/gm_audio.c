@@ -215,8 +215,8 @@ gboolean gm_audio_query_devices()
         pa_context_set_state_callback(gm_audio_context, gm_audio_context_state_callback, gm_audio_devices);
     }
     // make sure the pulse events are done before we exit this function
-    while (gtk_events_pending())
-        gtk_main_iteration();
+    while (g_main_context_pending (NULL))
+        g_main_context_iteration(NULL, FALSE);
 
 #endif
 
@@ -225,7 +225,6 @@ gboolean gm_audio_query_devices()
 
 gboolean gm_audio_update_device(AudioDevice * device)
 {
-    gboolean ret = FALSE;
     GList *iter;
     AudioDevice *data;
 
@@ -314,8 +313,9 @@ gdouble gm_audio_get_volume(AudioDevice * device)
             pa_context_get_sink_info_by_index(gm_audio_context, device->pulse_index, gm_audio_pa_sink_update_volume_cb,
                                               device);
         }
-        while (gtk_events_pending() || device->volume == -1)
-            gtk_main_iteration();
+		while (g_main_context_pending (NULL) || device->volume == -1)
+		    g_main_context_iteration(NULL, FALSE);
+		
     }
 #endif
 
@@ -381,7 +381,7 @@ void gm_audio_pa_sink_update_volume_cb(pa_context * c, const pa_sink_info * i, i
 {
     AudioDevice *device = (AudioDevice *) data;
     GList *iter;
-    gdouble old_volume;
+    gdouble old_volume = 0.0;
 
     //printf("gm_audio_pa_sink_update_volume_cb %p, %i, %p\n",i, eol,data);
     if (i) {

@@ -24,6 +24,7 @@
 
 #include "gmtk_media_player.h"
 #include "gmlib.h"
+#include "gmtk_common.h"
 
 G_DEFINE_TYPE(GmtkMediaPlayer, gmtk_media_player, GTK_TYPE_EVENT_BOX);
 static GObjectClass *parent_class = NULL;
@@ -2639,8 +2640,8 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
     gchar vm[10];
     gint id;
     GtkAllocation allocation;
-    GmtkMediaPlayerSubtitle *subtitle;
-    GmtkMediaPlayerAudioTrack *audio_track;
+    GmtkMediaPlayerSubtitle *subtitle = NULL;
+    GmtkMediaPlayerAudioTrack *audio_track = NULL;
     GList *iter;
     GtkWidget *dialog;
 

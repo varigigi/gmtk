@@ -23,6 +23,7 @@
  */
 
 #include "gmtk_media_tracker.h"
+#include "gmtk_common.h"
 
 G_DEFINE_TYPE(GmtkMediaTracker, gmtk_media_tracker, GTK_TYPE_VBOX);
 static GObjectClass *parent_class = NULL;
@@ -33,7 +34,6 @@ static gboolean gmtk_media_tracker_motion_notify(GtkWidget * tracker, GdkEventMo
 void gmtk_media_tracker_set_timer(GmtkMediaTracker * tracker, const gchar * text);
 static void gmtk_media_tracker_dispose(GObject * object);
 gchar *gm_seconds_to_string(gfloat seconds);
-extern void gmtk_get_allocation(GtkWidget * widget, GtkAllocation * allocation);
 
 static void gmtk_media_tracker_class_init(GmtkMediaTrackerClass * class)
 {

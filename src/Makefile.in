@@ -87,8 +87,8 @@ libgmlib_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(libgmlib_la_CFLAGS) \
 	$(CFLAGS) $(libgmlib_la_LDFLAGS) $(LDFLAGS) -o $@
 libgmtk_la_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-am_libgmtk_la_OBJECTS = libgmtk_la-gmtk_audio_meter.lo \
-	libgmtk_la-gmtk_media_player.lo \
+am_libgmtk_la_OBJECTS = libgmtk_la-gmtk_common.lo \
+	libgmtk_la-gmtk_audio_meter.lo libgmtk_la-gmtk_media_player.lo \
 	libgmtk_la-gmtk_media_tracker.lo \
 	libgmtk_la-gmtk_output_combo_box.lo
 libgmtk_la_OBJECTS = $(am_libgmtk_la_OBJECTS)
@@ -334,6 +334,7 @@ lib_LTLIBRARIES = libgmlib.la libgmtk.la
 libgmtk_la_SOURCES = \
 	gmtk.h \
 	gmtk_common.h \
+	gmtk_common.c \
 	gmtk_audio_meter.c \
 	gmtk_audio_meter.h \
 	gmtk_media_player.c \
@@ -488,6 +489,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmlib_la-gm_pref_store.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmlib_la-gm_strfuncs.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmtk_la-gmtk_audio_meter.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmtk_la-gmtk_common.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmtk_la-gmtk_media_player.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmtk_la-gmtk_media_tracker.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmtk_la-gmtk_output_combo_box.Plo@am__quote@
@@ -555,6 +557,14 @@ libgmlib_la-gm_strfuncs.lo: gm_strfuncs.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gm_strfuncs.c' object='libgmlib_la-gm_strfuncs.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgmlib_la_CFLAGS) $(CFLAGS) -c -o libgmlib_la-gm_strfuncs.lo `test -f 'gm_strfuncs.c' || echo '$(srcdir)/'`gm_strfuncs.c
+
+libgmtk_la-gmtk_common.lo: gmtk_common.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgmtk_la_CFLAGS) $(CFLAGS) -MT libgmtk_la-gmtk_common.lo -MD -MP -MF $(DEPDIR)/libgmtk_la-gmtk_common.Tpo -c -o libgmtk_la-gmtk_common.lo `test -f 'gmtk_common.c' || echo '$(srcdir)/'`gmtk_common.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgmtk_la-gmtk_common.Tpo $(DEPDIR)/libgmtk_la-gmtk_common.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gmtk_common.c' object='libgmtk_la-gmtk_common.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgmtk_la_CFLAGS) $(CFLAGS) -c -o libgmtk_la-gmtk_common.lo `test -f 'gmtk_common.c' || echo '$(srcdir)/'`gmtk_common.c
 
 libgmtk_la-gmtk_audio_meter.lo: gmtk_audio_meter.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgmtk_la_CFLAGS) $(CFLAGS) -MT libgmtk_la-gmtk_audio_meter.lo -MD -MP -MF $(DEPDIR)/libgmtk_la-gmtk_audio_meter.Tpo -c -o libgmtk_la-gmtk_audio_meter.lo `test -f 'gmtk_audio_meter.c' || echo '$(srcdir)/'`gmtk_audio_meter.c

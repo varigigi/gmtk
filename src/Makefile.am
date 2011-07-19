@@ -16,6 +16,7 @@ lib_LTLIBRARIES = libgmlib.la libgmtk.la
 libgmtk_la_SOURCES = \
 	gmtk.h \
 	gmtk_common.h \
+	gmtk_common.c \
 	gmtk_audio_meter.c \
 	gmtk_audio_meter.h \
 	gmtk_media_player.c \

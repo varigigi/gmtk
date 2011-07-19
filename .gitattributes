@@ -86,6 +86,7 @@ src/gmtk.h -text
 src/gmtk.pc.in -text
 src/gmtk_audio_meter.c -text
 src/gmtk_audio_meter.h -text
+src/gmtk_common.c -text
 src/gmtk_common.h -text
 src/gmtk_media_player.c -text
 src/gmtk_media_player.h -text

@@ -32,9 +32,6 @@ static GObjectClass *parent_class = NULL;
 static gboolean gmtk_audio_meter_draw(GtkWidget * meter, cairo_t * cr);
 #endif
 
-extern void gmtk_get_allocation(GtkWidget * widget, GtkAllocation * allocation);
-extern GdkWindow *gmtk_get_window(GtkWidget * widget);
-
 static gboolean gmtk_audio_meter_expose(GtkWidget * meter, GdkEventExpose * event);
 static void gmtk_audio_meter_dispose(GObject * object);
 
