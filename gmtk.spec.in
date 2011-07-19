@@ -4,11 +4,19 @@ Release:        1%{?dist}
 Summary:        Library of common functions and widgets for gnome-mplayer and gecko-mediaplayer 
 
 License:        GPLv2+
-URL:            http://code.google.com/p/gmtk/ 
-Source0:        http://code.google.com/p/gmtk/files/gmtk-@VERSION@.tar.gz 
+URL:            http://code.google.com/p/%{name}/ 
+Source0:        http://code.google.com/p/%{name}/files/%{name}-%{version}.tar.gz 
 
-BuildRequires:  pkgconfig alsa-lib-devel pulseaudio-libs-devel  
-Requires:	mplayer       
+BuildRequires:  alsa-lib-devel
+BuildRequires:  gettext
+%if 0%{?fedora} >= 15
+BuildRequires:  gtk3-devel
+%else
+BuildRequires:  gtk2-devel
+%endif
+BuildRequires:  intltool
+BuildRequires:  pulseaudio-libs-devel
+Requires:	mplayer
 
 %description
 Library of common functions and widgets for gnome-mplayer and gecko-mediaplayer
@@ -35,6 +43,7 @@ make %{?_smp_mflags}
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
+%find_lang %{name}
 
 
 %post -p /sbin/ldconfig
@@ -42,16 +51,15 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %postun -p /sbin/ldconfig
 
 
-%files
+%files -f %{name}.lang
 %{_docdir}/%{name}
 %{_libdir}/*.so.*
-%{_datadir}/locale
 
 %files devel
 %doc
 %{_includedir}/*
 %{_libdir}/*.so
-%{_libdir}/pkgconfig
+%{_libdir}/pkgconfig/*.pc
 
 
 %changelog
