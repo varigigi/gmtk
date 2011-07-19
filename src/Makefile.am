@@ -82,7 +82,8 @@ include_HEADERS = \
 	gmtk_audio_meter.h \
 	gmtk_media_player.h \
 	gmtk_media_tracker.h \
-	gmtk_output_combo_box.h
+	gmtk_output_combo_box.h \
+	gmtk_common.h
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = gmtk.pc gmlib.pc
