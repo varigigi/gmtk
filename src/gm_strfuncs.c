@@ -86,3 +86,10 @@ gint gm_str_hms_in_seconds(gchar * timestr)
 
     return ret;
 }
+
+gchar** g_strv_new (guint size) 
+{
+    gchar **strv = g_new0 (gchar*, size + 1);
+    strv[size] = NULL;
+    return strv;
+}
