@@ -150,6 +150,9 @@ else
     PKG_CHECK_MODULES(GCONF, [gconf-2.0], [enable_gconf=yes], [enable_gconf=no])
     PKG_CHECK_MODULES(GLIB2_26,[glib-2.0 >= 2.26.0],[enable_gsettings=yes], [enable_gsettings=no])
 
+    if test "$enable_gconf" = "no" && test "$enable_gsettings" = "no"; then
+        enable_keystore=yes
+    fi
 fi
 
 if test "$enable_keystore" = "yes"; then

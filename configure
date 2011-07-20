@@ -14247,6 +14247,9 @@ $as_echo "yes" >&6; }
 	enable_gsettings=yes
 fi
 
+    if test "$enable_gconf" = "no" && test "$enable_gsettings" = "no"; then
+        enable_keystore=yes
+    fi
 fi
 
 if test "$enable_keystore" = "yes"; then
