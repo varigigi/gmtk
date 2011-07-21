@@ -1,3 +1,4 @@
+    Detect win32 in configure
     Add g_strv_new to gm_strfuncs
     Copy gmtk_common.h to includes
     Cleaned up tabs from RPM spec.in
