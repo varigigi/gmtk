@@ -48,7 +48,6 @@ AM_CONDITIONAL(OS_WIN32, test "$native_win32" = "yes")
 
 if test "$native_win32" = "yes" ; then
    AC_DEFINE(OS_WIN32, 1, [Define if we are on win32])
-   AC_LIBTOOL_WIN32_DLL
 fi
 
 AM_PROG_LIBTOOL
