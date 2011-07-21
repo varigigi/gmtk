@@ -28,7 +28,6 @@ AM_GLIB_GNU_GETTEXT
 
 IT_PROG_INTLTOOL([0.35.0])
 
-AM_PROG_LIBTOOL
 
 ####################################################################
 # Windows check
@@ -49,7 +48,10 @@ AM_CONDITIONAL(OS_WIN32, test "$native_win32" = "yes")
 
 if test "$native_win32" = "yes" ; then
    AC_DEFINE(OS_WIN32, 1, [Define if we are on win32])
+   AC_LIBTOOL_WIN32_DLL
 fi
+
+AM_PROG_LIBTOOL
 
 PKG_CHECK_MODULES([X11], [x11],[AC_DEFINE([X11_ENABLED],[1],[Define to 1 if X11 support is needed])],[AC_MSG_NOTICE([Compiling without X11 support])])
 AC_SUBST(X11_LIBS)
