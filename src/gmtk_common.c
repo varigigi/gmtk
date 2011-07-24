@@ -50,4 +50,3 @@ gboolean gmtk_get_visible(GtkWidget * widget)
     return GTK_WIDGET_VISIBLE(widget);
 #endif
 }
-

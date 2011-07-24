@@ -67,8 +67,8 @@ gchar *gm_get_path(gchar * uri)
         tmp[0] = '\0';
     } else {
         if (getcwd(cwd, 1024) != NULL) {
-    		path = g_strdup(cwd);
-		}
+            path = g_strdup(cwd);
+        }
     }
 
     return path;

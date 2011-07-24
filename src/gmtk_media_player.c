@@ -330,6 +330,8 @@ static void gmtk_media_player_init(GmtkMediaPlayer * player)
     player->channel_err = NULL;
     player->retry_on_full_cache = FALSE;
     player->profile = NULL;
+    player->alang = NULL;
+    player->slang = NULL;
 }
 
 static void gmtk_media_player_dispose(GObject * object)
@@ -1345,6 +1347,28 @@ void gmtk_media_player_set_attribute_string(GmtkMediaPlayer * player,
         }
         break;
 
+    case ATTRIBUTE_PREFERRED_AUDIO_LANGUAGE:
+        if (player->alang != NULL) {
+            g_free(player->alang);
+        }
+        if (value == NULL || strlen(value) == 0) {
+            player->alang = NULL;
+        } else {
+            player->alang = g_strdup(value);
+        }
+        break;
+
+    case ATTRIBUTE_PREFERRED_SUBTITLE_LANGUAGE:
+        if (player->slang != NULL) {
+            g_free(player->slang);
+        }
+        if (value == NULL || strlen(value) == 0) {
+            player->slang = NULL;
+        } else {
+            player->slang = g_strdup(value);
+        }
+        break;
+
     default:
         if (player->debug)
             printf("Unsupported Attribute\n");
@@ -2067,6 +2091,9 @@ gpointer launch_mplayer(gpointer data)
         if (player->frame_drop)
             argv[argn++] = g_strdup_printf("-framedrop");
 
+        argv[argn++] = g_strdup_printf("-msglevel");
+        argv[argn++] = g_strdup_printf("all=5");
+
         argv[argn++] = g_strdup_printf("-osdlevel");
         argv[argn++] = g_strdup_printf("%i", player->osdlevel);
 
@@ -2097,6 +2124,16 @@ gpointer launch_mplayer(gpointer data)
         argv[argn++] = g_strdup_printf("%i", player->hue);
         argv[argn++] = g_strdup_printf("-saturation");
         argv[argn++] = g_strdup_printf("%i", player->saturation);
+
+        if (player->alang) {
+            argv[argn++] = g_strdup_printf("-alang");
+            argv[argn++] = g_strdup_printf("%s", player->alang);
+        }
+
+        if (player->slang) {
+            argv[argn++] = g_strdup_printf("-slang");
+            argv[argn++] = g_strdup_printf("%s", player->slang);
+        }
 
         /* disable msg stuff to make sure extra console characters don't mess around */
         argv[argn++] = g_strdup_printf("-nomsgcolor");

@@ -175,7 +175,9 @@ typedef enum {
     ATTRIBUTE_RETRY_ON_FULL_CACHE,
     ATTRIBUTE_ENABLE_HARDWARE_CODECS,
     ATTRIBUTE_ENABLE_CRYSTALHD_CODECS,
-    ATTRIBUTE_PROFILE
+    ATTRIBUTE_PROFILE,
+    ATTRIBUTE_PREFERRED_AUDIO_LANGUAGE,
+    ATTRIBUTE_PREFERRED_SUBTITLE_LANGUAGE
 } GmtkMediaPlayerMediaAttributes;
 
 typedef enum {
@@ -322,6 +324,8 @@ struct _GmtkMediaPlayer {
     gboolean enable_hardware_codecs;
     gboolean enable_crystalhd_codecs;
     gchar *profile;
+    gchar *alang;
+    gchar *slang;
 
     gboolean deinterlace;
     gboolean frame_drop;

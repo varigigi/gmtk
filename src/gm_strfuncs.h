@@ -32,7 +32,7 @@ extern "C" {
     void gm_str_replace_amp(gchar * data);
     void gm_str_unreplace_amp(gchar * data);
     gint gm_str_hms_in_seconds(gchar * timestr);
-	gchar** g_strv_new (guint size);
+    gchar **g_strv_new(guint size);
 
 #ifdef __cplusplus
 }
