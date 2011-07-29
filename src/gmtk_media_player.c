@@ -559,6 +559,12 @@ static gboolean player_key_press_event_callback(GtkWidget * widget, GdkEventKey 
         case GDK_S:
             write_to_mplayer(player, "screenshot 0\n");
             break;
+        case GDK_x:
+            write_to_mplayer(player, "sub_delay 0.1\n");
+            break;
+        case GDK_z:
+            write_to_mplayer(player, "sub_delay -0.1\n");
+            break;
         default:
             if (player->debug)
                 printf("ignoring key %i\n", event->keyval);

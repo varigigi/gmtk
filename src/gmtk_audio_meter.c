@@ -109,7 +109,7 @@ static void draw(GtkWidget * meter)
     cairo_fill(GMTK_AUDIO_METER(meter)->cr);
     cairo_stroke(GMTK_AUDIO_METER(meter)->cr);
 
-    cairo_surface_flush(cairo_get_target(GMTK_AUDIO_METER(meter)->cr));
+    //cairo_surface_flush(cairo_get_target(GMTK_AUDIO_METER(meter)->cr));
 
     if (!GMTK_AUDIO_METER(meter)->data_valid)
         return;
@@ -184,7 +184,7 @@ static void draw(GtkWidget * meter)
     cairo_move_to(GMTK_AUDIO_METER(meter)->cr, 0, alloc.height - 1);
     cairo_line_to(GMTK_AUDIO_METER(meter)->cr, alloc.width - 1, alloc.height - 1);
 
-    cairo_surface_mark_dirty(cairo_get_target(GMTK_AUDIO_METER(meter)->cr));
+    //cairo_surface_mark_dirty(cairo_get_target(GMTK_AUDIO_METER(meter)->cr));
 
 }
 
