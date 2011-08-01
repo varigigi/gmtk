@@ -2485,6 +2485,8 @@ gpointer launch_mplayer(gpointer data)
             break;
         }
 
+        //printf("playback error code is %i\n", player->playback_error);
+
     } while (player->playback_error != NO_ERROR);
 
     //if (player->debug)
@@ -2577,10 +2579,12 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
             player->playback_error = ERROR_RETRY_WITHOUT_HARDWARE_CODECS;
     }
 
-    if (strstr(mplayer_output->str, "The selected video_out device is incompatible with this codec") != NULL) {
-        if (!player->disable_xvmc)
-            player->playback_error = ERROR_RETRY_WITHOUT_XVMC;
-    }
+    /*  Commented out to correct Issue #546
+       if (strstr(mplayer_output->str, "The selected video_out device is incompatible with this codec") != NULL) {
+       if (!player->disable_xvmc)
+       player->playback_error = ERROR_RETRY_WITHOUT_XVMC;
+       }
+     */
 
     if (strstr(mplayer_output->str, "[AO_ALSA] Playback open error: Device or resource busy") != NULL) {
         player->playback_error = ERROR_RETRY_ALSA_BUSY;

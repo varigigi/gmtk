@@ -1,3 +1,4 @@
+    Disable XVMC fallback as it does not work in all cases, fixes Issue #546
     Capture keys x/z to alter subtitle delay
     Remove runtime warning when player->vo = NULL
     Add preferred audio and subtitle language attributes
