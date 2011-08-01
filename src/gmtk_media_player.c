@@ -2570,7 +2570,7 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
     }
 
     if (strstr(mplayer_output->str, "Failed creating VDPAU decoder") != NULL) {
-        if (player->enable_divx)
+        if (player->enable_divx && (g_ascii_strncasecmp(player->vo, "vdpau", strlen("vdpau")) == 0))
             player->playback_error = ERROR_RETRY_WITHOUT_DIVX_VDPAU;
     }
 
@@ -2579,12 +2579,10 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
             player->playback_error = ERROR_RETRY_WITHOUT_HARDWARE_CODECS;
     }
 
-    /*  Commented out to correct Issue #546
-       if (strstr(mplayer_output->str, "The selected video_out device is incompatible with this codec") != NULL) {
-       if (!player->disable_xvmc)
-       player->playback_error = ERROR_RETRY_WITHOUT_XVMC;
-       }
-     */
+	if (strstr(mplayer_output->str, "The selected video_out device is incompatible with this codec") != NULL) {
+		if (!player->disable_xvmc && (g_ascii_strncasecmp(player->vo, "xvmc", strlen("xvmc")) == 0))
+			player->playback_error = ERROR_RETRY_WITHOUT_XVMC;
+	}
 
     if (strstr(mplayer_output->str, "[AO_ALSA] Playback open error: Device or resource busy") != NULL) {
         player->playback_error = ERROR_RETRY_ALSA_BUSY;
