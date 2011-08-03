@@ -1,6 +1,6 @@
 # translation of tr.po to Turkish
 # Turkish translation of GNOME MPlayer.
-# This file is distributed under the same license as the gnome-mplayer package.
+# This file is distributed under the same license as the gmtk package.
 # Copyright (C) Kevin DeKorte 2006-2008 <kdekorte@gmail.com>
 # Onur Küçük <onur@pardus.org.tr>, 2008, 2009, 2010, 2011.
 msgid ""

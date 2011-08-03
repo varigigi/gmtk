@@ -1,12 +1,12 @@
 # Serbian translation of GNOME Mplayer.
 # Copyright (C) Prevod.org team (http://prevod.org)
-# This file is distributed under the same license as the gnome-mplayer package.
+# This file is distributed under the same license as the gmtk package.
 #
 # Miloš Popović <gpopac@gmail.com>, 2008-2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-mplayer\n"
+"Project-Id-Version: gmtk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-19 09:49-0600\n"
 "PO-Revision-Date: 2011-04-11 08:43-0700\n"

@@ -1,11 +1,11 @@
-# Swedish translation for gnome-mplayer
+# Swedish translation for gmtk
 # Copyright (C) 2008 Kevin DeKorte <kdekorte@gmail.com>
-# This file is distributed under the same license as the gnome-mplayer package.
+# This file is distributed under the same license as the gmtk package.
 # Daniel Nylander <po@danielnylander.se>, 2007.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-mplayer\n"
+"Project-Id-Version: gmtk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-19 09:49-0600\n"
 "PO-Revision-Date: 2011-06-05 09:26+0000\n"

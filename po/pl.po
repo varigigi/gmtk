@@ -1,7 +1,7 @@
 # translation of pl.po to Polish
-# Polish translation of gnome-mplayer.
-# Copyright (C) 2007 THE gnome-mplayer'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the gnome-mplayer package.
+# Polish translation of gmtk.
+# Copyright (C) 2007 THE gmtk'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gmtk package.
 #
 # Julian Sikorski <belegdol@gmail.com>, 2007, 2008, 2009, 2010, 2011.
 msgid ""

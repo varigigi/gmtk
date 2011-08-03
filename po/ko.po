@@ -1,11 +1,11 @@
-# Korean translation of gnome-mplayer.
+# Korean translation of gmtk.
 # Copyright (C) 2007-2011 Kevin DeKorte <kdekorte@gmail.com>
-# This file is distributed under the same license as the gnome-mplayer package.
+# This file is distributed under the same license as the gmtk package.
 # Byeongsik Jeon <bsjeon@hanmail.net>, 2007-2011.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-mplayer\n"
+"Project-Id-Version: gmtk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-19 09:49-0600\n"
 "PO-Revision-Date: 2011-02-23 07:39+0000\n"

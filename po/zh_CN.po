@@ -1,11 +1,11 @@
-# Simplified Chinese translation for gnome-mplayer
+# Simplified Chinese translation for gmtk
 # Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
-# This file is distributed under the same license as the gnome-mplayer package.
+# This file is distributed under the same license as the gmtk package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-mplayer\n"
+"Project-Id-Version: gmtk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-19 09:49-0600\n"
 "PO-Revision-Date: 2011-03-30 14:32+0000\n"
