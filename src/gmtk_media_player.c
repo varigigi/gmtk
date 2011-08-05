@@ -1970,8 +1970,10 @@ gpointer launch_mplayer(gpointer data)
                     }
                 }
 
-            } else if (g_ascii_strncasecmp(player->vo, "vvapi", strlen("vvapi")) == 0) {
+            } else if (g_ascii_strncasecmp(player->vo, "vaapi", strlen("vaapi")) == 0) {
                 argv[argn++] = g_strdup_printf("%s,", player->vo);
+                argv[argn++] = g_strdup_printf("-va");
+                argv[argn++] = g_strdup_printf("vaapi");
 
             } else if (g_ascii_strncasecmp(player->vo, "xvmc", strlen("xvmc")) == 0) {
 

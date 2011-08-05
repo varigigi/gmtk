@@ -1,3 +1,4 @@
+    Added recommended options from Issue #549
     Update po files
     Update French translation
     Fix Issue #546 so that it only trys again when XVMC is the selected VO
