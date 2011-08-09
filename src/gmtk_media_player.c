@@ -2252,7 +2252,8 @@ gpointer launch_mplayer(gpointer data)
                 break;
             }
         case TYPE_CD:
-            argv[argn++] = g_strdup_printf("-nocache");
+            argv[argn++] = g_strdup_printf("-cache");
+            argv[argn++] = g_strdup_printf("%i", (gint) player->cache_size);
             argv[argn++] = g_strdup_printf("%s", player->uri);
             if (player->media_device != NULL) {
                 argv[argn++] = g_strdup_printf("-dvd-device");
