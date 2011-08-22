@@ -1,3 +1,4 @@
+    Wait for the socket_id to be valid, but in plugin mode it may not so timeout
     Convert ignored key code to descriptive name
     Have CD Audio use the cache
     Added recommended options from Issue #549

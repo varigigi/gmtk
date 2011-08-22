@@ -2018,7 +2018,7 @@ gpointer launch_mplayer(gpointer data)
             }
         }
 
-        if (player->enable_crystalhd_codecs) {
+		if (player->enable_crystalhd_codecs) {
             codecs_crystalhd = g_strdup_printf
                 ("ffmpeg2crystalhd,ffdivxcrystalhd,ffwmv3crystalhd,ffvc1crystalhd,ffh264crystalhd,ffodivxcrystalhd,");
         }
@@ -2128,8 +2128,11 @@ gpointer launch_mplayer(gpointer data)
         argv[argn++] = g_strdup_printf("-sub-fuzziness");
         argv[argn++] = g_strdup_printf("%i", player->subtitle_fuzziness);
 
-        while (player->socket_id == 0)
+		// wait for the socket_id to be valid, but in plugin mode it may not so timeout
+		i = 0;
+        while (player->socket_id == 0 && (i++ < 10))
             g_usleep(100);
+		
         argv[argn++] = g_strdup_printf("-wid");
         argv[argn++] = g_strdup_printf("0x%x", player->socket_id);
 
@@ -2162,7 +2165,7 @@ gpointer launch_mplayer(gpointer data)
         //if (player->use_mplayer2)
         argv[argn++] = g_strdup_printf("-nokeepaspect");
 
-        if (player->audio_track_file != NULL && strlen(player->audio_track_file) > 0) {
+		if (player->audio_track_file != NULL && strlen(player->audio_track_file) > 0) {
             argv[argn++] = g_strdup_printf("-audiofile");
             argv[argn++] = g_strdup_printf("%s", player->audio_track_file);
         }
