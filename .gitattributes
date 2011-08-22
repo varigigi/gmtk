@@ -23,7 +23,6 @@
 /ltmain.sh -text
 /missing -text
 po/ChangeLog -text
-po/Makefile.in.in -text
 po/POTFILES.in -text
 po/ar.po -text
 po/bg.po -text
