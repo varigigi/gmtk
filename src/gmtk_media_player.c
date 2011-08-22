@@ -438,6 +438,10 @@ static gboolean player_key_press_event_callback(GtkWidget * widget, GdkEventKey 
     } else {
         player = GMTK_MEDIA_PLAYER(widget);
     }
+
+    if (event->is_modifier)
+        return TRUE;
+
     if (event->state == (event->state & (~GDK_CONTROL_MASK))) {
         switch (event->keyval) {
         case GDK_Right:
