@@ -566,8 +566,11 @@ static gboolean player_key_press_event_callback(GtkWidget * widget, GdkEventKey 
             write_to_mplayer(player, "sub_delay -0.1\n");
             break;
         default:
-            if (player->debug)
-                printf("ignoring key %i\n", event->keyval);
+            if (player->debug) {
+                printf("ignoring key %s%s%s%s \n", (event->state & GDK_CONTROL_MASK) ? "Control-" : "",
+                       (event->state & GDK_MOD1_MASK) ? "Alt-" : "",
+                       (event->state & GDK_SHIFT_MASK) ? "Shift-" : "", gdk_keyval_name(event->keyval));
+            }
         }
 
     }
@@ -2582,10 +2585,10 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
             player->playback_error = ERROR_RETRY_WITHOUT_HARDWARE_CODECS;
     }
 
-	if (strstr(mplayer_output->str, "The selected video_out device is incompatible with this codec") != NULL) {
-		if (!player->disable_xvmc && (g_ascii_strncasecmp(player->vo, "xvmc", strlen("xvmc")) == 0))
-			player->playback_error = ERROR_RETRY_WITHOUT_XVMC;
-	}
+    if (strstr(mplayer_output->str, "The selected video_out device is incompatible with this codec") != NULL) {
+        if (!player->disable_xvmc && (g_ascii_strncasecmp(player->vo, "xvmc", strlen("xvmc")) == 0))
+            player->playback_error = ERROR_RETRY_WITHOUT_XVMC;
+    }
 
     if (strstr(mplayer_output->str, "[AO_ALSA] Playback open error: Device or resource busy") != NULL) {
         player->playback_error = ERROR_RETRY_ALSA_BUSY;
