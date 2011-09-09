@@ -1,3 +1,4 @@
+    Switch from AM_MAINTAINER_MODE to AM_MAINTAINER_MODE([enable]) in configure.ac
     Wait for the socket_id to be valid, but in plugin mode it may not so timeout
     Convert ignored key code to descriptive name
     Have CD Audio use the cache

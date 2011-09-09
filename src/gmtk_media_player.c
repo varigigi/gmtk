@@ -2018,7 +2018,7 @@ gpointer launch_mplayer(gpointer data)
             }
         }
 
-		if (player->enable_crystalhd_codecs) {
+        if (player->enable_crystalhd_codecs) {
             codecs_crystalhd = g_strdup_printf
                 ("ffmpeg2crystalhd,ffdivxcrystalhd,ffwmv3crystalhd,ffvc1crystalhd,ffh264crystalhd,ffodivxcrystalhd,");
         }
@@ -2128,11 +2128,12 @@ gpointer launch_mplayer(gpointer data)
         argv[argn++] = g_strdup_printf("-sub-fuzziness");
         argv[argn++] = g_strdup_printf("%i", player->subtitle_fuzziness);
 
-		// wait for the socket_id to be valid, but in plugin mode it may not so timeout
-		i = 0;
-        while (player->socket_id == 0 && (i++ < 10))
+        // wait for the socket_id to be valid, but in plugin mode it may not so timeout
+        i = 0;
+        while (player->socket_id == 0 && (i++ < 10)) {
             g_usleep(100);
-		
+        }
+
         argv[argn++] = g_strdup_printf("-wid");
         argv[argn++] = g_strdup_printf("0x%x", player->socket_id);
 
@@ -2165,7 +2166,7 @@ gpointer launch_mplayer(gpointer data)
         //if (player->use_mplayer2)
         argv[argn++] = g_strdup_printf("-nokeepaspect");
 
-		if (player->audio_track_file != NULL && strlen(player->audio_track_file) > 0) {
+        if (player->audio_track_file != NULL && strlen(player->audio_track_file) > 0) {
             argv[argn++] = g_strdup_printf("-audiofile");
             argv[argn++] = g_strdup_printf("%s", player->audio_track_file);
         }
@@ -2803,6 +2804,8 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
             sscanf(buf, "ANS_TIME_POSITION=%lf", &player->position);
             if (oldposition != player->position)
                 create_event_double(player, "position-changed", player->position);
+            if (player->position > player->length)
+                write_to_mplayer(player, "get_time_length\n");
         }
 
         if (strstr(mplayer_output->str, "ID_START_TIME") != 0) {
