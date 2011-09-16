@@ -976,6 +976,10 @@ void gmtk_media_player_set_attribute_boolean(GmtkMediaPlayer * player,
         player->enable_crystalhd_codecs = value;
         break;
 
+    case ATTRIBUTE_FORCE_CACHE:
+        player->force_cache = value;
+        break;
+
     default:
         if (player->debug)
             printf("Unsupported Attribute\n");
@@ -1071,6 +1075,10 @@ gboolean gmtk_media_player_get_attribute_boolean(GmtkMediaPlayer * player, GmtkM
 
     case ATTRIBUTE_ENABLE_CRYSTALHD_CODECS:
         ret = player->enable_crystalhd_codecs;
+        break;
+
+    case ATTRIBUTE_FORCE_CACHE:
+        ret = player->force_cache;
         break;
 
     default:
