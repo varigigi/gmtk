@@ -1907,6 +1907,9 @@ gpointer launch_mplayer(gpointer data)
     gchar *codecs_vdpau = NULL;
     gchar *codecs_crystalhd = NULL;
     gchar *codecs = NULL;
+#ifdef GIO_ENABLED
+    GFile *file;
+#endif
 
     player->seekable = FALSE;
     player->has_chapters = FALSE;
@@ -1947,7 +1950,17 @@ gpointer launch_mplayer(gpointer data)
         argn = 0;
         player->playback_error = NO_ERROR;
         if (player->uri != NULL) {
+#ifdef GIO_ENABLED
+            file = g_file_new_for_uri(player->uri);
+            if (file != NULL) {
+                filename = g_file_get_path(file);
+                g_object_unref(file);
+            }
+#else
             filename = g_filename_from_uri(player->uri, NULL, NULL);
+#endif
+            if (filename != NULL)
+                player->type = TYPE_FILE;
         }
 
         player->minimum_mplayer = detect_mplayer_features(player);
