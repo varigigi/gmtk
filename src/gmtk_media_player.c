@@ -3087,6 +3087,13 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
             }
             player->video_format = g_strdup(buf);
             create_event_int(player, "attribute-changed", ATTRIBUTE_VIDEO_FORMAT);
+            if (player->video_width == 0 && player->video_height == 0) {
+                if (player->debug)
+                    printf("Setting to minimum size so that mplayer has something to draw to\n");
+                allocation.width = 32;
+                allocation.height = 16;
+                create_event_allocation(player, "size_allocate", &allocation);
+            }
         }
 
         if (strstr(mplayer_output->str, "ID_VIDEO_CODEC") != 0) {
