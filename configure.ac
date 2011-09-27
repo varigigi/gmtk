@@ -204,6 +204,7 @@ elif test "$enable_gconf" = "yes"; then
     USE_GSETTINGS=0
     use_gconf=yes
     USE_GCONF=1
+    PKG_CHECK_MODULES(GCONF, [gconf-2.0], [enable_gconf=yes], [enable_gconf=no])
     AC_DEFINE([HAVE_GCONF],[1],[Define to 1 to use GConf to store preferences])
     AM_GCONF_SOURCE_2
     GSETTINGS_RULES=""
