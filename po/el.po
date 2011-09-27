@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-03 09:22-0600\n"
+"POT-Creation-Date: 2011-09-27 09:50-0600\n"
 "PO-Revision-Date: 2010-12-25 23:41+0000\n"
 "Last-Translator: Kyriakos Kartas <kartas.kyriakos@gmail.com>\n"
 "Language-Team: \n"
@@ -27,70 +27,70 @@ msgstr ""
 msgid "Default"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:548 ../src/gmtk_media_player.c:872
+#: ../src/gmtk_media_player.c:552 ../src/gmtk_media_player.c:879
 msgid "Frame Dropping"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:774
+#: ../src/gmtk_media_player.c:781
 #, c-format
 msgid "Loading..."
 msgstr ""
 
-#: ../src/gmtk_media_player.c:897
+#: ../src/gmtk_media_player.c:904
 msgid "Subtitles Visible"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:899
+#: ../src/gmtk_media_player.c:906
 msgid "Subtitles Hidden"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:2605
+#: ../src/gmtk_media_player.c:2640
 #, c-format
 msgid "Failed to open %s"
 msgstr "Αδυναμία αναπαραγωγής %s"
 
-#: ../src/gmtk_media_player.c:2641
+#: ../src/gmtk_media_player.c:2676
 #, c-format
 msgid "Compressed SWF format not supported"
 msgstr "Δεν υποστηρίζεται η μορφή συμπιεσμένου SWF"
 
-#: ../src/gmtk_media_player.c:2669
+#: ../src/gmtk_media_player.c:2704
 msgid "GNOME MPlayer Error"
 msgstr "Σφάλμα Gnome Mplayer"
 
-#: ../src/gmtk_media_player.c:2732
+#: ../src/gmtk_media_player.c:2767
 #, c-format
 msgid "Cache fill: %2.2f%%"
 msgstr "Γέμισμα λανθάνουσας μνήμης: %2.2f%%"
 
-#: ../src/gmtk_media_player.c:2876 ../src/gmtk_media_player.c:2877
-#: ../src/gmtk_media_player.c:2925 ../src/gmtk_media_player.c:2957
-#: ../src/gmtk_media_player.c:2958 ../src/gmtk_media_player.c:2990
-#: ../src/gmtk_media_player.c:3021
+#: ../src/gmtk_media_player.c:2913 ../src/gmtk_media_player.c:2914
+#: ../src/gmtk_media_player.c:2962 ../src/gmtk_media_player.c:2994
+#: ../src/gmtk_media_player.c:2995 ../src/gmtk_media_player.c:3027
+#: ../src/gmtk_media_player.c:3058
 #, c-format
 msgid "Unknown"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:2936
+#: ../src/gmtk_media_player.c:2973
 #, c-format
 msgid "External Subtitle #%i"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:3121
+#: ../src/gmtk_media_player.c:3165
 #, c-format
 msgid "Screenshot saved to '%s'"
 msgstr "Το στιγμιότυπο αποθηκέυτηκε στο '%s'"
 
-#: ../src/gmtk_media_player.c:3124 ../src/gmtk_media_player.c:3220
+#: ../src/gmtk_media_player.c:3168 ../src/gmtk_media_player.c:3264
 msgid "GNOME MPlayer Notification"
 msgstr "Ειδοποίηση GNOME MPlayer"
 
-#: ../src/gmtk_media_player.c:3217
+#: ../src/gmtk_media_player.c:3261
 #, c-format
 msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:3463
+#: ../src/gmtk_media_player.c:3507
 #, c-format
 msgid "You might want to consider upgrading mplayer to a newer version\n"
 msgstr ""
