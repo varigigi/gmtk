@@ -14577,6 +14577,75 @@ $as_echo "$as_me: Using GConf backend" >&6;}
     use_gconf=yes
     USE_GCONF=1
 
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for GCONF" >&5
+$as_echo_n "checking for GCONF... " >&6; }
+
+if test -n "$GCONF_CFLAGS"; then
+    pkg_cv_GCONF_CFLAGS="$GCONF_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gconf-2.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "gconf-2.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_GCONF_CFLAGS=`$PKG_CONFIG --cflags "gconf-2.0" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$GCONF_LIBS"; then
+    pkg_cv_GCONF_LIBS="$GCONF_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gconf-2.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "gconf-2.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_GCONF_LIBS=`$PKG_CONFIG --libs "gconf-2.0" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        GCONF_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors "gconf-2.0" 2>&1`
+        else
+	        GCONF_PKG_ERRORS=`$PKG_CONFIG --print-errors "gconf-2.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$GCONF_PKG_ERRORS" >&5
+
+	enable_gconf=no
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	enable_gconf=no
+else
+	GCONF_CFLAGS=$pkg_cv_GCONF_CFLAGS
+	GCONF_LIBS=$pkg_cv_GCONF_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+	enable_gconf=yes
+fi
+
 $as_echo "#define HAVE_GCONF 1" >>confdefs.h
 
 
