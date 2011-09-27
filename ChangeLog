@@ -1,4 +1,5 @@
 Development
+    Fix problem with seeking in the tracker
     When mplayer reports that it has video, resize the media window so that mplayer has something to draw to
 	Fix issue with not being able to play media off an SFTP file share
     Fix Issue #560, ATTRIBUTE_FORCE_CACHE not being processed
