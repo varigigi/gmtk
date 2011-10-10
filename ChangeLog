@@ -1,4 +1,6 @@
 Development
+    Fix potential segfault in gmtk_media_player when defining a specific font
+1.0.5b1
     Change COPYING to contain correct license file GPL v2 instead of GPL v3 (code was never v3)
     Updated Polish translation
     Fix problem with seeking in the tracker
