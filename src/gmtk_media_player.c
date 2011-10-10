@@ -1123,6 +1123,15 @@ void gmtk_media_player_set_attribute_double(GmtkMediaPlayer * player,
         }
         break;
 
+	case ATTRIBUTE_SPEED_SET:
+        player->speed_multiplier = CLAMP(value, 0.1, 10.0);
+        if (player->player_state == PLAYER_STATE_RUNNING) {
+            cmd = g_strdup_printf("speed_set %f\n", player->speed_multiplier);
+            write_to_mplayer(player, cmd);
+            g_free(cmd);
+        }
+        break;
+
     case ATTRIBUTE_SUBTITLE_SCALE:
         player->subtitle_scale = CLAMP(value, 0.2, 100.0);
         if (player->player_state == PLAYER_STATE_RUNNING) {
