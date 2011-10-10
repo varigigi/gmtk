@@ -1117,13 +1117,17 @@ void gmtk_media_player_set_attribute_double(GmtkMediaPlayer * player,
     case ATTRIBUTE_SPEED_MULTIPLIER:
         player->speed_multiplier = CLAMP(value, 0.1, 10.0);
         if (player->player_state == PLAYER_STATE_RUNNING) {
-            cmd = g_strdup_printf("speed_mult %f\n", player->speed_multiplier);
+            if (player->speed_multiplier == 1.0) {
+                cmd = g_strdup_printf("speed_set %f\n", player->speed_multiplier);
+            } else {
+                cmd = g_strdup_printf("speed_mult %f\n", player->speed_multiplier);
+            }
             write_to_mplayer(player, cmd);
             g_free(cmd);
         }
         break;
 
-	case ATTRIBUTE_SPEED_SET:
+    case ATTRIBUTE_SPEED_SET:
         player->speed_multiplier = CLAMP(value, 0.1, 10.0);
         if (player->player_state == PLAYER_STATE_RUNNING) {
             cmd = g_strdup_printf("speed_set %f\n", player->speed_multiplier);
