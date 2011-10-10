@@ -2264,7 +2264,8 @@ gpointer launch_mplayer(gpointer data)
             if (player->subtitle_font != NULL && strlen(player->subtitle_font) > 0) {
                 fontname = g_strdup(player->subtitle_font);
                 size = g_strrstr(fontname, " ");
-                size[0] = '\0';
+                if (size)
+                    size[0] = '\0';
                 argv[argn++] = g_strdup_printf("-subfont");
                 argv[argn++] = g_strdup_printf("%s", fontname);
                 g_free(fontname);

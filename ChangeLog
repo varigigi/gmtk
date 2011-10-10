@@ -1,4 +1,5 @@
 Development
+    Fix another potential segfault in gmtk_media_player when defining a specific font
     When passing in 1.0 to ATTRIBUTE_SPEED_MULTIPLIER, reset the speed to normal
     Added double attribute set for ATTRIBUTE_SPEED_SET
     Fix potential segfault in gmtk_media_player when defining a specific font
