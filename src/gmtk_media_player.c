@@ -549,7 +549,9 @@ static gboolean player_key_press_event_callback(GtkWidget * widget, GdkEventKey 
             break;
         case GDK_d:
             write_to_mplayer(player, "frame_drop\n");
-            cmd = g_strdup_printf("osd_show_property_text \"%s: ${framedropping}\"\n", _("Frame Dropping"));
+            cmd =
+                g_strdup_printf("osd_show_property_text \"%s: ${framedropping}\"\n",
+                                g_dgettext(GETTEXT_PACKAGE, "Frame Dropping"));
             write_to_mplayer(player, cmd);
             g_free(cmd);
             break;
@@ -778,7 +780,7 @@ void gmtk_media_player_set_state(GmtkMediaPlayer * player, const GmtkMediaPlayer
                     g_free(player->message);
                     player->message = NULL;
                 }
-                player->message = g_strdup_printf(_("Loading..."));
+                player->message = g_strdup_printf(g_dgettext(GETTEXT_PACKAGE, "Loading..."));
                 if (!player->restart)
                     g_signal_emit_by_name(player, "attribute-changed", ATTRIBUTE_MESSAGE);
                 player->player_state = PLAYER_STATE_RUNNING;
@@ -876,7 +878,9 @@ void gmtk_media_player_send_command(GmtkMediaPlayer * player, GmtkMediaPlayerCom
 
         case COMMAND_SWITCH_FRAME_DROP:
             write_to_mplayer(player, "frame_drop\n");
-            cmd = g_strdup_printf("osd_show_property_text \"%s ${framedropping}\"\n", _("Frame Dropping"));
+            cmd =
+                g_strdup_printf("osd_show_property_text \"%s ${framedropping}\"\n",
+                                g_dgettext(GETTEXT_PACKAGE, "Frame Dropping"));
             write_to_mplayer(player, cmd);
             g_free(cmd);
             break;
@@ -901,9 +905,12 @@ void gmtk_media_player_set_attribute_boolean(GmtkMediaPlayer * player,
             write_to_mplayer(player, cmd);
             g_free(cmd);
             if (value) {
-                cmd = g_strdup_printf("osd_show_property_text \"%s\"\n", _("Subtitles Visible"));
+                cmd =
+                    g_strdup_printf("osd_show_property_text \"%s\"\n",
+                                    g_dgettext(GETTEXT_PACKAGE, "Subtitles Visible"));
             } else {
-                cmd = g_strdup_printf("osd_show_property_text \"%s\"\n", _("Subtitles Hidden"));
+                cmd =
+                    g_strdup_printf("osd_show_property_text \"%s\"\n", g_dgettext(GETTEXT_PACKAGE, "Subtitles Hidden"));
             }
             write_to_mplayer(player, cmd);
             g_free(cmd);
@@ -2652,7 +2659,9 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
             strstr(mplayer_output->str, "VDPAU") == NULL && strstr(mplayer_output->str, "registry file") == NULL) {
             if (strstr(mplayer_output->str, "<") == NULL && strstr(mplayer_output->str, ">") == NULL
                 && player->type == TYPE_FILE) {
-                error_msg = g_strdup_printf(_("Failed to open %s"), mplayer_output->str + strlen("Failed to open "));
+                error_msg =
+                    g_strdup_printf(g_dgettext(GETTEXT_PACKAGE, "Failed to open %s"),
+                                    mplayer_output->str + strlen("Failed to open "));
             }
 
             if (strstr(mplayer_output->str, "mms://") != NULL && player->type == TYPE_NETWORK) {
@@ -2688,7 +2697,7 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
     }
 
     if (strstr(mplayer_output->str, "Compressed SWF format not supported") != NULL) {
-        error_msg = g_strdup_printf(_("Compressed SWF format not supported"));
+        error_msg = g_strdup_printf(g_dgettext(GETTEXT_PACKAGE, "Compressed SWF format not supported"));
     }
 
     if (strstr(mplayer_output->str, "MOV: missing header (moov/cmov) chunk") != NULL) {
@@ -2716,7 +2725,7 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
     if (error_msg != NULL) {
         dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
                                         GTK_BUTTONS_CLOSE, "%s", error_msg);
-        gtk_window_set_title(GTK_WINDOW(dialog), _("GNOME MPlayer Error"));
+        gtk_window_set_title(GTK_WINDOW(dialog), g_dgettext(GETTEXT_PACKAGE, "GNOME MPlayer Error"));
         gtk_dialog_run(GTK_DIALOG(dialog));
         gtk_widget_destroy(dialog);
         g_free(error_msg);
@@ -2779,7 +2788,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
         if (strstr(mplayer_output->str, "Cache fill") != 0) {
             buf = strstr(mplayer_output->str, "Cache fill");
             sscanf(buf, "Cache fill: %f%%", &percent);
-            buf = g_strdup_printf(_("Cache fill: %2.2f%%"), percent);
+            buf = g_strdup_printf(g_dgettext(GETTEXT_PACKAGE, "Cache fill: %2.2f%%"), percent);
             player->cache_percent = percent / 100.0;
             create_event_double(player, "cache-percent-changed", player->cache_percent);
         }
@@ -2925,8 +2934,8 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
             sscanf(buf, "ID_SUBTITLE_ID=%i", &id);
             subtitle = g_new0(GmtkMediaPlayerSubtitle, 1);
             subtitle->id = id;
-            subtitle->lang = g_strdup_printf(_("Unknown"));
-            subtitle->name = g_strdup_printf(_("Unknown"));
+            subtitle->lang = g_strdup_printf(g_dgettext(GETTEXT_PACKAGE, "Unknown"));
+            subtitle->name = g_strdup_printf(g_dgettext(GETTEXT_PACKAGE, "Unknown"));
             subtitle->label = g_strdup_printf("%s (%s) - %i", subtitle->name, subtitle->lang, subtitle->id);
             player->subtitles = g_list_append(player->subtitles, subtitle);
 
@@ -2974,8 +2983,9 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                     subtitle->label = NULL;
                 }
                 subtitle->label =
-                    g_strdup_printf("%s (%s) - %i", (subtitle->name) ? subtitle->name : _("Unknown"), subtitle->lang,
-                                    subtitle->id);
+                    g_strdup_printf("%s (%s) - %i",
+                                    (subtitle->name) ? subtitle->name : g_dgettext(GETTEXT_PACKAGE, "Unknown"),
+                                    subtitle->lang, subtitle->id);
             }
         }
 
@@ -2985,7 +2995,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
             subtitle = g_new0(GmtkMediaPlayerSubtitle, 1);
             subtitle->id = id;
             subtitle->is_file = TRUE;
-            subtitle->label = g_strdup_printf(_("External Subtitle #%i"), id + 1);
+            subtitle->label = g_strdup_printf(g_dgettext(GETTEXT_PACKAGE, "External Subtitle #%i"), id + 1);
             player->subtitles = g_list_append(player->subtitles, subtitle);
             create_event_int(player, "subtitles-changed", g_list_length(player->subtitles));
         }
@@ -3006,8 +3016,8 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
             if (!found) {
                 audio_track = g_new0(GmtkMediaPlayerAudioTrack, 1);
                 audio_track->id = id;
-                audio_track->lang = g_strdup_printf(_("Unknown"));
-                audio_track->name = g_strdup_printf(_("Unknown"));
+                audio_track->lang = g_strdup_printf(g_dgettext(GETTEXT_PACKAGE, "Unknown"));
+                audio_track->name = g_strdup_printf(g_dgettext(GETTEXT_PACKAGE, "Unknown"));
                 audio_track->label = g_strdup_printf("%s (%s) - %i", audio_track->name, audio_track->lang,
                                                      audio_track->id);
                 player->audio_tracks = g_list_append(player->audio_tracks, audio_track);
@@ -3039,7 +3049,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                     audio_track = g_new0(GmtkMediaPlayerAudioTrack, 1);
                     audio_track->id = id;
                     audio_track->lang = g_strdup_printf("%s", buf);
-                    audio_track->name = g_strdup_printf(_("Unknown"));
+                    audio_track->name = g_strdup_printf(g_dgettext(GETTEXT_PACKAGE, "Unknown"));
                     audio_track->label = g_strdup_printf("%s (%s) - %i", audio_track->name, audio_track->lang,
                                                          audio_track->id);
                     player->audio_tracks = g_list_append(player->audio_tracks, audio_track);
@@ -3070,7 +3080,8 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                 }
 
                 audio_track->label =
-                    g_strdup_printf("%s (%s) - %i", (audio_track->name) ? audio_track->name : _("Unknown"),
+                    g_strdup_printf("%s (%s) - %i",
+                                    (audio_track->name) ? audio_track->name : g_dgettext(GETTEXT_PACKAGE, "Unknown"),
                                     audio_track->lang, audio_track->id);
             }
         }
@@ -3177,10 +3188,10 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
         if (strstr(mplayer_output->str, "*** screenshot") != 0) {
             buf = strstr(mplayer_output->str, "'") + 1;
             buf[12] = '\0';
-            message = g_strdup_printf(_("Screenshot saved to '%s'"), buf);
+            message = g_strdup_printf(g_dgettext(GETTEXT_PACKAGE, "Screenshot saved to '%s'"), buf);
             dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_INFO,
                                             GTK_BUTTONS_OK, "%s", message);
-            gtk_window_set_title(GTK_WINDOW(dialog), _("GNOME MPlayer Notification"));
+            gtk_window_set_title(GTK_WINDOW(dialog), g_dgettext(GETTEXT_PACKAGE, "GNOME MPlayer Notification"));
             gtk_dialog_run(GTK_DIALOG(dialog));
             gtk_widget_destroy(dialog);
             g_free(message);
@@ -3273,10 +3284,10 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
         }
 
         if (player->minimum_mplayer == FALSE) {
-            message = g_strdup_printf(_("MPlayer should be Upgraded to a Newer Version"));
+            message = g_strdup_printf(g_dgettext(GETTEXT_PACKAGE, "MPlayer should be Upgraded to a Newer Version"));
             dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_INFO,
                                             GTK_BUTTONS_OK, "%s", message);
-            gtk_window_set_title(GTK_WINDOW(dialog), _("GNOME MPlayer Notification"));
+            gtk_window_set_title(GTK_WINDOW(dialog), g_dgettext(GETTEXT_PACKAGE, "GNOME MPlayer Notification"));
             gtk_dialog_run(GTK_DIALOG(dialog));
             gtk_widget_destroy(dialog);
             g_free(message);
@@ -3519,7 +3530,7 @@ gboolean detect_mplayer_features(GmtkMediaPlayer * player)
 
     player->features_detected = TRUE;
     if (!ret) {
-        printf(_("You might want to consider upgrading mplayer to a newer version\n"));
+        printf(g_dgettext(GETTEXT_PACKAGE, "You might want to consider upgrading mplayer to a newer version\n"));
     }
     return ret;
 }

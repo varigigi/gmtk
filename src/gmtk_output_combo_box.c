@@ -145,7 +145,7 @@ static void gmtk_output_combo_box_init(GmtkOutputComboBox * output)
 
     gtk_list_store_append(output->list, &iter);
     gtk_list_store_set(output->list, &iter, OUTPUT_TYPE_COLUMN, OUTPUT_TYPE_SOFTVOL,
-                       OUTPUT_DESCRIPTION_COLUMN, _("Default"), OUTPUT_CARD_COLUMN, -1,
+                       OUTPUT_DESCRIPTION_COLUMN, g_dgettext(GETTEXT_PACKAGE, "Default"), OUTPUT_CARD_COLUMN, -1,
                        OUTPUT_DEVICE_COLUMN, -1, OUTPUT_MPLAYER_DEVICE_COLUMN, "", -1);
     gtk_list_store_append(output->list, &iter);
     gtk_list_store_set(output->list, &iter, OUTPUT_TYPE_COLUMN, OUTPUT_TYPE_SOFTVOL,

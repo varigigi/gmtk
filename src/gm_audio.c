@@ -75,7 +75,7 @@ gboolean gm_audio_query_devices()
     }
 
     device = g_new0(AudioDevice, 1);
-    device->description = g_strdup(_("Default"));
+    device->description = g_strdup(g_dgettext(GETTEXT_PACKAGE, "Default"));
     device->type = AUDIO_TYPE_SOFTVOL;
     device->mplayer_ao = g_strdup("");
     device->volume = 1.0;
@@ -249,7 +249,7 @@ gboolean gm_audio_update_device(AudioDevice * device)
         //printf("Checking %s\n", data->description);
         if ((device->description != NULL && g_ascii_strcasecmp(device->description, data->description) == 0)
             || ((device->description == NULL || g_ascii_strcasecmp(device->description, "") == 0)
-                && g_ascii_strcasecmp(data->description, _("Default")) == 0)) {
+                && g_ascii_strcasecmp(data->description, g_dgettext(GETTEXT_PACKAGE, "Default")) == 0)) {
             if (device->description == NULL || g_ascii_strcasecmp(device->description, "") == 0) {
                 if (device->description != NULL) {
                     g_free(device->description);

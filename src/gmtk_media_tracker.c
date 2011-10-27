@@ -94,10 +94,11 @@ static void gmtk_media_tracker_init(GmtkMediaTracker * tracker)
     gtk_widget_set_sensitive(tracker->scale, FALSE);
 
 #ifdef GTK2_12_ENABLED
-    gtk_widget_set_tooltip_text(GTK_WIDGET(tracker->scale), _("No Information"));
+    gtk_widget_set_tooltip_text(GTK_WIDGET(tracker->scale), g_dgettext(GETTEXT_PACKAGE, "No Information"));
 #else
     tracker->progress_tip = gtk_tooltips_new();
-    gtk_tooltips_set_tip(tracker->progress_tip, GTK_WIDGET(tracker->scale), _("No Information"), NULL);
+    gtk_tooltips_set_tip(tracker->progress_tip, GTK_WIDGET(tracker->scale),
+                         g_dgettext(GETTEXT_PACKAGE, "No Information"), NULL);
 #endif
     g_signal_connect_swapped(G_OBJECT(tracker->scale), "button-press-event",
                              G_CALLBACK(gmtk_media_tracker_button_press), tracker);
@@ -204,7 +205,7 @@ static gboolean gmtk_media_tracker_motion_notify(GtkWidget * tracker, GdkEventMo
         if (GMTK_MEDIA_TRACKER(tracker)->length > 0.0) {
             tip = gm_seconds_to_string(GMTK_MEDIA_TRACKER(tracker)->length * ((gdouble) event->x / alloc.width));
         } else {
-            tip = g_strdup(_("No Information"));
+            tip = g_strdup(g_dgettext(GETTEXT_PACKAGE, "No Information"));
         }
 #ifdef GTK2_12_ENABLED
         gtk_widget_set_tooltip_text(GMTK_MEDIA_TRACKER(tracker)->scale, tip);

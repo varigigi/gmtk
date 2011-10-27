@@ -53,5 +53,10 @@ gboolean gmtk_get_visible(GtkWidget * widget)
 
 const gchar *gmtk_version()
 {
+#ifdef ENABLE_NLS
+    bindtextdomain(GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
+    bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+//    textdomain(GETTEXT_PACKAGE);
+#endif
     return VERSION;
 }

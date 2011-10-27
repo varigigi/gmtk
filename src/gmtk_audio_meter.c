@@ -209,7 +209,7 @@ static gboolean gmtk_audio_meter_expose(GtkWidget * meter, GdkEventExpose * even
         cairo_destroy(GMTK_AUDIO_METER(meter)->cr);
 
     } else {
-        p = gtk_widget_create_pango_layout(meter, _("No Data"));
+        p = gtk_widget_create_pango_layout(meter, g_dgettext(GETTEXT_PACKAGE, "No Data"));
 #ifdef GTK3_ENABLED
 #else
         gdk_draw_layout(gmtk_get_window(meter), gtk_widget_get_style(meter)->fg_gc[0], 0, 0, p);

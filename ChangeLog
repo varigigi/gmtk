@@ -1,4 +1,6 @@
 Development
+    Use the proper domain when requesting a translated string, by default the lib was using the gnome-mplayer domain
+        rather than the gmtk domain, so strings were being read from the wrong set of files
     Made the string "No Data" translatable, updated po files
     Updated Japanese translation
     Fix another potential segfault in gmtk_media_player when defining a specific font
