@@ -4,3 +4,4 @@ src/gm_audio.c
 src/gmtk_media_player.c
 src/gmtk_media_tracker.c
 src/gmtk_output_combo_box.c
+src/gmtk_audio_meter.c

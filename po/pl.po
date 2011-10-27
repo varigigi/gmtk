@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-27 09:50-0600\n"
+"POT-Creation-Date: 2011-10-27 07:47-0600\n"
 "PO-Revision-Date: 2011-09-27 21:05+0200\n"
 "Last-Translator: Julian Sikorski <belegdol@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -43,59 +43,62 @@ msgstr "Napisy widoczne"
 msgid "Subtitles Hidden"
 msgstr "Napisy ukryte"
 
-#: ../src/gmtk_media_player.c:2640
+#: ../src/gmtk_media_player.c:2655
 #, c-format
 msgid "Failed to open %s"
 msgstr "Nie udało się otworzyć „%s”"
 
-#: ../src/gmtk_media_player.c:2676
+#: ../src/gmtk_media_player.c:2691
 #, c-format
 msgid "Compressed SWF format not supported"
 msgstr "Skompresowany format SWF nieobsługiwany"
 
-#: ../src/gmtk_media_player.c:2704
+#: ../src/gmtk_media_player.c:2719
 msgid "GNOME MPlayer Error"
 msgstr "Błąd GNOME MPlayer"
 
-#: ../src/gmtk_media_player.c:2767
+#: ../src/gmtk_media_player.c:2782
 #, c-format
 msgid "Cache fill: %2.2f%%"
 msgstr "Zapełnienie bufora: %2.2f%%"
 
-#: ../src/gmtk_media_player.c:2913 ../src/gmtk_media_player.c:2914
-#: ../src/gmtk_media_player.c:2962 ../src/gmtk_media_player.c:2994
-#: ../src/gmtk_media_player.c:2995 ../src/gmtk_media_player.c:3027
-#: ../src/gmtk_media_player.c:3058
+#: ../src/gmtk_media_player.c:2928 ../src/gmtk_media_player.c:2929
+#: ../src/gmtk_media_player.c:2977 ../src/gmtk_media_player.c:3009
+#: ../src/gmtk_media_player.c:3010 ../src/gmtk_media_player.c:3042
+#: ../src/gmtk_media_player.c:3073
 #, c-format
 msgid "Unknown"
 msgstr "Nieznany"
 
-#: ../src/gmtk_media_player.c:2973
+#: ../src/gmtk_media_player.c:2988
 #, c-format
 msgid "External Subtitle #%i"
 msgstr "Napisy zewnętrzne #%i"
 
-#: ../src/gmtk_media_player.c:3165
+#: ../src/gmtk_media_player.c:3180
 #, c-format
 msgid "Screenshot saved to '%s'"
 msgstr "Obraz ekranu zapisano do pliku „%s”"
 
-#: ../src/gmtk_media_player.c:3168 ../src/gmtk_media_player.c:3264
+#: ../src/gmtk_media_player.c:3183 ../src/gmtk_media_player.c:3279
 msgid "GNOME MPlayer Notification"
 msgstr "Powiadomienie"
 
-#: ../src/gmtk_media_player.c:3261
+#: ../src/gmtk_media_player.c:3276
 #, c-format
 msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr "MPlayer powinien zostać zaktualizowany do nowszej wersji"
 
-#: ../src/gmtk_media_player.c:3507
+#: ../src/gmtk_media_player.c:3522
 #, c-format
 msgid "You might want to consider upgrading mplayer to a newer version\n"
 msgstr "Proszę rozważyć aktualizację do nowszej wersji mplayera\n"
 
 #: ../src/gmtk_media_tracker.c:97 ../src/gmtk_media_tracker.c:100
-#: ../src/gmtk_media_tracker.c:206
+#: ../src/gmtk_media_tracker.c:207
 msgid "No Information"
 msgstr "Brak informacji"
 
+#: ../src/gmtk_audio_meter.c:212
+msgid "No Data"
+msgstr ""
