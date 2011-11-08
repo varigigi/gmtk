@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.9.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-01 15:59-0600\n"
+"POT-Creation-Date: 2011-11-08 06:47-0700\n"
 "PO-Revision-Date: 2011-06-03 12:23+0000\n"
 "Last-Translator: rob <linuxned@gmail.com>\n"
 "Language-Team: Mark Huijgen <mark.sf.net@huijgen.tk>\n"
@@ -25,66 +25,70 @@ msgstr ""
 msgid "Default"
 msgstr "Standaard"
 
-#: ../src/gmtk_media_player.c:554 ../src/gmtk_media_player.c:883
+#: ../src/gmtk_media_player.c:554 ../src/gmtk_media_player.c:891
 msgid "Frame Dropping"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:783
+#: ../src/gmtk_media_player.c:568
+msgid "Deinterlace"
+msgstr ""
+
+#: ../src/gmtk_media_player.c:791
 msgid "Loading..."
 msgstr "Laden…"
 
-#: ../src/gmtk_media_player.c:910
+#: ../src/gmtk_media_player.c:918
 msgid "Subtitles Visible"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:913
+#: ../src/gmtk_media_player.c:921
 msgid "Subtitles Hidden"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:2663
+#: ../src/gmtk_media_player.c:2671
 #, c-format
 msgid "Failed to open %s"
 msgstr "Kon %s niet openen"
 
-#: ../src/gmtk_media_player.c:2700
+#: ../src/gmtk_media_player.c:2708
 msgid "Compressed SWF format not supported"
 msgstr "Gecomprimeerd SWF-formaat wordt niet ondersteund"
 
-#: ../src/gmtk_media_player.c:2728
+#: ../src/gmtk_media_player.c:2736
 msgid "GNOME MPlayer Error"
 msgstr "GNOME MPlayer-fout"
 
-#: ../src/gmtk_media_player.c:2791
+#: ../src/gmtk_media_player.c:2799
 #, c-format
 msgid "Cache fill: %2.2f%%"
 msgstr "Bufferniveau: %2.2f%%"
 
-#: ../src/gmtk_media_player.c:2937 ../src/gmtk_media_player.c:2938
-#: ../src/gmtk_media_player.c:2987 ../src/gmtk_media_player.c:3019
-#: ../src/gmtk_media_player.c:3020 ../src/gmtk_media_player.c:3052
-#: ../src/gmtk_media_player.c:3084
+#: ../src/gmtk_media_player.c:2945 ../src/gmtk_media_player.c:2946
+#: ../src/gmtk_media_player.c:2995 ../src/gmtk_media_player.c:3027
+#: ../src/gmtk_media_player.c:3028 ../src/gmtk_media_player.c:3060
+#: ../src/gmtk_media_player.c:3092
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: ../src/gmtk_media_player.c:2998
+#: ../src/gmtk_media_player.c:3006
 #, c-format
 msgid "External Subtitle #%i"
 msgstr "Externe ondertiteling #%i"
 
-#: ../src/gmtk_media_player.c:3191
+#: ../src/gmtk_media_player.c:3199
 #, c-format
 msgid "Screenshot saved to '%s'"
 msgstr "Schermafdruk opgeslagen in '%s'"
 
-#: ../src/gmtk_media_player.c:3194 ../src/gmtk_media_player.c:3290
+#: ../src/gmtk_media_player.c:3202 ../src/gmtk_media_player.c:3298
 msgid "GNOME MPlayer Notification"
 msgstr "GNOME MPlayer-notificatie"
 
-#: ../src/gmtk_media_player.c:3287
+#: ../src/gmtk_media_player.c:3295
 msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr "MPlayer zou opgewaardeerd moeten worden naar een nieuwere versie"
 
-#: ../src/gmtk_media_player.c:3533
+#: ../src/gmtk_media_player.c:3541
 msgid "You might want to consider upgrading mplayer to a newer version\n"
 msgstr "U kunt overwegen om mplayer op te waarderen naar een nieuwere versie\n"
 
