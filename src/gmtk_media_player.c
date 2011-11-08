@@ -561,6 +561,14 @@ static gboolean player_key_press_event_callback(GtkWidget * widget, GdkEventKey 
         case GDK_B:
             write_to_mplayer(player, "sub_pos 1 0\n");
             break;
+        case GDK_D:
+            write_to_mplayer(player, "step_property deinterlace\n");
+            cmd =
+                g_strdup_printf("osd_show_property_text \"%s: ${deinterlace}\"\n",
+                                g_dgettext(GETTEXT_PACKAGE, "Deinterlace"));
+            write_to_mplayer(player, cmd);
+            g_free(cmd);
+            break;
         case GDK_s:
         case GDK_S:
             write_to_mplayer(player, "screenshot 0\n");

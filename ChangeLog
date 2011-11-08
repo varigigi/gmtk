@@ -1,4 +1,5 @@
 Development
+    Add hot key D to toggle deinterlacing
     Updated German translation
     Translated the "No Data" string into Polish
     Use the proper domain when requesting a translated string, by default the lib was using the gnome-mplayer domain
