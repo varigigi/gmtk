@@ -1,4 +1,5 @@
 Development
+    Activate the external subtitle file, when we load one
     Translated the missing string into Polish
     Add hot key D to toggle deinterlacing
     Updated German translation

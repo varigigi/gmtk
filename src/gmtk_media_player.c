@@ -1352,6 +1352,9 @@ void gmtk_media_player_set_attribute_string(GmtkMediaPlayer * player,
                 cmd = g_strdup_printf("sub_load \"%s\" 1\n", player->subtitle_file);
                 write_to_mplayer(player, cmd);
                 g_free(cmd);
+                cmd = g_strdup_printf("sub_file 0\n");
+                write_to_mplayer(player, cmd);
+                g_free(cmd);
             }
         }
         break;
