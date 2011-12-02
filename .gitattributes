@@ -22,6 +22,7 @@
 /libgmtk.anjuta -text
 /ltmain.sh -text
 /missing -text
+/mkinstalldirs -text
 po/ChangeLog -text
 po/Makefile.in.in -text
 po/POTFILES.in -text
