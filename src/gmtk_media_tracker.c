@@ -169,8 +169,8 @@ static gboolean gmtk_media_tracker_button_release(GtkWidget * tracker, GdkEventB
         gtk_range_set_value(GTK_RANGE(GMTK_MEDIA_TRACKER(tracker)->scale), position);
         g_signal_emit_by_name(tracker, "value-changed", (gint) (100 * position));
 
-        difference = (GMTK_MEDIA_TRACKER(tracker)->length * position) - GMTK_MEDIA_TRACKER(tracker)->position;
-        g_signal_emit_by_name(tracker, "difference-changed", difference);
+        //difference = (GMTK_MEDIA_TRACKER(tracker)->length * position) - GMTK_MEDIA_TRACKER(tracker)->position;
+        //g_signal_emit_by_name(tracker, "difference-changed", difference);
 
         GMTK_MEDIA_TRACKER(tracker)->mouse_down = FALSE;
 
