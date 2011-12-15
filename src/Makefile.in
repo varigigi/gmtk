@@ -78,7 +78,8 @@ libgmlib_la_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1)
 am_libgmlib_la_OBJECTS = libgmlib_la-gm_audio.lo \
 	libgmlib_la-gm_file.lo libgmlib_la-gm_parse.lo \
-	libgmlib_la-gm_pref_store.lo libgmlib_la-gm_strfuncs.lo
+	libgmlib_la-gm_pref_store.lo libgmlib_la-gm_strfuncs.lo \
+	libgmlib_la-gm_common.lo
 libgmlib_la_OBJECTS = $(am_libgmlib_la_OBJECTS)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
@@ -367,7 +368,9 @@ libgmlib_la_SOURCES = \
 	gm_pref_store.c \
 	gm_pref_store.h \
 	gm_strfuncs.c \
-	gm_strfuncs.h
+	gm_strfuncs.h \
+	gm_common.c \
+	gm_common.h
 
 libgmlib_la_CFLAGS = -fPIC \
 	$(GLIB_CFLAGS) \
@@ -388,6 +391,7 @@ libgmlib_la_LIBADD = \
 	$(PULSE_LIBS)	
 
 include_HEADERS = \
+    gm_common.h \
 	gm_audio.h \
 	gm_file.h \
 	gmlib.h \
@@ -488,6 +492,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmlib_la-gm_audio.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmlib_la-gm_common.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmlib_la-gm_file.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmlib_la-gm_parse.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmlib_la-gm_pref_store.Plo@am__quote@
@@ -561,6 +566,14 @@ libgmlib_la-gm_strfuncs.lo: gm_strfuncs.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gm_strfuncs.c' object='libgmlib_la-gm_strfuncs.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgmlib_la_CFLAGS) $(CFLAGS) -c -o libgmlib_la-gm_strfuncs.lo `test -f 'gm_strfuncs.c' || echo '$(srcdir)/'`gm_strfuncs.c
+
+libgmlib_la-gm_common.lo: gm_common.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgmlib_la_CFLAGS) $(CFLAGS) -MT libgmlib_la-gm_common.lo -MD -MP -MF $(DEPDIR)/libgmlib_la-gm_common.Tpo -c -o libgmlib_la-gm_common.lo `test -f 'gm_common.c' || echo '$(srcdir)/'`gm_common.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgmlib_la-gm_common.Tpo $(DEPDIR)/libgmlib_la-gm_common.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gm_common.c' object='libgmlib_la-gm_common.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgmlib_la_CFLAGS) $(CFLAGS) -c -o libgmlib_la-gm_common.lo `test -f 'gm_common.c' || echo '$(srcdir)/'`gm_common.c
 
 libgmtk_la-gmtk_common.lo: gmtk_common.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgmtk_la_CFLAGS) $(CFLAGS) -MT libgmtk_la-gmtk_common.lo -MD -MP -MF $(DEPDIR)/libgmtk_la-gmtk_common.Tpo -c -o libgmtk_la-gmtk_common.lo `test -f 'gmtk_common.c' || echo '$(srcdir)/'`gmtk_common.c

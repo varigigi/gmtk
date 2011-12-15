@@ -1,4 +1,5 @@
 Development
+    Fix missing install file
     Fix compilation on RHEL 5.7, due to older GLIB2
 1.0.5b2
     Fix seeking in the media_tracker when the mouse button is released
