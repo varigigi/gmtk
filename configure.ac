@@ -88,6 +88,9 @@ AS_IF([test "x$ENABLE_GTK3" = "xyes"],
     AC_DEFINE([GTK2_24_ENABLED],[1],[Define to 1 if you have GTK 2.24 or higher])
     AC_SUBST(GTK2_24_DEFINES)    
     
+    PKG_CHECK_MODULES(GLIB2_18,[glib-2.0 >= 2.18.0],[GLIB2_18_DEFINES="-DGLIB2_18_ENABLED" AC_DEFINE([GLIB2_18_ENABLED],[1],[Define to 1 if you have GLIB 2.18 or higher])],AC_MSG_NOTICE([Using GLIB 2.18 features]))
+    AC_SUBST(GLIB2_18_DEFINES)
+
     PKG_CHECK_MODULES(GLIB2_24,[glib-2.0 >= 2.24.0],[GLIB2_24_DEFINES="-DGLIB2_24_ENABLED" AC_DEFINE([GLIB2_24_ENABLED],[1],[Define to 1 if you have GLIB 2.24 or higher])],AC_MSG_NOTICE([Using GLIB 2.24 features]))
     AC_SUBST(GLIB2_24_DEFINES)
 

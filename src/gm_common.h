@@ -25,6 +25,7 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
+#include <glib.h>
 #ifndef GLIB2_18_ENABLED
 #include <libintl.h>
 #endif

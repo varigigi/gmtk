@@ -38,6 +38,8 @@ libgmtk_la_LIBADD = \
     
 
 libgmlib_la_SOURCES = \
+	gm_common.c \
+	gm_common.h \
 	gmlib.h \
 	gm_audio.c \
 	gm_audio.h \
@@ -48,9 +50,7 @@ libgmlib_la_SOURCES = \
 	gm_pref_store.c \
 	gm_pref_store.h \
 	gm_strfuncs.c \
-	gm_strfuncs.h \
-	gm_common.c \
-	gm_common.h
+	gm_strfuncs.h 
 	
 libgmlib_la_CFLAGS = -fPIC \
 	$(GLIB_CFLAGS) \
