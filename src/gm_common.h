@@ -25,27 +25,15 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-#include <gtk/gtk.h>
-#include <gdk/gdk.h>
-#ifdef X11_ENABLED
-#include <gdk/gdkx.h>
-#ifdef GTK3_ENABLED
-#include <gtk/gtkx.h>
+#ifndef GLIB2_18_ENABLED
+#include <libintl.h>
 #endif
-#endif
-#ifdef GTK3_ENABLED
-#include <gdk/gdkkeysyms-compat.h>
-#else
-#include <gdk/gdkkeysyms.h>
-#endif
-#include "gm_common.h"
 
-#ifndef __GMTK_COMMON_H__
-#define __GMTK_COMMON_H__
+#ifndef __GM_COMMON_H__
+#define __GM_COMMON_H__
 
-void gmtk_get_allocation(GtkWidget * widget, GtkAllocation * allocation);
-GdkWindow *gmtk_get_window(GtkWidget * widget);
-gboolean gmtk_get_visible(GtkWidget * widget);
-const gchar *gmtk_version();
+#ifndef GLIB2_18_ENABLED
+const gchar* g_dgettext(const gchar *domain, const gchar *msgid);
+#endif
 
 #endif

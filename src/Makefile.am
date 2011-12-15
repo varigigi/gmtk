@@ -48,7 +48,9 @@ libgmlib_la_SOURCES = \
 	gm_pref_store.c \
 	gm_pref_store.h \
 	gm_strfuncs.c \
-	gm_strfuncs.h
+	gm_strfuncs.h \
+	gm_common.c \
+	gm_common.h
 	
 libgmlib_la_CFLAGS = -fPIC \
 	$(GLIB_CFLAGS) \

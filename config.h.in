@@ -12,6 +12,9 @@
 /* Define to 1 if you have GLIB 2.14 or higher */
 #undef GLIB2_14_ENABLED
 
+/* Define to 1 if you have GLIB 2.18 or higher */
+#undef GLIB2_18_ENABLED
+
 /* Define to 1 if you have GLIB 2.24 or higher */
 #undef GLIB2_24_ENABLED
 
