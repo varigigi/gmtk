@@ -1,4 +1,5 @@
 Development
+    Try to prevent mplayer from going into infinite loop on corrupt qt files
     Fix missing type includes
     Fix missing install file
     Fix compilation on RHEL 5.7, due to older GLIB2

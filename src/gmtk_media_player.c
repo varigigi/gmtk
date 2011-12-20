@@ -2711,11 +2711,22 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
         error_msg = g_strdup_printf(g_dgettext(GETTEXT_PACKAGE, "Compressed SWF format not supported"));
     }
 
+    if (strstr(mplayer_output->str, "moov atom not found") != NULL) {
+        player->retry_on_full_cache = TRUE;
+        create_event_boolean(player, "attribute-changed", ATTRIBUTE_RETRY_ON_FULL_CACHE);
+    }
+
     if (strstr(mplayer_output->str, "MOV: missing header (moov/cmov) chunk") != NULL) {
         player->retry_on_full_cache = TRUE;
         create_event_boolean(player, "attribute-changed", ATTRIBUTE_RETRY_ON_FULL_CACHE);
     }
 
+    if (strstr(mplayer_output->str, "Seek failed") != NULL) {
+		write_to_mplayer(player, "quit\n");
+        player->retry_on_full_cache = TRUE;
+        create_event_boolean(player, "attribute-changed", ATTRIBUTE_RETRY_ON_FULL_CACHE);
+    }
+	
     if (strstr(mplayer_output->str, "Title: ") != 0) {
         buf = strstr(mplayer_output->str, "Title:");
         buf = strstr(mplayer_output->str, "Title: ") + strlen("Title: ");
