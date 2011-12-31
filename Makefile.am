@@ -2,6 +2,7 @@
 ## Created by Anjuta
 
 SUBDIRS = src po
+ACLOCAL_AMFLAGS = -I m4
 
 gmtkdocdir = ${docdir}
 gmtkdoc_DATA = \
