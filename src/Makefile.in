@@ -78,7 +78,7 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libgmlib_la_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_libgmlib_la_OBJECTS = libgmlib_la-gm_common.lo \
 	libgmlib_la-gm_audio.lo libgmlib_la-gm_file.lo \
 	libgmlib_la-gm_parse.lo libgmlib_la-gm_pref_store.lo \
@@ -387,6 +387,7 @@ libgmlib_la_CFLAGS = -fPIC \
 
 libgmlib_la_LDFLAGS = 
 libgmlib_la_LIBADD = \
+    $(LIBS) \
 	$(GLIB_LIBS) \
 	$(GCONF_LIBS) \
 	$(GIO_LIBS) \

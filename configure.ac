@@ -55,7 +55,7 @@ AM_PROG_LIBTOOL
 PKG_CHECK_MODULES([X11], [x11],[AC_DEFINE([X11_ENABLED],[1],[Define to 1 if X11 support is needed])],[AC_MSG_NOTICE([Compiling without X11 support])])
 AC_SUBST(X11_LIBS)
 
-
+AC_CHECK_LIB([m],[floor])
 AC_ARG_ENABLE(gtk3,
     AC_HELP_STRING([--enable-gtk3],[compile using GTK3]),
     [case "${enableval}" in

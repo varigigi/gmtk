@@ -65,6 +65,7 @@ libgmlib_la_CFLAGS = -fPIC \
 libgmlib_la_LDFLAGS = 
 
 libgmlib_la_LIBADD = \
+    $(LIBS) \
 	$(GLIB_LIBS) \
 	$(GCONF_LIBS) \
 	$(GIO_LIBS) \
