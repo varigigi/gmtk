@@ -90,7 +90,8 @@ am__v_lt_0 = --silent
 libgmlib_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(libgmlib_la_CFLAGS) \
 	$(CFLAGS) $(libgmlib_la_LDFLAGS) $(LDFLAGS) -o $@
-libgmtk_la_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+libgmtk_la_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 am_libgmtk_la_OBJECTS = libgmtk_la-gmtk_common.lo \
 	libgmtk_la-gmtk_audio_meter.lo libgmtk_la-gmtk_media_player.lo \
 	libgmtk_la-gmtk_media_tracker.lo \
@@ -353,12 +354,14 @@ libgmtk_la_SOURCES = \
 
 libgmtk_la_CFLAGS = -fPIC \
 	$(GTK_CFLAGS) \
-	$(ALSA_CFLAGS)
+	$(ALSA_CFLAGS) \
+	$(PULSE_CFLAGS)	
 
 libgmtk_la_LDFLAGS = 
 libgmtk_la_LIBADD = \
     $(GTK_LIBS) \
-    $(ALSA_LIBS)
+    $(ALSA_LIBS) \
+    $(PULSE_LIBS)
 
 libgmlib_la_SOURCES = \
 	gm_common.c \

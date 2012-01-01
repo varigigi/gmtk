@@ -1,5 +1,6 @@
 Development
-    Detect if libm should be used and use if needed
+    Add pulse cflags and libs to libgmtk Issue #2
+    Detect if libm should be used and use if needed Issue #1
     Add files to SVN as recommended by autoreconf -fiv
 1.0.5
     Try to prevent mplayer from going into infinite loop on corrupt qt files

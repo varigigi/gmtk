@@ -28,13 +28,15 @@ libgmtk_la_SOURCES = \
 
 libgmtk_la_CFLAGS = -fPIC \
 	$(GTK_CFLAGS) \
-	$(ALSA_CFLAGS)
+	$(ALSA_CFLAGS) \
+	$(PULSE_CFLAGS)	
 
 libgmtk_la_LDFLAGS = 
 
 libgmtk_la_LIBADD = \
     $(GTK_LIBS) \
-    $(ALSA_LIBS)
+    $(ALSA_LIBS) \
+    $(PULSE_LIBS)
     
 
 libgmlib_la_SOURCES = \
