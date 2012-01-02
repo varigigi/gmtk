@@ -1,4 +1,5 @@
 Development
+    Add gmlib to the list of referenced libaries Issue #3
     Add pulse cflags and libs to libgmtk Issue #2
     Detect if libm should be used and use if needed Issue #1
     Add files to SVN as recommended by autoreconf -fiv

@@ -31,9 +31,10 @@ libgmtk_la_CFLAGS = -fPIC \
 	$(ALSA_CFLAGS) \
 	$(PULSE_CFLAGS)	
 
-libgmtk_la_LDFLAGS = 
+libgmtk_la_LDFLAGS = -L.libs
 
 libgmtk_la_LIBADD = \
+    -lgmlib \
     $(GTK_LIBS) \
     $(ALSA_LIBS) \
     $(PULSE_LIBS)
