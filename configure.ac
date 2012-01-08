@@ -59,7 +59,8 @@ AC_CHECK_LIB([m],[floor])
 AC_ARG_ENABLE(gtk3,
     AC_HELP_STRING([--enable-gtk3],[compile using GTK3]),
     [case "${enableval}" in
-    yes) ENABLE_GTK3=yes ;;
+    yes) ENABLE_GTK3=yes 
+         PKG_CHECK_MODULES(GTK,[gtk+-3.0 >= 3 glib-2.0 gthread-2.0],[ENABLE_GTK3=yes],[ENABLE_GTK3=no]);;
     no) ENABLE_GTK3=no ;;
     *) AC_MSG_ERROR(bad value ${enableval} for --enable-gtk3) ;;
     esac], 
