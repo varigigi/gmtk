@@ -1,4 +1,5 @@
 Development
+    Change po file install location
     Do PKG_CHECK for GTK3 when --enable-gtk=yes is specified
     Use the localedir variable in the Makefile may fix Wolfgang's issue
     Add gmlib to the list of referenced libaries Issue #3
