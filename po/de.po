@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: 0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-11-08 06:47-0700\n"
-"PO-Revision-Date: 2011-10-19 21:55+0000\n"
+"PO-Revision-Date: 2012-01-10 21:55+0000\n"
 "Last-Translator: Dominik Dehning <Unknown>\n"
 "Language-Team: tim__b <timbuening@uni-muenster.de>, Wolfgang Knauf <his-"
 "metality@freenet.de>, MixCool <lars.thoms@mixcool.de>\n"
@@ -28,7 +28,7 @@ msgstr "Standard"
 
 #: ../src/gmtk_media_player.c:554 ../src/gmtk_media_player.c:891
 msgid "Frame Dropping"
-msgstr ""
+msgstr "Einzelbilder verwerfen"
 
 #: ../src/gmtk_media_player.c:568
 msgid "Deinterlace"
@@ -102,4 +102,4 @@ msgstr "Keine Informationen"
 
 #: ../src/gmtk_audio_meter.c:212
 msgid "No Data"
-msgstr ""
+msgstr "Keine Daten"
