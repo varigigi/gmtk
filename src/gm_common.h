@@ -34,7 +34,7 @@
 #define __GM_COMMON_H__
 
 #ifndef GLIB2_18_ENABLED
-const gchar* g_dgettext(const gchar *domain, const gchar *msgid);
+const gchar *g_dgettext(const gchar * domain, const gchar * msgid);
 #endif
 
 #endif

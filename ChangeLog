@@ -1,4 +1,5 @@
 Development
+    Add -zoom to mplayer when vo is x11
     Updated German translation
     Change po file install location
     Do PKG_CHECK for GTK3 when --enable-gtk=yes is specified

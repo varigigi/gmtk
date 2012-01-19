@@ -2050,6 +2050,9 @@ gpointer launch_mplayer(gpointer data)
                     argv[argn++] = g_strdup_printf("gl_nosw");
                 } else {
                     argv[argn++] = g_strdup_printf("%s", player->vo);
+                    if (g_ascii_strncasecmp(player->vo, "x11", strlen("x11")) == 0) {
+                        argv[argn++] = g_strdup_printf("-zoom");
+                    }
                 }
 
                 if (player->deinterlace) {
@@ -2722,11 +2725,11 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
     }
 
     if (strstr(mplayer_output->str, "Seek failed") != NULL) {
-		write_to_mplayer(player, "quit\n");
+        write_to_mplayer(player, "quit\n");
         player->retry_on_full_cache = TRUE;
         create_event_boolean(player, "attribute-changed", ATTRIBUTE_RETRY_ON_FULL_CACHE);
     }
-	
+
     if (strstr(mplayer_output->str, "Title: ") != 0) {
         buf = strstr(mplayer_output->str, "Title:");
         buf = strstr(mplayer_output->str, "Title: ") + strlen("Title: ");

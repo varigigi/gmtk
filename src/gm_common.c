@@ -25,8 +25,8 @@
 #include "gm_common.h"
 
 #ifndef GLIB2_18_ENABLED
-const gchar* g_dgettext(const gchar *domain, const gchar *msgid)
+const gchar *g_dgettext(const gchar * domain, const gchar * msgid)
 {
-	return dgettext(domain,msgid);
+    return dgettext(domain, msgid);
 }
 #endif
