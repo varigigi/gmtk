@@ -50,6 +50,7 @@ gboolean set_alsa_volume(gchar * device, gchar * mixer, gdouble volume);
 pa_context *gm_audio_context;
 void gm_audio_context_state_callback(pa_context * gm_audio_context, gpointer data);
 void gm_audio_pa_sink_update_volume_cb(pa_context * c, const pa_sink_info * i, int eol, gpointer data);
+void gm_audio_pa_server_info_cb(pa_context * c, const pa_server_info * i, void *userdata);
 #endif
 
 
@@ -117,12 +118,22 @@ gboolean gm_audio_query_devices()
     device->volume = 1.0;
     gm_audio_devices = g_list_append(gm_audio_devices, device);
 
+#ifdef HAVE_PULSEAUDIO
+    device = g_new0(AudioDevice, 1);
+    device->description = g_strdup("PulseAudio");
+    device->type = AUDIO_TYPE_PULSE;
+    device->mplayer_ao = g_strdup("pulse");
+    device->volume = 1.0;
+    device->pulse_index = -1;
+    gm_audio_devices = g_list_append(gm_audio_devices, device);
+#else
     device = g_new0(AudioDevice, 1);
     device->description = g_strdup("PulseAudio");
     device->type = AUDIO_TYPE_SOFTVOL;
     device->mplayer_ao = g_strdup("pulse");
     device->volume = 1.0;
     gm_audio_devices = g_list_append(gm_audio_devices, device);
+#endif
 
 #ifdef __OpenBSD__
     device = g_new0(AudioDevice, 1);
@@ -284,6 +295,7 @@ void free_list_item(gpointer item, gpointer data)
     g_free(device->alsa_mixer);
     g_free(device->alsa_device_name);
     g_free(device->mplayer_ao);
+    g_free(device->pulse_sink_name);
 }
 
 
@@ -295,6 +307,22 @@ gboolean gm_audio_free()
         gm_audio_devices = NULL;
     }
     return TRUE;
+}
+
+gint gm_audio_get_default_pulse_index()
+{
+    AudioDevice *device;
+    GList *iter = NULL;
+    gint ret = -1;
+
+    for (iter = gm_audio_devices; iter != NULL; iter = g_list_next(iter)) {
+        device = (AudioDevice *) iter->data;
+        if (device->pulse_default) {
+            ret = device->pulse_index;
+        }
+    }
+    //printf("default index is = %i\n", ret);
+    return ret;
 }
 
 gdouble gm_audio_get_volume(AudioDevice * device)
@@ -310,8 +338,14 @@ gdouble gm_audio_get_volume(AudioDevice * device)
     if (device->type == AUDIO_TYPE_PULSE) {
         if (gm_audio_context) {
             device->volume = -1.0;
-            pa_context_get_sink_info_by_index(gm_audio_context, device->pulse_index, gm_audio_pa_sink_update_volume_cb,
-                                              device);
+            // -1 points to the default device
+            if (device->pulse_index == -1) {
+                pa_context_get_sink_info_by_index(gm_audio_context, gm_audio_get_default_pulse_index(),
+                                                  gm_audio_pa_sink_update_volume_cb, device);
+            } else {
+                pa_context_get_sink_info_by_index(gm_audio_context, device->pulse_index,
+                                                  gm_audio_pa_sink_update_volume_cb, device);
+            }
         }
         while (g_main_context_pending(NULL) || device->volume == -1)
             g_main_context_iteration(NULL, FALSE);
@@ -338,7 +372,12 @@ gboolean gm_audio_set_volume(AudioDevice * device, gdouble volume)
     if (device->type == AUDIO_TYPE_PULSE) {
         if (gm_audio_context) {
             pa_cvolume_set(&cv, device->pulse_channels, volume * (gdouble) PA_VOLUME_NORM);
-            pa_context_set_sink_volume_by_index(gm_audio_context, device->pulse_index, &cv, NULL, NULL);
+            if (device->pulse_index == -1) {
+                pa_context_set_sink_volume_by_index(gm_audio_context, gm_audio_get_default_pulse_index(), &cv, NULL,
+                                                    NULL);
+            } else {
+                pa_context_set_sink_volume_by_index(gm_audio_context, device->pulse_index, &cv, NULL, NULL);
+            }
         }
     }
 #endif
@@ -393,10 +432,12 @@ void gm_audio_pa_sink_update_volume_cb(pa_context * c, const pa_sink_info * i, i
                 iter = gm_audio_devices;
                 while (iter != NULL) {
                     device = (AudioDevice *) iter->data;
-                    if (i->index == device->pulse_index) {
-                        old_volume = device->volume;
-                        device->volume = (gdouble) pa_cvolume_avg(&(i->volume)) / (gdouble) PA_VOLUME_NORM;
-                        // printf("updated %s volume to %f\n", device->description, device->volume);
+                    if (device->type == AUDIO_TYPE_PULSE) {
+                        if (i->index == device->pulse_index) {
+                            old_volume = device->volume;
+                            device->volume = (gdouble) pa_cvolume_avg(&(i->volume)) / (gdouble) PA_VOLUME_NORM;
+                            //printf("updated %s volume to %f\n", device->description, device->volume);
+                        }
                     }
                     iter = iter->next;
                 }
@@ -420,6 +461,9 @@ void gm_audio_pa_sink_cb(pa_context * c, const pa_sink_info * i, int eol, gpoint
     AudioDevice *device;
 
     if (i) {
+
+        // printf("sink %i name: '%s'\n", i->index, i->name);
+
         desc = g_strdup_printf("%s (PulseAudio)", i->description);
         mplayer_ao = g_strdup_printf("pulse::%i", i->index);
 
@@ -428,6 +472,7 @@ void gm_audio_pa_sink_cb(pa_context * c, const pa_sink_info * i, int eol, gpoint
         device->type = AUDIO_TYPE_PULSE;
         device->pulse_index = i->index;
         device->pulse_channels = i->volume.channels;
+        device->pulse_sink_name = g_strdup(i->name);
         device->volume = (gdouble) pa_cvolume_avg(&(i->volume)) / (gdouble) PA_VOLUME_NORM;
         device->mplayer_ao = g_strdup(mplayer_ao);
         gm_audio_devices = g_list_append(gm_audio_devices, device);
@@ -448,13 +493,38 @@ void gm_audio_pa_subscribe_callback(pa_context * c, pa_subscription_event_type_t
         pa_context_get_sink_info_by_index(c, index, gm_audio_pa_sink_update_volume_cb, NULL);
         break;
     case PA_SUBSCRIPTION_EVENT_SERVER:
-        //pa_context_get_server_info(context,pa_server_info_callback,NULL);
+        pa_context_get_server_info(c, gm_audio_pa_server_info_cb, NULL);
         break;
     default:
         //printf("index = %i\n",index);
         break;
     }
 }
+
+void gm_audio_pa_server_info_cb(pa_context * c, const pa_server_info * i, void *userdata)
+{
+
+    AudioDevice *device;
+    GList *iter = NULL;
+
+    // pa_context_get_sink_info_by_name(c, i->default_sink_name, gm_audio_pa_sink_cb, userdata);
+    // reset the default device to the new one.
+    if (gm_audio_devices) {
+        for (iter = gm_audio_devices; iter != NULL; iter = g_list_next(iter)) {
+            device = (AudioDevice *) iter->data;
+            if (device->pulse_sink_name != NULL) {
+                if (g_strncasecmp(i->default_sink_name, device->pulse_sink_name, strlen(i->default_sink_name)) == 0) {
+                    //printf("The default output sink name is '%s'\n", i->default_sink_name);
+                    device->pulse_default = 1;
+                } else {
+                    device->pulse_default = 0;
+                }
+            }
+        }
+    }
+
+}
+
 
 void gm_audio_context_state_callback(pa_context * c, gpointer data)
 {
@@ -466,6 +536,7 @@ void gm_audio_context_state_callback(pa_context * c, gpointer data)
             for (i = 0; i < 255; i++) {
                 pa_context_get_sink_info_by_index(c, i, gm_audio_pa_sink_cb, data);
             }
+            pa_context_get_server_info(c, gm_audio_pa_server_info_cb, data);
             pa_context_set_subscribe_callback(c, gm_audio_pa_subscribe_callback, NULL);
             pa_context_subscribe(c, (pa_subscription_mask_t) (PA_SUBSCRIPTION_MASK_SINK | PA_SUBSCRIPTION_MASK_SERVER)
                                  , NULL, NULL);

@@ -52,6 +52,8 @@ typedef struct _AudioDevice {
     gdouble volume;
     gboolean muted;
     gchar *mplayer_ao;
+    gchar *pulse_sink_name;
+    gboolean pulse_default;
 } AudioDevice;
 
 
