@@ -421,6 +421,7 @@ void gm_audio_pa_sink_update_volume_cb(pa_context * c, const pa_sink_info * i, i
     AudioDevice *device = (AudioDevice *) data;
     GList *iter;
     gdouble old_volume = 0.0;
+    gint index;
 
     //printf("gm_audio_pa_sink_update_volume_cb %p, %i, %p\n",i, eol,data);
     if (i) {
@@ -433,15 +434,19 @@ void gm_audio_pa_sink_update_volume_cb(pa_context * c, const pa_sink_info * i, i
                 while (iter != NULL) {
                     device = (AudioDevice *) iter->data;
                     if (device->type == AUDIO_TYPE_PULSE) {
-                        if (i->index == device->pulse_index) {
+                        index = device->pulse_index;
+                        if (index == -1) {
+                            index = gm_audio_get_default_pulse_index();
+                        }
+                        if (i->index == index) {
                             old_volume = device->volume;
                             device->volume = (gdouble) pa_cvolume_avg(&(i->volume)) / (gdouble) PA_VOLUME_NORM;
-                            //printf("updated %s volume to %f\n", device->description, device->volume);
+                            // printf("updated %s volume to %f\n", device->description, device->volume);
                         }
                     }
                     iter = iter->next;
                 }
-                if (gm_audio_server_volume_update_callback && old_volume != device->volume)
+                if (gm_audio_server_volume_update_callback)
                     g_idle_add(gm_audio_server_volume_update_callback, NULL);
             }
         }
@@ -514,8 +519,9 @@ void gm_audio_pa_server_info_cb(pa_context * c, const pa_server_info * i, void *
             device = (AudioDevice *) iter->data;
             if (device->pulse_sink_name != NULL) {
                 if (g_strncasecmp(i->default_sink_name, device->pulse_sink_name, strlen(i->default_sink_name)) == 0) {
-                    //printf("The default output sink name is '%s'\n", i->default_sink_name);
+                    // printf("The default output sink name is '%s'\n", i->default_sink_name);
                     device->pulse_default = 1;
+                    pa_context_get_sink_info_by_index(c, device->pulse_index, gm_audio_pa_sink_update_volume_cb, NULL);
                 } else {
                     device->pulse_default = 0;
                 }

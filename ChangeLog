@@ -1,4 +1,5 @@
 Development
+    Fix volume tracking on default device, even when the device changes
     Switch "PulseAudio" from a softvol to a real PulseAudio control (still can be forced to softvol if needed)
         This allows for better volume control that is synced with the system volume and the default output device
         This should be the default setting on machines with PulseAudio
