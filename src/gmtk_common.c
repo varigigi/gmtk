@@ -51,6 +51,15 @@ gboolean gmtk_get_visible(GtkWidget * widget)
 #endif
 }
 
+gboolean gmtk_widget_get_realized(GtkWidget * widget)
+{
+#ifdef GTK2_20_ENABLED
+    return gtk_widget_get_realized(widget);
+#else
+    return GTK_WIDGET_REALIZED(widget);
+#endif
+}
+
 const gchar *gmtk_version()
 {
 #ifdef ENABLE_NLS

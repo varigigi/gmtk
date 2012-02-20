@@ -632,7 +632,7 @@ static void gmtk_media_player_size_allocate(GtkWidget * widget, GtkAllocation * 
     gdouble widget_aspect;
     gfloat xscale, yscale;
 
-    if (player->video_width == 0 || player->video_height == 0) {
+    if (player->video_width == 0 || player->video_height == 0 || !gmtk_widget_get_realized(widget)) {
         gtk_alignment_set(GTK_ALIGNMENT(player->alignment), 0.0, 0.0, 1.0, 1.0);
     } else {
         switch (player->aspect_ratio) {
