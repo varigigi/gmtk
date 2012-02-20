@@ -1,4 +1,5 @@
 Development
+    Handle the keyboard masks more correctly
     Only allocate a size for the child window if the parent widget is realized
     Fix volume tracking on default device, even when the device changes
     Switch "PulseAudio" from a softvol to a real PulseAudio control (still can be forced to softvol if needed)
