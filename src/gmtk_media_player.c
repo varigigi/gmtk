@@ -1010,7 +1010,9 @@ gboolean gmtk_media_player_get_attribute_boolean(GmtkMediaPlayer * player, GmtkM
 
     switch (attribute) {
     case ATTRIBUTE_SUB_VISIBLE:
-        ret = player->sub_visible;
+        if (g_list_length(player->subtitles) != 0) {
+            ret = player->sub_visible;
+        }
         break;
 
     case ATTRIBUTE_ENABLE_FRAME_DROP:
@@ -1018,7 +1020,7 @@ gboolean gmtk_media_player_get_attribute_boolean(GmtkMediaPlayer * player, GmtkM
         break;
 
     case ATTRIBUTE_SUBS_EXIST:
-        ret = (player->subtitles != NULL);
+        ret = g_list_length(player->subtitles);
         break;
 
     case ATTRIBUTE_SOFTVOL:
@@ -1952,6 +1954,7 @@ gpointer launch_mplayer(gpointer data)
     player->enable_divx = TRUE;
     player->disable_xvmc = FALSE;
     player->retry_on_full_cache = FALSE;
+    player->sub_visible = TRUE;
 
     g_mutex_lock(player->thread_running);
 
