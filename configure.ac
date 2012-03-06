@@ -56,12 +56,13 @@ PKG_CHECK_MODULES([X11], [x11],[AC_DEFINE([X11_ENABLED],[1],[Define to 1 if X11 
 AC_SUBST(X11_LIBS)
 
 AC_CHECK_LIB([m],[floor])
+
 AC_ARG_ENABLE(gtk3,
     AC_HELP_STRING([--enable-gtk3],[compile using GTK3]),
     [case "${enableval}" in
-    yes) ENABLE_GTK3=yes 
+    yes) ENABLE_GTK3=yes
          PKG_CHECK_MODULES(GTK,[gtk+-3.0 >= 3 glib-2.0 gthread-2.0],[ENABLE_GTK3=yes],[ENABLE_GTK3=no]);;
-    no) ENABLE_GTK3=no ;;
+    no) ENABLE_GTK3=no;;
     *) AC_MSG_ERROR(bad value ${enableval} for --enable-gtk3) ;;
     esac], 
     [ENABLE_GTK3=check])
@@ -73,7 +74,8 @@ AS_IF([test "x$ENABLE_GTK3" = xcheck],
     
 AS_IF([test "x$ENABLE_GTK3" = "xyes"],   
     [
-    
+   
+    ENABLE_GTK2=no 
     dnl PKG_CHECK_MODULES(GTK, [gtk+-3.0 glib-2.0 gthread-2.0]) 
     AC_DEFINE([GTK3_ENABLED],[1],[Define to 1 if you have GTK 3 or higher])
     AC_DEFINE([GTK2_12_ENABLED],[1],[Define to 1 if you have GTK 2.12 or higher])
@@ -103,6 +105,7 @@ AS_IF([test "x$ENABLE_GTK3" = "xyes"],
 AS_IF([test "x$ENABLE_GTK3" != "xyes"],   
     [
 
+    ENABLE_GTK2=yes
     PKG_CHECK_MODULES(GTK, [gtk+-2.0 glib-2.0 gthread-2.0])
     AC_SUBST(GTK_CFLAGS)
     AC_SUBST(GTK_LIBS)
@@ -142,6 +145,9 @@ AS_IF([test "x$ENABLE_GTK3" != "xyes"],
     AC_SUBST(GLIB2_26_DEFINES)
 
 ])
+
+AC_SUBST(ENABLE_GTK2)
+AC_SUBST(ENABLE_GTK3)
 
 AC_ARG_ENABLE([gsettings],
     AC_HELP_STRING([--enable-gsettings],[compile using GSettings for preference storage]),

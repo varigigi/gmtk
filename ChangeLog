@@ -1,4 +1,5 @@
 Development
+    Track gtk2 and gtk3 in gmtk.pc file
     Enhance subtitle visibility tracking
     Handle the keyboard masks more correctly
     Only allocate a size for the child window if the parent widget is realized

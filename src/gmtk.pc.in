@@ -4,6 +4,8 @@ libdir=@libdir@
 datarootdir=@datarootdir@
 datadir=@datadir@
 includedir=@includedir@/gmtk
+gtk2=@ENABLE_GTK2@
+gtk3=@ENABLE_GTK3@
 
 Name: gmtk
 Description: Gnome Media Player Toolkit
