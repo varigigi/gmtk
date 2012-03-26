@@ -2652,7 +2652,9 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
     if (strstr(mplayer_output->str, "signal") != NULL) {
         if (strstr(mplayer_output->str, "decode") != NULL) {
             create_event_int(player, "attribute-changed", ATTRIBUTE_SIZE);
-            player->playback_error = ERROR_RETRY;
+			if (player->position == 0) {
+	            player->playback_error = ERROR_RETRY;
+			}
         } else {
             error_msg = g_strdup(mplayer_output->str);
         }
