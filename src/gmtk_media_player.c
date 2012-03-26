@@ -2535,7 +2535,7 @@ gpointer launch_mplayer(gpointer data)
             break;
 
         case ERROR_RETRY_WITH_MMSHTTP:
-            tmp = gmtk_media_player_switch_protocol(player->uri, "http");
+            tmp = gmtk_media_player_switch_protocol(player->uri, "mmsh");
             g_free(player->uri);
             player->uri = tmp;
             break;
@@ -2688,6 +2688,11 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
         }
     }
 
+    if (strstr(mplayer_output->str, "MPlayer interrupted by signal 13 in module: open_stream") != NULL
+        && g_strrstr(player->uri, "mms://") != NULL) {
+        player->playback_error = ERROR_RETRY_WITH_MMSHTTP;
+    }
+
     if (strstr(mplayer_output->str, "No stream found to handle url mmshttp://") != NULL) {
         player->playback_error = ERROR_RETRY_WITH_HTTP;
     }
@@ -2751,7 +2756,7 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
         create_event_int(player, "attribute-changed", ATTRIBUTE_TITLE);
     }
 
-    if (error_msg != NULL) {
+    if (error_msg != NULL && player->playback_error == NO_ERROR) {
         dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
                                         GTK_BUTTONS_CLOSE, "%s", error_msg);
         gtk_window_set_title(GTK_WINDOW(dialog), g_dgettext(GETTEXT_PACKAGE, "GNOME MPlayer Error"));
