@@ -1,4 +1,5 @@
 Development
+	Allow one decoding error restart
 	Fix error when shifting protocol from mms to mmsh
 	Updated Turkish translation
 1.0.6b1

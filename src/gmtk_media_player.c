@@ -1941,6 +1941,7 @@ gpointer launch_mplayer(gpointer data)
     gchar *codecs_vdpau = NULL;
     gchar *codecs_crystalhd = NULL;
     gchar *codecs = NULL;
+    GmtkMediaPlayerPlaybackError last_error = NO_ERROR;
 #ifdef GIO_ENABLED
     GFile *file;
 #endif
@@ -2551,6 +2552,14 @@ gpointer launch_mplayer(gpointer data)
         case ERROR_RETRY_ALSA_BUSY:
         case ERROR_RETRY_VDPAU:
             break;
+        case ERROR_RETRY:
+            if (last_error == NO_ERROR) {
+                last_error == ERROR_RETRY;
+            } else {
+                last_error == NO_ERROR;
+                player->playback_error == NO_ERROR;
+            }
+            break;
 
         case ERROR_RETRY_WITHOUT_HARDWARE_CODECS:
             player->enable_hardware_codecs = FALSE;
@@ -2641,7 +2650,12 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
     }
 
     if (strstr(mplayer_output->str, "signal") != NULL) {
-        error_msg = g_strdup(mplayer_output->str);
+        if (strstr(mplayer_output->str, "decode") != NULL) {
+            create_event_int(player, "attribute-changed", ATTRIBUTE_SIZE);
+            player->playback_error = ERROR_RETRY;
+        } else {
+            error_msg = g_strdup(mplayer_output->str);
+        }
     }
 
     if (strstr(mplayer_output->str, "Failed creating VDPAU decoder") != NULL) {
