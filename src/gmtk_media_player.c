@@ -2087,18 +2087,23 @@ gpointer launch_mplayer(gpointer data)
             codecs = g_strconcat(codecs_vdpau, codecs_crystalhd, NULL);
             g_free(codecs_vdpau);
             g_free(codecs_crystalhd);
+            codecs_vdpau = NULL;
+            codecs_crystalhd = NULL;
         } else if (codecs_vdpau) {
             codecs = g_strdup(codecs_vdpau);
             g_free(codecs_vdpau);
+            codecs_vdpau = NULL;
         } else if (codecs_crystalhd) {
             codecs = g_strdup(codecs_crystalhd);
             g_free(codecs_crystalhd);
+            codecs_crystalhd = NULL;
         }
 
         if (codecs != NULL) {
             argv[argn++] = g_strdup_printf("-vc");
             argv[argn++] = g_strdup_printf("%s", codecs);
             g_free(codecs);
+            codecs = NULL;
         }
 
         if (player->ao != NULL) {
@@ -2652,9 +2657,9 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
     if (strstr(mplayer_output->str, "signal") != NULL) {
         if (strstr(mplayer_output->str, "decode") != NULL) {
             create_event_int(player, "attribute-changed", ATTRIBUTE_SIZE);
-			if (player->position == 0) {
-	            player->playback_error = ERROR_RETRY;
-			}
+            if (player->position == 0) {
+                player->playback_error = ERROR_RETRY;
+            }
         } else {
             error_msg = g_strdup(mplayer_output->str);
         }
