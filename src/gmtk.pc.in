@@ -10,6 +10,7 @@ gtk3=@ENABLE_GTK3@
 Name: gmtk
 Description: Gnome Media Player Toolkit
 Version: @VERSION@
+Requires.private: gmlib >= @VERSION@
 Requires: 
-Libs: -L${libdir} -lgmtk -lgmlib
+Libs: -L${libdir} -lgmtk
 Cflags: -I${includedir}

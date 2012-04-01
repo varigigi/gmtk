@@ -1,4 +1,5 @@
 Development
+    Apply recommendation from Issue #6
     Apply patch from Issue #7, codecs not reset to NULL
 	Only do the restart on decoding error if the position is 0 (window size issue)
 	Allow one decoding error restart
