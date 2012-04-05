@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: 0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-11-08 06:47-0700\n"
-"PO-Revision-Date: 2011-10-15 17:14+0900\n"
+"PO-Revision-Date: 2012-04-05 10:48+0900\n"
 "Last-Translator: Munehiro Yamamoto <munepixyz@gmail.com>\n"
 "Language-Team: munepi <munepixyz@gmail.com>\n"
 "Language: \n"
@@ -31,7 +31,7 @@ msgstr "フレームが落ちている"
 
 #: ../src/gmtk_media_player.c:568
 msgid "Deinterlace"
-msgstr ""
+msgstr "非インタレース"
 
 #: ../src/gmtk_media_player.c:791
 msgid "Loading..."
@@ -99,4 +99,4 @@ msgstr "情報なし"
 
 #: ../src/gmtk_audio_meter.c:212
 msgid "No Data"
-msgstr ""
+msgstr "データなし"
