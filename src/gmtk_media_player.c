@@ -2864,7 +2864,6 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                 create_event_int(player, "media-state-changed", player->media_state);
                 allocation.width = player->video_width;
                 allocation.height = player->video_height;
-                printf("resizing %ix%i at %ix%i \n", player->video_width, player->video_height, w, h);
                 create_event_allocation(player, "size_allocate", &allocation);
                 player->video_present = TRUE;
                 write_to_mplayer(player, "get_property sub_source\n");
