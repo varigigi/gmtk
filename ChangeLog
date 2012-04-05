@@ -1,4 +1,5 @@
 Development
+	Assign NULL to freed strings
 	Updated Japanese translation
 	Remove debug message
 	Kill GTK widget oversize warning

@@ -97,6 +97,7 @@ gboolean signal_event(gpointer data)
             printf("undefined event %s\n", event->event_name);
         }
         g_free(event->event_name);
+        event->event_name = NULL;
     }
     if (event)
         g_free(event);
@@ -753,6 +754,7 @@ void gmtk_media_player_set_uri(GmtkMediaPlayer * player, const gchar * uri)
         g_free(cmd);
         if (filename != NULL) {
             g_free(filename);
+            filename = NULL;
         }
         if (player->media_state == MEDIA_STATE_STOP) {
             gmtk_media_player_set_state(player, MEDIA_STATE_PLAY);
@@ -893,6 +895,7 @@ void gmtk_media_player_send_command(GmtkMediaPlayer * player, GmtkMediaPlayerCom
                                 g_dgettext(GETTEXT_PACKAGE, "Frame Dropping"));
             write_to_mplayer(player, cmd);
             g_free(cmd);
+            cmd = NULL;
             break;
 
         default:
@@ -914,6 +917,7 @@ void gmtk_media_player_set_attribute_boolean(GmtkMediaPlayer * player,
             cmd = g_strdup_printf("set_property sub_visibility %i\n", value);
             write_to_mplayer(player, cmd);
             g_free(cmd);
+            cmd = NULL;
             if (value) {
                 cmd =
                     g_strdup_printf("osd_show_property_text \"%s\"\n",
@@ -924,6 +928,7 @@ void gmtk_media_player_set_attribute_boolean(GmtkMediaPlayer * player,
             }
             write_to_mplayer(player, cmd);
             g_free(cmd);
+            cmd = NULL;
         }
         break;
 
@@ -933,6 +938,7 @@ void gmtk_media_player_set_attribute_boolean(GmtkMediaPlayer * player,
             cmd = g_strdup_printf("frame_drop %i\n", value);
             write_to_mplayer(player, cmd);
             g_free(cmd);
+            cmd = NULL;
         }
         break;
 
@@ -954,6 +960,7 @@ void gmtk_media_player_set_attribute_boolean(GmtkMediaPlayer * player,
             cmd = g_strdup_printf("mute %i\n", value);
             write_to_mplayer(player, cmd);
             g_free(cmd);
+            cmd = NULL;
         }
         break;
 
@@ -1143,6 +1150,7 @@ void gmtk_media_player_set_attribute_double(GmtkMediaPlayer * player,
             }
             write_to_mplayer(player, cmd);
             g_free(cmd);
+            cmd = NULL;
         }
         break;
 
@@ -1152,6 +1160,7 @@ void gmtk_media_player_set_attribute_double(GmtkMediaPlayer * player,
             cmd = g_strdup_printf("speed_set %f\n", player->speed_multiplier);
             write_to_mplayer(player, cmd);
             g_free(cmd);
+            cmd = NULL;
         }
         break;
 
@@ -1161,6 +1170,7 @@ void gmtk_media_player_set_attribute_double(GmtkMediaPlayer * player,
             cmd = g_strdup_printf("sub_scale %f 1\n", player->subtitle_scale);
             write_to_mplayer(player, cmd);
             g_free(cmd);
+            cmd = NULL;
         }
         break;
 
@@ -1170,6 +1180,7 @@ void gmtk_media_player_set_attribute_double(GmtkMediaPlayer * player,
             cmd = g_strdup_printf("set_property sub_delay %f 1\n", player->subtitle_delay);
             write_to_mplayer(player, cmd);
             g_free(cmd);
+            cmd = NULL;
         }
         break;
 
@@ -1179,6 +1190,7 @@ void gmtk_media_player_set_attribute_double(GmtkMediaPlayer * player,
             cmd = g_strdup_printf("set_property audio_delay %f 1\n", player->audio_delay);
             write_to_mplayer(player, cmd);
             g_free(cmd);
+            cmd = NULL;
         }
         break;
 
@@ -1279,6 +1291,7 @@ void gmtk_media_player_set_attribute_string(GmtkMediaPlayer * player,
     case ATTRIBUTE_VO:
         if (player->vo != NULL) {
             g_free(player->vo);
+            player->vo = NULL;
         }
         if (value == NULL || strlen(value) == 0) {
             player->vo = NULL;
@@ -1290,6 +1303,7 @@ void gmtk_media_player_set_attribute_string(GmtkMediaPlayer * player,
     case ATTRIBUTE_AO:
         if (player->ao != NULL) {
             g_free(player->ao);
+            player->ao = NULL;
         }
         if (value == NULL || strlen(value) == 0) {
             player->ao = NULL;
@@ -1301,6 +1315,7 @@ void gmtk_media_player_set_attribute_string(GmtkMediaPlayer * player,
     case ATTRIBUTE_MEDIA_DEVICE:
         if (player->media_device != NULL) {
             g_free(player->media_device);
+            player->media_device = NULL;
         }
         if (value == NULL || strlen(value) == 0) {
             player->media_device = NULL;
@@ -1312,6 +1327,7 @@ void gmtk_media_player_set_attribute_string(GmtkMediaPlayer * player,
     case ATTRIBUTE_EXTRA_OPTS:
         if (player->extra_opts != NULL) {
             g_free(player->extra_opts);
+            player->extra_opts = NULL;
         }
         if (value == NULL || strlen(value) == 0) {
             player->extra_opts = NULL;
@@ -1323,6 +1339,7 @@ void gmtk_media_player_set_attribute_string(GmtkMediaPlayer * player,
     case ATTRIBUTE_MPLAYER_BINARY:
         if (player->mplayer_binary != NULL) {
             g_free(player->mplayer_binary);
+            player->mplayer_binary = NULL;
         }
         if (value == NULL || strlen(value) == 0) {
             player->mplayer_binary = NULL;
@@ -1335,6 +1352,7 @@ void gmtk_media_player_set_attribute_string(GmtkMediaPlayer * player,
     case ATTRIBUTE_AUDIO_TRACK_FILE:
         if (player->audio_track_file != NULL) {
             g_free(player->audio_track_file);
+            player->audio_track_file = NULL;
         }
         if (value == NULL || strlen(value) == 0) {
             player->audio_track_file = NULL;
@@ -2785,6 +2803,7 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
         gtk_dialog_run(GTK_DIALOG(dialog));
         gtk_widget_destroy(dialog);
         g_free(error_msg);
+        error_msg = NULL;
     }
 
     g_string_free(mplayer_output, TRUE);
@@ -3400,6 +3419,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
 
                 }
                 g_free(icy);
+                icy = NULL;
                 g_free(message);
                 message = NULL;
             }
@@ -3438,6 +3458,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
 
             }
             g_free(icy);
+            icy = NULL;
             g_free(message);
             message = NULL;
         }
@@ -3563,10 +3584,14 @@ gboolean detect_mplayer_features(GmtkMediaPlayer * player)
         printf("Error when running: %s\n", error->message);
         g_error_free(error);
         error = NULL;
-        if (out != NULL)
+        if (out != NULL) {
             g_free(out);
-        if (err != NULL)
+            out = NULL;
+        }
+        if (err != NULL) {
             g_free(err);
+            err = NULL;
+        }
         return FALSE;
     }
     output = g_strsplit(out, "\n", 0);
@@ -3582,7 +3607,9 @@ gboolean detect_mplayer_features(GmtkMediaPlayer * player)
     }
     g_strfreev(output);
     g_free(out);
+    out = NULL;
     g_free(err);
+    err = NULL;
 
     player->features_detected = TRUE;
     if (!ret) {
