@@ -89,7 +89,8 @@ gboolean signal_event(gpointer data)
             break;
 
         case EVENT_TYPE_ALLOCATION:
-            g_signal_emit_by_name(event->player, event->event_name, event->event_allocation);
+            if (!(event->event_allocation->width >= 65535 || event->event_allocation->height >= 65535))
+                g_signal_emit_by_name(event->player, event->event_name, event->event_allocation);
             break;
 
         default:
@@ -2863,6 +2864,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                 create_event_int(player, "media-state-changed", player->media_state);
                 allocation.width = player->video_width;
                 allocation.height = player->video_height;
+                printf("resizing %ix%i at %ix%i \n", player->video_width, player->video_height, w, h);
                 create_event_allocation(player, "size_allocate", &allocation);
                 player->video_present = TRUE;
                 write_to_mplayer(player, "get_property sub_source\n");
