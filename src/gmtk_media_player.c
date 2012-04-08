@@ -56,6 +56,10 @@ static void socket_realized(GtkWidget * widget, gpointer data)
     player->socket_id = GPOINTER_TO_INT(gtk_socket_get_id(GTK_SOCKET(widget)));
     style = gtk_widget_get_style(GTK_WIDGET(player));
     gtk_widget_modify_bg(GTK_WIDGET(player), GTK_STATE_NORMAL, &(style->black));
+    gtk_widget_modify_bg(GTK_WIDGET(player), GTK_STATE_ACTIVE, &(style->black));
+    gtk_widget_modify_bg(GTK_WIDGET(player), GTK_STATE_SELECTED, &(style->black));
+    gtk_widget_modify_bg(GTK_WIDGET(player), GTK_STATE_PRELIGHT, &(style->black));
+    gtk_widget_modify_bg(GTK_WIDGET(player), GTK_STATE_INSENSITIVE, &(style->black));
     if (player->vo != NULL) {
         if (!(g_ascii_strncasecmp(player->vo, "vdpau", strlen("vdpau")) == 0)) {
             gtk_widget_modify_bg(GTK_WIDGET(player->socket), GTK_STATE_NORMAL, &(style->black));

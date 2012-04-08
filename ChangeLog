@@ -1,14 +1,16 @@
 Development
-	Assign NULL to freed strings
-	Updated Japanese translation
-	Remove debug message
-	Kill GTK widget oversize warning
+1.0.6
+    Set black background color for all GTK States on media widget
+    Assign NULL to freed strings
+    Updated Japanese translation
+    Remove debug message
+    Kill GTK widget oversize warning
     Apply recommendation from Issue #6
     Apply patch from Issue #7, codecs not reset to NULL
-	Only do the restart on decoding error if the position is 0 (window size issue)
-	Allow one decoding error restart
-	Fix error when shifting protocol from mms to mmsh
-	Updated Turkish translation
+    Only do the restart on decoding error if the position is 0 (window size issue)
+    Allow one decoding error restart
+    Fix error when shifting protocol from mms to mmsh
+    Updated Turkish translation
 1.0.6b1
     Track gtk2 and gtk3 in gmtk.pc file
     Enhance subtitle visibility tracking
