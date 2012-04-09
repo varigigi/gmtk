@@ -518,7 +518,7 @@ void gm_audio_pa_server_info_cb(pa_context * c, const pa_server_info * i, void *
         for (iter = gm_audio_devices; iter != NULL; iter = g_list_next(iter)) {
             device = (AudioDevice *) iter->data;
             if (device->pulse_sink_name != NULL) {
-                if (g_strncasecmp(i->default_sink_name, device->pulse_sink_name, strlen(i->default_sink_name)) == 0) {
+                if (g_ascii_strncasecmp(i->default_sink_name, device->pulse_sink_name, strlen(i->default_sink_name)) == 0) {
                     // printf("The default output sink name is '%s'\n", i->default_sink_name);
                     device->pulse_default = 1;
                     pa_context_get_sink_info_by_index(c, device->pulse_index, gm_audio_pa_sink_update_volume_cb, NULL);

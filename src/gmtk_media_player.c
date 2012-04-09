@@ -3525,7 +3525,7 @@ gboolean write_to_mplayer(GmtkMediaPlayer * player, const gchar * cmd)
         if (player->use_mplayer2) {
             pkf_cmd = g_strdup(cmd);
         } else {
-            if (g_strncasecmp(cmd, "pause", strlen("pause")) == 0) {
+            if (g_ascii_strncasecmp(cmd, "pause", strlen("pause")) == 0) {
                 pkf_cmd = g_strdup(cmd);
             } else {
                 pkf_cmd = g_strdup_printf("pausing_keep_force %s", cmd);
