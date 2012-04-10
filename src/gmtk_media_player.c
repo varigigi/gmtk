@@ -2582,10 +2582,10 @@ gpointer launch_mplayer(gpointer data)
             break;
         case ERROR_RETRY:
             if (last_error == NO_ERROR) {
-                last_error == ERROR_RETRY;
+                last_error = ERROR_RETRY;
             } else {
-                last_error == NO_ERROR;
-                player->playback_error == NO_ERROR;
+                last_error = NO_ERROR;
+                player->playback_error = NO_ERROR;
             }
             break;
 
@@ -2683,6 +2683,8 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
             if (player->position == 0) {
                 player->playback_error = ERROR_RETRY;
             }
+        } else if (strstr(mplayer_output->str, "filter video") != NULL) {
+            player->playback_error = ERROR_RETRY;
         } else {
             error_msg = g_strdup(mplayer_output->str);
         }
