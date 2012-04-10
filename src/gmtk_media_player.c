@@ -3469,6 +3469,12 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
             message = NULL;
         }
 
+        if (strstr(mplayer_output->str, "ID_SIGNAL") != 0) {
+            if (player->position == 0) {
+                player->playback_error = ERROR_RETRY;
+            }
+        }
+
     }
 
     g_string_free(mplayer_output, TRUE);
