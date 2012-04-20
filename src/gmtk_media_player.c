@@ -56,6 +56,7 @@ static void socket_realized(GtkWidget * widget, gpointer data)
     player->socket_id = GPOINTER_TO_INT(gtk_socket_get_id(GTK_SOCKET(widget)));
     style = gtk_widget_get_style(GTK_WIDGET(player));
     gtk_widget_modify_bg(GTK_WIDGET(player), GTK_STATE_NORMAL, &(style->black));
+    gtk_widget_modify_bg(GTK_WIDGET(player->alignment), GTK_STATE_NORMAL, &(style->black));
     gtk_widget_modify_bg(GTK_WIDGET(player), GTK_STATE_ACTIVE, &(style->black));
     gtk_widget_modify_bg(GTK_WIDGET(player), GTK_STATE_SELECTED, &(style->black));
     gtk_widget_modify_bg(GTK_WIDGET(player), GTK_STATE_PRELIGHT, &(style->black));
@@ -639,6 +640,11 @@ static void gmtk_media_player_size_allocate(GtkWidget * widget, GtkAllocation * 
     gdouble widget_aspect;
     gfloat xscale, yscale;
 
+    if (allocation->width == 0 || allocation->height == 0) {
+        gmtk_get_allocation(widget, allocation);
+        // printf ("widget allocation %i x %i\n", allocation->width, allocation->height);
+    }
+
     if (player->video_width == 0 || player->video_height == 0 || !gmtk_widget_get_realized(widget)) {
         gtk_alignment_set(GTK_ALIGNMENT(player->alignment), 0.0, 0.0, 1.0, 1.0);
     } else {
@@ -695,7 +701,9 @@ static void gmtk_media_player_size_allocate(GtkWidget * widget, GtkAllocation * 
         }
     }
 
+    // printf("gmtk allocation video:%i %ix%i\n",player->video_present, allocation->width,allocation->height);
     GTK_WIDGET_CLASS(parent_class)->size_allocate(widget, allocation);
+
 }
 
 GtkWidget *gmtk_media_player_new()
@@ -2689,6 +2697,12 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
             error_msg = g_strdup(mplayer_output->str);
         }
     }
+    if (strstr(mplayer_output->str, "Error when calling vdp_output_surface_create") != NULL) {
+        create_event_int(player, "attribute-changed", ATTRIBUTE_SIZE);
+        if (player->position == 0) {
+            player->playback_error = ERROR_RETRY;
+        }
+    }
 
     if (strstr(mplayer_output->str, "Failed creating VDPAU decoder") != NULL) {
         if (player->enable_divx && (g_ascii_strncasecmp(player->vo, "vdpau", strlen("vdpau")) == 0))
@@ -2881,6 +2895,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
         if (strstr(mplayer_output->str, "VO:") != NULL) {
             buf = strstr(mplayer_output->str, "VO:");
             sscanf(buf, "VO: [%[^]]] %ix%i => %ix%i", vm, &w, &h, &(player->video_width), &(player->video_height));
+            // printf("%ix%i => %ix%i\n", w, h, player->video_width, player->video_height);
             gmtk_get_allocation(GTK_WIDGET(player), &allocation);
             player->media_state = MEDIA_STATE_PLAY;
             if (player->restart) {
