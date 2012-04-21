@@ -1,4 +1,5 @@
 Development
+    Protect against possible divide by zero in gmtk_media_player_size_allocate
     Correct situation where media player window allocation is small or incorrect
 	If mplayer emits a signal at position 0 retry once
 	Fix logic error in ERROR_RETRY

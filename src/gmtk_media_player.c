@@ -644,6 +644,10 @@ static void gmtk_media_player_size_allocate(GtkWidget * widget, GtkAllocation * 
         gmtk_get_allocation(widget, allocation);
         // printf ("widget allocation %i x %i\n", allocation->width, allocation->height);
     }
+    // protect against possible divide by zero
+    if (allocation->width == 0 || allocation->height == 0) {
+        return;
+    }
 
     if (player->video_width == 0 || player->video_height == 0 || !gmtk_widget_get_realized(widget)) {
         gtk_alignment_set(GTK_ALIGNMENT(player->alignment), 0.0, 0.0, 1.0, 1.0);
