@@ -1034,9 +1034,7 @@ gboolean gmtk_media_player_get_attribute_boolean(GmtkMediaPlayer * player, GmtkM
 
     switch (attribute) {
     case ATTRIBUTE_SUB_VISIBLE:
-        if (g_list_length(player->subtitles) != 0) {
-            ret = player->sub_visible;
-        }
+        ret = player->sub_visible;
         break;
 
     case ATTRIBUTE_ENABLE_FRAME_DROP:
@@ -2911,6 +2909,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                 create_event_allocation(player, "size_allocate", &allocation);
                 player->video_present = TRUE;
                 write_to_mplayer(player, "get_property sub_source\n");
+                write_to_mplayer(player, "get_property sub_visibility\n");
                 create_event_int(player, "attribute-changed", ATTRIBUTE_SIZE);
                 create_event_int(player, "attribute-changed", ATTRIBUTE_VIDEO_PRESENT);
                 create_event_int(player, "subtitles-changed", g_list_length(player->subtitles));
@@ -3016,6 +3015,15 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
             buf = strstr(mplayer_output->str, "ANS_sub_demux");
             sscanf(buf, "ANS_sub_demux=%i", &player->subtitle_id);
             create_event_int(player, "attribute-changed", ATTRIBUTE_SUBTITLE);
+        }
+
+        if (strstr(mplayer_output->str, "ANS_sub_visibility") != 0) {
+            if (strstr(mplayer_output->str, "ANS_sub_visibility=yes") != 0) {
+                player->sub_visible = TRUE;
+            } else {
+                player->sub_visible = FALSE;
+            }
+            create_event_int(player, "attribute-changed", ATTRIBUTE_SUB_VISIBLE);
         }
 
 
