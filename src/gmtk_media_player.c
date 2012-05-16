@@ -2015,7 +2015,8 @@ gpointer launch_mplayer(gpointer data)
             list = g_list_remove(list, track);
         }
         player->audio_tracks = NULL;
-
+		player->has_metadata = FALSE;
+		
         argn = 0;
         player->playback_error = NO_ERROR;
         if (player->uri != NULL) {
@@ -3320,6 +3321,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                 player->title = g_strdup(buf);
                 gm_str_strip_unicode(player->title, strlen(player->title));
             }
+			player->has_metadata = TRUE;
             create_event_int(player, "attribute-changed", ATTRIBUTE_TITLE);
         }
 
@@ -3337,6 +3339,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                 player->artist = g_strdup(buf);
                 gm_str_strip_unicode(player->artist, strlen(player->artist));
             }
+			player->has_metadata = TRUE;
             create_event_int(player, "attribute-changed", ATTRIBUTE_ARTIST);
         }
 
@@ -3354,6 +3357,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                 player->title = g_strdup(buf);
                 gm_str_strip_unicode(player->title, strlen(player->title));
             }
+			player->has_metadata = TRUE;
             create_event_int(player, "attribute-changed", ATTRIBUTE_TITLE);
         }
 
@@ -3371,6 +3375,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                 player->artist = g_strdup(buf);
                 gm_str_strip_unicode(player->artist, strlen(player->artist));
             }
+			player->has_metadata = TRUE;
             create_event_int(player, "attribute-changed", ATTRIBUTE_ARTIST);
         }
 
@@ -3388,6 +3393,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                 player->album = g_strdup(buf);
                 gm_str_strip_unicode(player->album, strlen(player->album));
             }
+			player->has_metadata = TRUE;
             create_event_int(player, "attribute-changed", ATTRIBUTE_ALBUM);
         }
 
@@ -3458,7 +3464,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
             }
         }
 
-        if (strstr(mplayer_output->str, "ID_FILENAME") != NULL) {
+        if (strstr(mplayer_output->str, "ID_FILENAME") != NULL && player->has_metadata == FALSE) {
             buf = g_strrstr(mplayer_output->str, ".");
             if (buf)
                 buf[0] = '\0';
