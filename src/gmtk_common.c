@@ -23,6 +23,7 @@
  */
 
 #include "gmtk_common.h"
+#include <libintl.h>
 
 void gmtk_get_allocation(GtkWidget * widget, GtkAllocation * allocation)
 {

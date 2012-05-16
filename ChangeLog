@@ -1,4 +1,5 @@
 Development
+    Fix compiler warning detected by clang
     Monitor sub visiblity better gnome-mplayer Issue #615
     Protect against possible divide by zero in gmtk_media_player_size_allocate
     Correct situation where media player window allocation is small or incorrect
