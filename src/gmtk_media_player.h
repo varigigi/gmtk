@@ -386,7 +386,8 @@ struct _GmtkMediaPlayer {
 
     GdkColor *default_background;
 
-	gboolean has_metadata;
+    gboolean has_metadata;
+    gdouble speed;
 };
 
 struct _GmtkMediaPlayerClass {

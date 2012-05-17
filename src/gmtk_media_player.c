@@ -1165,16 +1165,18 @@ void gmtk_media_player_set_attribute_double(GmtkMediaPlayer * player,
             write_to_mplayer(player, cmd);
             g_free(cmd);
             cmd = NULL;
+            write_to_mplayer(player, "get_property speed\n");
         }
         break;
 
     case ATTRIBUTE_SPEED_SET:
-        player->speed_multiplier = CLAMP(value, 0.1, 10.0);
+        player->speed = CLAMP(value, 0.1, 10.0);
         if (player->player_state == PLAYER_STATE_RUNNING) {
-            cmd = g_strdup_printf("speed_set %f\n", player->speed_multiplier);
+            cmd = g_strdup_printf("speed_set %f\n", player->speed);
             write_to_mplayer(player, cmd);
             g_free(cmd);
             cmd = NULL;
+            write_to_mplayer(player, "get_property speed\n");
         }
         break;
 
@@ -1263,6 +1265,10 @@ gdouble gmtk_media_player_get_attribute_double(GmtkMediaPlayer * player, GmtkMed
 
     case ATTRIBUTE_SPEED_MULTIPLIER:
         ret = player->speed_multiplier;
+        break;
+
+    case ATTRIBUTE_SPEED_SET:
+        ret = player->speed;
         break;
 
     case ATTRIBUTE_SUBTITLE_SCALE:
@@ -1989,6 +1995,7 @@ gpointer launch_mplayer(gpointer data)
     player->disable_xvmc = FALSE;
     player->retry_on_full_cache = FALSE;
     player->sub_visible = TRUE;
+    player->speed = 1.0;
 
     g_mutex_lock(player->thread_running);
 
@@ -2015,8 +2022,8 @@ gpointer launch_mplayer(gpointer data)
             list = g_list_remove(list, track);
         }
         player->audio_tracks = NULL;
-		player->has_metadata = FALSE;
-		
+        player->has_metadata = FALSE;
+
         argn = 0;
         player->playback_error = NO_ERROR;
         if (player->uri != NULL) {
@@ -3027,6 +3034,12 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
             create_event_int(player, "attribute-changed", ATTRIBUTE_SUB_VISIBLE);
         }
 
+        if (strstr(mplayer_output->str, "ANS_speed") != 0) {
+            buf = strstr(mplayer_output->str, "ANS_speed");
+            sscanf(buf, "ANS_speed=%lf", &player->speed);
+            printf("new speed is %lf\n", player->speed);
+            create_event_int(player, "attribute-changed", ATTRIBUTE_SPEED_SET);
+        }
 
         if (strstr(mplayer_output->str, "DVDNAV_TITLE_IS_MENU") != 0) {
             player->title_is_menu = TRUE;
@@ -3321,7 +3334,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                 player->title = g_strdup(buf);
                 gm_str_strip_unicode(player->title, strlen(player->title));
             }
-			player->has_metadata = TRUE;
+            player->has_metadata = TRUE;
             create_event_int(player, "attribute-changed", ATTRIBUTE_TITLE);
         }
 
@@ -3339,7 +3352,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                 player->artist = g_strdup(buf);
                 gm_str_strip_unicode(player->artist, strlen(player->artist));
             }
-			player->has_metadata = TRUE;
+            player->has_metadata = TRUE;
             create_event_int(player, "attribute-changed", ATTRIBUTE_ARTIST);
         }
 
@@ -3357,7 +3370,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                 player->title = g_strdup(buf);
                 gm_str_strip_unicode(player->title, strlen(player->title));
             }
-			player->has_metadata = TRUE;
+            player->has_metadata = TRUE;
             create_event_int(player, "attribute-changed", ATTRIBUTE_TITLE);
         }
 
@@ -3375,7 +3388,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                 player->artist = g_strdup(buf);
                 gm_str_strip_unicode(player->artist, strlen(player->artist));
             }
-			player->has_metadata = TRUE;
+            player->has_metadata = TRUE;
             create_event_int(player, "attribute-changed", ATTRIBUTE_ARTIST);
         }
 
@@ -3393,7 +3406,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                 player->album = g_strdup(buf);
                 gm_str_strip_unicode(player->album, strlen(player->album));
             }
-			player->has_metadata = TRUE;
+            player->has_metadata = TRUE;
             create_event_int(player, "attribute-changed", ATTRIBUTE_ALBUM);
         }
 
