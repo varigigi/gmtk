@@ -640,7 +640,7 @@ static void gmtk_media_player_size_allocate(GtkWidget * widget, GtkAllocation * 
     gdouble widget_aspect;
     gfloat xscale, yscale;
 
-    if (allocation->width == 0 || allocation->height == 0) {
+    if (allocation->width <= 0 || allocation->height <= 0) {
         gmtk_get_allocation(widget, allocation);
         // printf ("widget allocation %i x %i\n", allocation->width, allocation->height);
     }
@@ -2199,7 +2199,6 @@ gpointer launch_mplayer(gpointer data)
                 argv[argn++] = g_strdup_printf("volume=%lf:0", player->volume_gain);
             }
 
-
             argv[argn++] = g_strdup_printf("-softvol");
         }
 
@@ -2234,10 +2233,10 @@ gpointer launch_mplayer(gpointer data)
         argv[argn++] = g_strdup_printf("-sub-fuzziness");
         argv[argn++] = g_strdup_printf("%i", player->subtitle_fuzziness);
 
-        // wait for the socket_id to be valid, but in plugin mode it may not so timeout
+        // wait upto 1 second for the socket_id to be valid, but in plugin mode it may not so timeout
         i = 0;
-        while (player->socket_id == 0 && (i++ < 10)) {
-            g_usleep(100);
+        while (player->socket_id == 0 && (i++ < 100)) {
+            g_usleep(1000);
         }
 
         argv[argn++] = g_strdup_printf("-wid");
