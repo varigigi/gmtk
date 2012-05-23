@@ -343,6 +343,9 @@ static void gmtk_media_player_init(GmtkMediaPlayer * player)
     player->profile = NULL;
     player->alang = NULL;
     player->slang = NULL;
+    player->artist = NULL;
+    player->title = NULL;
+    player->album = NULL;
 }
 
 static void gmtk_media_player_dispose(GObject * object)
@@ -2023,6 +2026,18 @@ gpointer launch_mplayer(gpointer data)
         }
         player->audio_tracks = NULL;
         player->has_metadata = FALSE;
+        if (player->artist) {
+            g_free(player->artist);
+            player->artist = NULL;
+        }
+        if (player->title) {
+            g_free(player->title);
+            player->title = NULL;
+        }
+        if (player->album) {
+            g_free(player->album);
+            player->album = NULL;
+        }
 
         argn = 0;
         player->playback_error = NO_ERROR;

@@ -1,4 +1,5 @@
 Development
+	Initialize some media metadata
     Change some minor video initialization setup steps
     Implement getting ATTRIBUTE_SPEED_SET
     Fix problem with removal of read metadata and replacing it with filename info
