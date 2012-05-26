@@ -1,4 +1,5 @@
 Development
+    Fix a couple of keyboard shortcuts as they were in the wrong shift state, similar to gnome-mplayer fix
 	Initialize some media metadata
     Change some minor video initialization setup steps
     Implement getting ATTRIBUTE_SPEED_SET

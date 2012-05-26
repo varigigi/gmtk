@@ -452,7 +452,7 @@ static gboolean player_key_press_event_callback(GtkWidget * widget, GdkEventKey 
     if (event->is_modifier)
         return TRUE;
 
-    if ((event->state & GDK_SHIFT_MASK) == 0 && (event->state & GDK_CONTROL_MASK) == 0
+    if ((event->state & GDK_CONTROL_MASK) == 0
         && (event->state & GDK_MOD1_MASK) == 0) {
         switch (event->keyval) {
         case GDK_Right:
