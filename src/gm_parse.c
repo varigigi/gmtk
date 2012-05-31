@@ -197,9 +197,9 @@ gboolean gm_parse_asx_is_asx(const gchar * uri)
             g_free(line);
             line = NULL;
         }
+        fclose(fp);
     }
     g_free(file);
-    fclose(fp);
 #endif
     return ret;
 }

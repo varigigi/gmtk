@@ -315,7 +315,7 @@ const gchar *gmtk_output_combo_box_get_active_description(GmtkOutputComboBox * o
 GmtkOutputType gmtk_output_combo_box_get_active_type(GmtkOutputComboBox * output)
 {
     GtkTreeIter iter;
-    GmtkOutputType type;
+    GmtkOutputType type = OUTPUT_TYPE_SOFTVOL;
 
     if (gtk_combo_box_get_active_iter(GTK_COMBO_BOX(output), &iter)) {
         gtk_tree_model_get(GTK_TREE_MODEL(output->list), &iter, OUTPUT_TYPE_COLUMN, &type, -1);

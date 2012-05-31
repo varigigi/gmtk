@@ -203,6 +203,7 @@ gboolean gm_audio_query_devices()
             device->mplayer_ao = g_strdup(mplayer_ao);
             gm_audio_devices = g_list_append(gm_audio_devices, device);
 
+            g_free(device_name);
             g_free(desc);
             g_free(mplayer_ao);
 
