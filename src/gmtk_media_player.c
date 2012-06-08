@@ -452,8 +452,7 @@ static gboolean player_key_press_event_callback(GtkWidget * widget, GdkEventKey 
     if (event->is_modifier)
         return TRUE;
 
-    if ((event->state & GDK_CONTROL_MASK) == 0
-        && (event->state & GDK_MOD1_MASK) == 0) {
+    if ((event->state & GDK_CONTROL_MASK) == 0 && (event->state & GDK_MOD1_MASK) == 0) {
         switch (event->keyval) {
         case GDK_Right:
             if (player->title_is_menu) {
@@ -1549,15 +1548,27 @@ const gchar *gmtk_media_player_get_attribute_string(GmtkMediaPlayer * player, Gm
         break;
 
     case ATTRIBUTE_ARTIST:
-        value = player->artist;
+        if (player->artist == NULL || strlen(player->artist) == 0) {
+            value = NULL;
+        } else {
+            value = player->artist;
+        }
         break;
 
     case ATTRIBUTE_TITLE:
-        value = player->title;
+        if (player->title == NULL || strlen(player->title) == 0) {
+            value = NULL;
+        } else {
+            value = player->title;
+        }
         break;
 
     case ATTRIBUTE_ALBUM:
-        value = player->album;
+        if (player->album == NULL || strlen(player->album) == 0) {
+            value = NULL;
+        } else {
+            value = player->album;
+        }
         break;
 
     case ATTRIBUTE_PROFILE:

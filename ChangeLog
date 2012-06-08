@@ -1,4 +1,5 @@
 Development
+    Return a NULL instead of a "" string for metadata
 	Apply patch from Issue #9 to fix some cppcheck warnings
     Fix a couple of keyboard shortcuts as they were in the wrong shift state, similar to gnome-mplayer fix
 	Initialize some media metadata
