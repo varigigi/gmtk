@@ -84,6 +84,8 @@ src/gm_common.c -text
 src/gm_common.h -text
 src/gm_file.c -text
 src/gm_file.h -text
+src/gm_log.c -text
+src/gm_log.h -text
 src/gm_parse.c -text
 src/gm_parse.h -text
 src/gm_pref_store.c -text

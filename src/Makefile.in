@@ -81,8 +81,8 @@ libgmlib_la_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_libgmlib_la_OBJECTS = libgmlib_la-gm_common.lo \
 	libgmlib_la-gm_audio.lo libgmlib_la-gm_file.lo \
-	libgmlib_la-gm_parse.lo libgmlib_la-gm_pref_store.lo \
-	libgmlib_la-gm_strfuncs.lo
+	libgmlib_la-gm_log.lo libgmlib_la-gm_parse.lo \
+	libgmlib_la-gm_pref_store.lo libgmlib_la-gm_strfuncs.lo
 libgmlib_la_OBJECTS = $(am_libgmlib_la_OBJECTS)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
@@ -374,6 +374,8 @@ libgmlib_la_SOURCES = \
 	gm_audio.h \
 	gm_file.c \
 	gm_file.h \
+	gm_log.c \
+	gm_log.h \
 	gm_parse.c \
 	gm_parse.h \
 	gm_pref_store.c \
@@ -401,10 +403,11 @@ libgmlib_la_LIBADD = \
 	$(PULSE_LIBS)	
 
 include_HEADERS = \
+	gmlib.h \
     gm_common.h \
 	gm_audio.h \
 	gm_file.h \
-	gmlib.h \
+	gm_log.h \
 	gm_parse.h \
 	gm_pref_store.h \
 	gm_strfuncs.h \
@@ -504,6 +507,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmlib_la-gm_audio.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmlib_la-gm_common.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmlib_la-gm_file.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmlib_la-gm_log.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmlib_la-gm_parse.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmlib_la-gm_pref_store.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libgmlib_la-gm_strfuncs.Plo@am__quote@
@@ -560,6 +564,14 @@ libgmlib_la-gm_file.lo: gm_file.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gm_file.c' object='libgmlib_la-gm_file.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgmlib_la_CFLAGS) $(CFLAGS) -c -o libgmlib_la-gm_file.lo `test -f 'gm_file.c' || echo '$(srcdir)/'`gm_file.c
+
+libgmlib_la-gm_log.lo: gm_log.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgmlib_la_CFLAGS) $(CFLAGS) -MT libgmlib_la-gm_log.lo -MD -MP -MF $(DEPDIR)/libgmlib_la-gm_log.Tpo -c -o libgmlib_la-gm_log.lo `test -f 'gm_log.c' || echo '$(srcdir)/'`gm_log.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libgmlib_la-gm_log.Tpo $(DEPDIR)/libgmlib_la-gm_log.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gm_log.c' object='libgmlib_la-gm_log.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgmlib_la_CFLAGS) $(CFLAGS) -c -o libgmlib_la-gm_log.lo `test -f 'gm_log.c' || echo '$(srcdir)/'`gm_log.c
 
 libgmlib_la-gm_parse.lo: gm_parse.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libgmlib_la_CFLAGS) $(CFLAGS) -MT libgmlib_la-gm_parse.lo -MD -MP -MF $(DEPDIR)/libgmlib_la-gm_parse.Tpo -c -o libgmlib_la-gm_parse.lo `test -f 'gm_parse.c' || echo '$(srcdir)/'`gm_parse.c

@@ -48,6 +48,8 @@ libgmlib_la_SOURCES = \
 	gm_audio.h \
 	gm_file.c \
 	gm_file.h \
+	gm_log.c \
+	gm_log.h \
 	gm_parse.c \
 	gm_parse.h \
 	gm_pref_store.c \
@@ -78,10 +80,11 @@ libgmlib_la_LIBADD = \
 
 includedir = $(prefix)/include/gmtk
 include_HEADERS = \
+	gmlib.h \
     gm_common.h \
 	gm_audio.h \
 	gm_file.h \
-	gmlib.h \
+	gm_log.h \
 	gm_parse.h \
 	gm_pref_store.h \
 	gm_strfuncs.h \
