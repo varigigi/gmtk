@@ -1,4 +1,5 @@
 Development
+    Adjust formatting in gm_log files to match up with rest of project
     Add in gm_log from Hans Ecke
     Return a NULL instead of a "" string for metadata
 	Apply patch from Issue #9 to fix some cppcheck warnings
