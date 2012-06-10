@@ -44,7 +44,8 @@ G_MESSAGES_DEBUG=GMTK enables a lot of output from gmtk
 
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN            ((gchar*) "GMLIB")
- static int fixup_loglevel(gboolean force_info_to_message, GLogLevelFlags * log_level)
+
+static int fixup_loglevel(gboolean force_info_to_message, GLogLevelFlags * log_level)
 {
 
     // by default, all messages G_LOG_LEVEL_MESSAGE or above are shown
