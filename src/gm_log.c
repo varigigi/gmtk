@@ -19,7 +19,7 @@
  * 	The Free Software Foundation, Inc.,
  * 	51 Franklin Street, Fifth Floor
  * 	Boston, MA  02110-1301, USA.
- */ 
+ */  
     
 #include "gm_log.h"
     
@@ -52,87 +52,90 @@ G_MESSAGES_DEBUG=GMTK enables a lot of output from gmtk
         //
         // GLib loglevels are bitmasks, so we need to do bitmask operations here
         if (force_info_to_message && ((*log_level) & G_LOG_LEVEL_INFO)) {
-			(*log_level) &= ~G_LOG_LEVEL_INFO;
-			(*log_level) |= G_LOG_LEVEL_MESSAGE;
-		}
+        (*log_level) &= ~G_LOG_LEVEL_INFO;
+        (*log_level) |= G_LOG_LEVEL_MESSAGE;
+    }
     
         // emulate G_MESSAGES_DEBUG for glib < 2.31
 #if GLIB_MAJOR_VERSION == 2
 #if GLIB_MINOR_VERSION < 31
         if ((*log_level) & G_LOG_LEVEL_DEBUG) {
-        			const gchar *G_MESSAGES_DEBUG = g_getenv("G_MESSAGES_DEBUG");
+        const gchar *G_MESSAGES_DEBUG = g_getenv("G_MESSAGES_DEBUG");
         
             // if it doesn't exists or we can't find the string "GMLIB",
             // then don't print this message
             if (G_MESSAGES_DEBUG == NULL) {
-        		return 0;
-    		}
-        			if (G_MESSAGES_DEBUG[0] == '\0') {
-				return 0;
-			}
+            return 0;
+        }
+        if (G_MESSAGES_DEBUG[0] == '\0') {
+            return 0;
+        }
         
             // this is not quite proper, but for a simple emulation whose need will go away in the future...
             if (strstr(G_MESSAGES_DEBUG, G_LOG_DOMAIN) == NULL && strstr(G_MESSAGES_DEBUG, "all") == NULL) {
-        		return 0;
-    		}
-    		}
+            return 0;
+        }
+    }
 #endif
 #endif
-        return 1;
+    return 1;
 }
- 
+
+
 // Note that the format should not have a trailing \n - the glib logging system adds it
 void gm_logv(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * format, va_list args)
 {
-    	if (!fixup_loglevel(force_info_to_message, &log_level)) {
-		return;
+    if (!fixup_loglevel(force_info_to_message, &log_level)) {
+        return;
     }
-    	g_logv(G_LOG_DOMAIN, log_level, format, args);
-    	return;
+    g_logv(G_LOG_DOMAIN, log_level, format, args);
+    return;
 }
- void gm_log(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * format, ...)
+
+void gm_log(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * format, ...)
 {
-    	va_list args;
-	va_start(args, format);
-	gm_logv(force_info_to_message, log_level, format, args);
-	va_end(args);
-}  void gm_logs(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * msg)
+    va_list args;
+    va_start(args, format);
+    gm_logv(force_info_to_message, log_level, format, args);
+    va_end(args);
+} void gm_logs(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * msg)
 {
-	gchar *msg_nonl = NULL;
-    	if (!fixup_loglevel(force_info_to_message, &log_level)) {
-		return;
-	}
+    gchar *msg_nonl = NULL;
+    if (!fixup_loglevel(force_info_to_message, &log_level)) {
+        return;
+    }
     
-    // this function should be called if there might be a newline
-    // at the end of the string. it will only allocate a copy
-    // if necessary.
-    size_t len = strlen(msg);
-     	if (msg[len - 1] != '\n') {
-		g_log(G_LOG_DOMAIN, log_level, "%s", msg);
-		return;
-	}
- 	msg_nonl = g_strdup(msg);
-	msg_nonl[len - 1] = '\0';
-	g_log(G_LOG_DOMAIN, log_level, "%s", msg_nonl);
-	g_free(msg_nonl);
+        // this function should be called if there might be a newline
+        // at the end of the string. it will only allocate a copy
+        // if necessary.
+        size_t len = strlen(msg);
+    if (msg[len - 1] != '\n') {
+        g_log(G_LOG_DOMAIN, log_level, "%s", msg);
+        return;
+    }
+    msg_nonl = g_strdup(msg);
+    msg_nonl[len - 1] = '\0';
+    g_log(G_LOG_DOMAIN, log_level, "%s", msg_nonl);
+    g_free(msg_nonl);
 }
- void gm_logsp(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * prefix, const gchar * msg)
+
+void gm_logsp(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * prefix, const gchar * msg)
 {
     size_t len;
-	gchar *msg_nonl = NULL:
-			if (!fixup_loglevel(force_info_to_message, &log_level)) {
-		return;
-	}
+    gchar *msg_nonl = NULL;
+    if (!fixup_loglevel(force_info_to_message, &log_level)) {
+        return;
+    }
     
-    // this function should be called if there might be a newline
-    // at the end of the string. it will only allocate a copy
-    // if necessary.
-    len = strlen(msg);
- 	if (msg[len - 1] != '\n') {
-		g_log(G_LOG_DOMAIN, log_level, "%s %s", prefix, msg);
-		return;
-	}
- 	msg_nonl = g_strdup(msg);
+        // this function should be called if there might be a newline
+        // at the end of the string. it will only allocate a copy
+        // if necessary.
+        len = strlen(msg);
+    if (msg[len - 1] != '\n') {
+        g_log(G_LOG_DOMAIN, log_level, "%s %s", prefix, msg);
+        return;
+    }
+    msg_nonl = g_strdup(msg);
     msg_nonl[len - 1] = '\0';
     g_log(G_LOG_DOMAIN, log_level, "%s %s", prefix, msg_nonl);
     g_free(msg_nonl);
