@@ -19,10 +19,10 @@
  * 	The Free Software Foundation, Inc.,
  * 	51 Franklin Street, Fifth Floor
  * 	Boston, MA  02110-1301, USA.
- */  
-    
+ */
+
 #include "gm_log.h"
-    
+
 /* How to control the GLib logging system: with environment variables
 
 G_MESSAGES_PREFIXED.  A list of log levels for which messages should be prefixed by the
@@ -38,44 +38,42 @@ debug messages should be printed. By default, these messages are not printed.
 
 G_MESSAGES_DEBUG=GMTK enables a lot of output from gmtk
 
-*/ 
-    
+*/
+
 #include <string.h>
-    
+
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN            ((gchar*) "GMLIB")
-static int fixup_loglevel(gboolean force_info_to_message, GLogLevelFlags * log_level)
+ static int fixup_loglevel(gboolean force_info_to_message, GLogLevelFlags * log_level)
 {
-    
-        // by default, all messages G_LOG_LEVEL_MESSAGE or above are shown
-        // if our own debug flag is set, force G_LOG_LEVEL_INFO messages to MESSAGE
-        //
-        // GLib loglevels are bitmasks, so we need to do bitmask operations here
-        if (force_info_to_message && ((*log_level) & G_LOG_LEVEL_INFO)) {
+
+    // by default, all messages G_LOG_LEVEL_MESSAGE or above are shown
+    // if our own debug flag is set, force G_LOG_LEVEL_INFO messages to MESSAGE
+    //
+    // GLib loglevels are bitmasks, so we need to do bitmask operations here
+    if (force_info_to_message && ((*log_level) & G_LOG_LEVEL_INFO)) {
         (*log_level) &= ~G_LOG_LEVEL_INFO;
         (*log_level) |= G_LOG_LEVEL_MESSAGE;
     }
-    
-        // emulate G_MESSAGES_DEBUG for glib < 2.31
+    // emulate G_MESSAGES_DEBUG for glib < 2.31
 #if GLIB_MAJOR_VERSION == 2
 #if GLIB_MINOR_VERSION < 31
-        if ((*log_level) & G_LOG_LEVEL_DEBUG) {
-        const gchar *G_MESSAGES_DEBUG = g_getenv("G_MESSAGES_DEBUG");
-        
-            // if it doesn't exists or we can't find the string "GMLIB",
-            // then don't print this message
-            if (G_MESSAGES_DEBUG == NULL) {
+    if ((*log_level) & G_LOG_LEVEL_DEBUG) {
+        const gchar *G_MESSAGES_DEBUG = g_getenv("G_MESSAGES_DEBUG");
+
+        // if it doesn't exists or we can't find the string "GMLIB",
+        // then don't print this message
+        if (G_MESSAGES_DEBUG == NULL) {
             return 0;
         }
-        if (G_MESSAGES_DEBUG[0] == '\0') {
+        if (G_MESSAGES_DEBUG[0] == '\0') {
             return 0;
         }
-        
-            // this is not quite proper, but for a simple emulation whose need will go away in the future...
-            if (strstr(G_MESSAGES_DEBUG, G_LOG_DOMAIN) == NULL && strstr(G_MESSAGES_DEBUG, "all") == NULL) {
+        // this is not quite proper, but for a simple emulation whose need will go away in the future...
+        if (strstr(G_MESSAGES_DEBUG, G_LOG_DOMAIN) == NULL && strstr(G_MESSAGES_DEBUG, "all") == NULL) {
             return 0;
         }
-    }
+    }
 #endif
 #endif
     return 1;
@@ -85,35 +83,39 @@ G_MESSAGES_DEBUG=GMTK enables a lot of output from gmtk
 // Note that the format should not have a trailing \n - the glib logging system adds it
 void gm_logv(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * format, va_list args)
 {
-    if (!fixup_loglevel(force_info_to_message, &log_level)) {
+    if (!fixup_loglevel(force_info_to_message, &log_level)) {
         return;
     }
-    g_logv(G_LOG_DOMAIN, log_level, format, args);
-    return;
-}
+    g_logv(G_LOG_DOMAIN, log_level, format, args);
+
+    return;
+}
 
 void gm_log(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * format, ...)
 {
-    va_list args;
+    va_list args;
     va_start(args, format);
     gm_logv(force_info_to_message, log_level, format, args);
     va_end(args);
 } void gm_logs(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * msg)
 {
+    size_t len;
     gchar *msg_nonl = NULL;
-    if (!fixup_loglevel(force_info_to_message, &log_level)) {
+
+    if (!fixup_loglevel(force_info_to_message, &log_level)) {
         return;
     }
-    
-        // this function should be called if there might be a newline
-        // at the end of the string. it will only allocate a copy
-        // if necessary.
-        size_t len = strlen(msg);
-    if (msg[len - 1] != '\n') {
+    // this function should be called if there might be a newline
+    // at the end of the string. it will only allocate a copy
+    // if necessary.
+    len = strlen(msg);
+
+    if (msg[len - 1] != '\n') {
         g_log(G_LOG_DOMAIN, log_level, "%s", msg);
         return;
     }
-    msg_nonl = g_strdup(msg);
+
+    msg_nonl = g_strdup(msg);
     msg_nonl[len - 1] = '\0';
     g_log(G_LOG_DOMAIN, log_level, "%s", msg_nonl);
     g_free(msg_nonl);
@@ -123,19 +125,19 @@ void gm_logv(gboolean force_info_to_message, GLogLevelFlags log_level, const gch
 {
     size_t len;
     gchar *msg_nonl = NULL;
-    if (!fixup_loglevel(force_info_to_message, &log_level)) {
+
+    if (!fixup_loglevel(force_info_to_message, &log_level)) {
         return;
     }
-    
-        // this function should be called if there might be a newline
-        // at the end of the string. it will only allocate a copy
-        // if necessary.
-        len = strlen(msg);
-    if (msg[len - 1] != '\n') {
+    // this function should be called if there might be a newline
+    // at the end of the string. it will only allocate a copy
+    // if necessary.
+    len = strlen(msg);
+    if (msg[len - 1] != '\n') {
         g_log(G_LOG_DOMAIN, log_level, "%s %s", prefix, msg);
         return;
     }
-    msg_nonl = g_strdup(msg);
+    msg_nonl = g_strdup(msg);
     msg_nonl[len - 1] = '\0';
     g_log(G_LOG_DOMAIN, log_level, "%s %s", prefix, msg_nonl);
     g_free(msg_nonl);

@@ -1,4 +1,3 @@
-/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */  
 /*
  * gm_log.h
  * Copyright (C) Kevin DeKorte 2012 <kdekorte@gmail.com> and Hans Ecke
@@ -20,19 +19,19 @@
  * 	The Free Software Foundation, Inc.,
  * 	51 Franklin Street, Fifth Floor
  * 	Boston, MA  02110-1301, USA.
- */ 
-    
+ */
+
 #include <glib.h>
-    
+
 #ifdef __cplusplus
 extern "C" {
-    
+
 #endif
-    void gm_logv(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * format, va_list args);
+    void gm_logv(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * format, va_list args);
     void gm_log(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * format, ...);
     void gm_logs(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * msg);
     void gm_logsp(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * prefix, const gchar * msg);
-    
+
 #ifdef __cplusplus
-} 
+}
 #endif
