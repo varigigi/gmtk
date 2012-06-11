@@ -81,7 +81,7 @@ libgmlib_la_LIBADD = \
 includedir = $(prefix)/include/gmtk
 include_HEADERS = \
 	gmlib.h \
-    gm_common.h \
+	gm_common.h \
 	gm_audio.h \
 	gm_file.h \
 	gm_log.h \
