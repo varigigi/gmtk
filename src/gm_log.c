@@ -92,13 +92,15 @@ void gm_logv(gboolean force_info_to_message, GLogLevelFlags log_level, const gch
     return;
 }
 
-void gm_log(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * format, ...)
+void gm_log(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * format, ...)
 {
     va_list args;
     va_start(args, format);
     gm_logv(force_info_to_message, log_level, format, args);
     va_end(args);
-} void gm_logs(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * msg)
+}
+
+void gm_logs(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * msg)
 {
     size_t len;
     gchar *msg_nonl = NULL;
@@ -120,9 +122,9 @@ void gm_logv(gboolean force_info_to_message, GLogLevelFlags log_level, const gch
     msg_nonl[len - 1] = '\0';
     g_log(G_LOG_DOMAIN, log_level, "%s", msg_nonl);
     g_free(msg_nonl);
-}
+}
 
-void gm_logsp(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * prefix, const gchar * msg)
+void gm_logsp(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * prefix, const gchar * msg)
 {
     size_t len;
     gchar *msg_nonl = NULL;
