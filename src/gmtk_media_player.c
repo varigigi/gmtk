@@ -2,19 +2,19 @@
 /*
  * gmtk_media_player.c
  * Copyright (C) Kevin DeKorte 2009 <kdekorte@gmail.com>
- * 
+ *
  * gmtk_media_player.c is free software.
- * 
+ *
  * You may redistribute it and/or modify it under the terms of the
  * GNU General Public License, as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option)
  * any later version.
- * 
+ *
  * gmtk_media_tracker.c is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with playlist.c.  If not, write to:
  * 	The Free Software Foundation, Inc.,
@@ -99,7 +99,7 @@ gboolean signal_event(gpointer data)
             break;
 
         default:
-            printf("undefined event %s\n", event->event_name);
+            gm_log(event->player->debug, G_LOG_LEVEL_MESSAGE, "undefined event %s", event->event_name);
         }
         g_free(event->event_name);
         event->event_name = NULL;
@@ -171,6 +171,65 @@ gchar *gmtk_media_player_switch_protocol(const gchar * uri, gchar * new_protocol
         return g_strdup_printf("%s%s", new_protocol, p);
     else
         return NULL;
+}
+
+static void gmtk_media_player_log_state(GmtkMediaPlayer * player, char const *const context)
+{
+#define gmpls_len 1024
+    gchar msg[gmpls_len] = "";
+    if (context != NULL && (*context) != '\0') {
+        g_strlcat(msg, context, gmpls_len);
+        g_strlcat(msg, ": ", gmpls_len);
+    }
+    g_snprintf(msg + strlen(msg), gmpls_len, "position=%.3f", msg, player->position);
+    g_snprintf(msg + strlen(msg), gmpls_len, " length=%.3f", msg, player->length);
+    g_snprintf(msg + strlen(msg), gmpls_len, " start_time=%.3f", msg, player->start_time);
+    g_snprintf(msg + strlen(msg), gmpls_len, " run_time=%.3f", msg, player->run_time);
+    g_snprintf(msg + strlen(msg), gmpls_len, " volume=%.2f", msg, player->volume);
+    if (player->muted) {
+        g_strlcat(msg, " muted", gmpls_len);
+    }
+
+    g_strlcat(msg, " player=", gmpls_len);
+    switch (player->player_state) {
+    case PLAYER_STATE_DEAD:
+        g_strlcat(msg, "dead", gmpls_len);
+        break;
+    case PLAYER_STATE_RUNNING:
+        g_strlcat(msg, "running", gmpls_len);
+        break;
+    default:
+        g_strlcat(msg, "unknown", gmpls_len);
+    }
+
+    g_strlcat(msg, " media=", gmpls_len);
+    switch (player->media_state) {
+    case MEDIA_STATE_UNKNOWN:
+        g_strlcat(msg, "unknown", gmpls_len);
+        break;
+    case MEDIA_STATE_PLAY:
+        g_strlcat(msg, "play", gmpls_len);
+        break;
+    case MEDIA_STATE_PAUSE:
+        g_strlcat(msg, "pause", gmpls_len);
+        break;
+    case MEDIA_STATE_STOP:
+        g_strlcat(msg, "stop", gmpls_len);
+        break;
+    case MEDIA_STATE_QUIT:
+        g_strlcat(msg, "quit", gmpls_len);
+        break;
+    case MEDIA_STATE_BUFFERING:
+        g_strlcat(msg, "buffering", gmpls_len);
+        break;
+    default:
+        g_strlcat(msg, "unknown", gmpls_len);
+    }
+    g_strlcat(msg, " uri=", gmpls_len);
+    if (player->uri != NULL) {
+        g_strlcat(msg, player->uri, gmpls_len);
+    }
+    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "%s", msg);
 }
 
 static void gmtk_media_player_class_init(GmtkMediaPlayerClass * class)
@@ -346,6 +405,7 @@ static void gmtk_media_player_init(GmtkMediaPlayer * player)
     player->artist = NULL;
     player->title = NULL;
     player->album = NULL;
+    gmtk_media_player_log_state(player, "after init");
 }
 
 static void gmtk_media_player_dispose(GObject * object)
@@ -590,11 +650,9 @@ static gboolean player_key_press_event_callback(GtkWidget * widget, GdkEventKey 
             write_to_mplayer(player, "sub_delay -0.1\n");
             break;
         default:
-            if (player->debug) {
-                printf("ignoring key %s%s%s%s \n", (event->state & GDK_CONTROL_MASK) ? "Control-" : "",
-                       (event->state & GDK_MOD1_MASK) ? "Alt-" : "",
-                       (event->state & GDK_SHIFT_MASK) ? "Shift-" : "", gdk_keyval_name(event->keyval));
-            }
+            gm_log(player->debug, G_LOG_LEVEL_INFO, "ignoring key %s%s%s%s",
+                   (event->state & GDK_CONTROL_MASK) ? "Control-" : "", (event->state & GDK_MOD1_MASK) ? "Alt-" : "",
+                   (event->state & GDK_SHIFT_MASK) ? "Shift-" : "", gdk_keyval_name(event->keyval));
         }
 
     }
@@ -644,7 +702,7 @@ static void gmtk_media_player_size_allocate(GtkWidget * widget, GtkAllocation * 
 
     if (allocation->width <= 0 || allocation->height <= 0) {
         gmtk_get_allocation(widget, allocation);
-        // printf ("widget allocation %i x %i\n", allocation->width, allocation->height);
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "widget allocation %i x %i", allocation->width, allocation->height);
     }
     // protect against possible divide by zero
     if (allocation->width == 0 || allocation->height == 0) {
@@ -686,8 +744,7 @@ static void gmtk_media_player_size_allocate(GtkWidget * widget, GtkAllocation * 
             if (video_aspect > widget_aspect) {
                 yscale = ((gdouble) allocation->width / video_aspect) / (gdouble) allocation->height;
 
-                //if (player->debug)
-                //      printf("yscale = %lf\n",yscale);
+                gm_log(player->debug, G_LOG_LEVEL_DEBUG, "yscale = %lf", yscale);
                 if (yscale > 0.0) {
                     gtk_alignment_set(GTK_ALIGNMENT(player->alignment), 0.0, 0.5, 1.0, CLAMP(yscale, 0.1, 1.0));
                 } else {
@@ -696,8 +753,7 @@ static void gmtk_media_player_size_allocate(GtkWidget * widget, GtkAllocation * 
             } else {
                 xscale = ((gdouble) allocation->height * video_aspect) / (gdouble) allocation->width;
 
-                //if (player->debug)
-                //      printf("xscale = %lf\n",xscale);
+                gm_log(player->debug, G_LOG_LEVEL_DEBUG, "xscale = %lf", xscale);
                 if (xscale > 0.0) {
                     gtk_alignment_set(GTK_ALIGNMENT(player->alignment), 0.5, 0.0, CLAMP(xscale, 0.1, 1.0), 1.0);
                 } else {
@@ -707,7 +763,8 @@ static void gmtk_media_player_size_allocate(GtkWidget * widget, GtkAllocation * 
         }
     }
 
-    // printf("gmtk allocation video:%i %ix%i\n",player->video_present, allocation->width,allocation->height);
+    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "gmtk allocation video:%i %ix%i", player->video_present, allocation->width,
+           allocation->height);
     GTK_WIDGET_CLASS(parent_class)->size_allocate(widget, allocation);
 
 }
@@ -723,11 +780,11 @@ static void gmtk_media_player_restart_complete_callback(GmtkMediaPlayer * player
 {
     gmtk_media_player_seek(player, player->restart_position, SEEK_ABSOLUTE);
     player->restart = FALSE;
-    //printf("restart state = %i, current state = %i\n", player->restart_state, gmtk_media_player_get_state(player));
+    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "restart state = %i, current state = %i", player->restart_state,
+           gmtk_media_player_get_state(player));
     if (player->restart_state != gmtk_media_player_get_state(player))
         gmtk_media_player_set_state(GMTK_MEDIA_PLAYER(player), player->restart_state);
-    if (player->debug)
-        printf("restart complete\n");
+    gm_log(player->debug, G_LOG_LEVEL_INFO, "restart complete");
 }
 
 static void gmtk_media_player_restart_shutdown_complete_callback(GmtkMediaPlayer * player, gpointer data)
@@ -788,6 +845,7 @@ const gchar *gmtk_media_player_get_uri(GmtkMediaPlayer * player)
 
 void gmtk_media_player_set_state(GmtkMediaPlayer * player, const GmtkMediaPlayerMediaState new_state)
 {
+    gmtk_media_player_log_state(player, "old");
     if (player->player_state == PLAYER_STATE_DEAD) {
 
         if (new_state == MEDIA_STATE_QUIT) {
@@ -816,6 +874,7 @@ void gmtk_media_player_set_state(GmtkMediaPlayer * player, const GmtkMediaPlayer
                 player->player_state = PLAYER_STATE_RUNNING;
                 if (!player->restart)
                     g_signal_emit_by_name(player, "player-state-changed", player->player_state);
+                gmtk_media_player_log_state(player, "new");
                 return;
             }
         }
@@ -868,6 +927,7 @@ void gmtk_media_player_set_state(GmtkMediaPlayer * player, const GmtkMediaPlayer
         }
     }
 
+    gmtk_media_player_log_state(player, "new");
 }
 
 GmtkMediaPlayerMediaState gmtk_media_player_get_state(GmtkMediaPlayer * player)
@@ -917,8 +977,7 @@ void gmtk_media_player_send_command(GmtkMediaPlayer * player, GmtkMediaPlayerCom
             break;
 
         default:
-            if (player->debug)
-                printf("Unknown command\n");
+            gm_log(player->debug, G_LOG_LEVEL_INFO, "Unknown command");
         }
     }
 }
@@ -1023,8 +1082,7 @@ void gmtk_media_player_set_attribute_boolean(GmtkMediaPlayer * player,
         break;
 
     default:
-        if (player->debug)
-            printf("Unsupported Attribute\n");
+        gm_log(player->debug, G_LOG_LEVEL_INFO, "Unsupported Attribute");
     }
 
     return;
@@ -1124,8 +1182,7 @@ gboolean gmtk_media_player_get_attribute_boolean(GmtkMediaPlayer * player, GmtkM
         break;
 
     default:
-        if (player->debug)
-            printf("Unsupported Attribute\n");
+        gm_log(player->debug, G_LOG_LEVEL_INFO, "Unsupported Attribute");
     }
     return ret;
 }
@@ -1213,8 +1270,7 @@ void gmtk_media_player_set_attribute_double(GmtkMediaPlayer * player,
         break;
 
     default:
-        if (player->debug)
-            printf("Unsupported Attribute\n");
+        gm_log(player->debug, G_LOG_LEVEL_INFO, "Unsupported Attribute");
     }
 
     return;
@@ -1298,8 +1354,7 @@ gdouble gmtk_media_player_get_attribute_double(GmtkMediaPlayer * player, GmtkMed
         break;
 
     default:
-        if (player->debug)
-            printf("Unsupported Attribute\n");
+        gm_log(player->debug, G_LOG_LEVEL_INFO, "Unsupported Attribute");
     }
     return ret;
 }
@@ -1470,8 +1525,7 @@ void gmtk_media_player_set_attribute_string(GmtkMediaPlayer * player,
         break;
 
     default:
-        if (player->debug)
-            printf("Unsupported Attribute\n");
+        gm_log(player->debug, G_LOG_LEVEL_INFO, "Unsupported Attribute");
     }
 }
 
@@ -1576,8 +1630,7 @@ const gchar *gmtk_media_player_get_attribute_string(GmtkMediaPlayer * player, Gm
         break;
 
     default:
-        if (player->debug)
-            printf("Unsupported Attribute\n");
+        gm_log(player->debug, G_LOG_LEVEL_INFO, "Unsupported Attribute");
     }
 
     return value;
@@ -1669,8 +1722,7 @@ void gmtk_media_player_set_attribute_integer(GmtkMediaPlayer * player, GmtkMedia
         break;
 
     default:
-        if (player->debug)
-            printf("Unsupported Attribute\n");
+        gm_log(player->debug, G_LOG_LEVEL_INFO, "Unsupported Attribute");
     }
 
     return;
@@ -2014,8 +2066,7 @@ gpointer launch_mplayer(gpointer data)
     g_mutex_lock(player->thread_running);
 
     do {
-        if (player->debug)
-            printf("setting up mplayer\n");
+        gm_log(player->debug, G_LOG_LEVEL_INFO, "setting up mplayer");
 
         list = player->subtitles;
         while (list) {
@@ -2474,12 +2525,9 @@ gpointer launch_mplayer(gpointer data)
         }
         argv[argn] = NULL;
 
-        if (player->debug) {
-            for (i = 0; i < argn; i++) {
-                printf("%s ", argv[i]);
-            }
-            printf("\n");
-        }
+        gchar *allargs = g_strjoinv(" ", argv);
+        gm_log(player->debug, G_LOG_LEVEL_INFO, "%s", allargs);
+        g_free(allargs);
 
         error = NULL;
         player->std_in = -1;
@@ -2489,12 +2537,12 @@ gpointer launch_mplayer(gpointer data)
         spawn =
             g_spawn_async_with_pipes(NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, &pid,
                                      &(player->std_in), &(player->std_out), &(player->std_err), &error);
-        //if (player->debug)
-        //    printf("spawn = %i files in %i out %i err %i \n", spawn, player->std_in, player->std_out, player->std_err);
+
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "spawn = %i files in %i out %i err %in", spawn, player->std_in,
+               player->std_out, player->std_err);
 
         if (error != NULL) {
-            if (player->debug)
-                printf("error code = %i - %s\n", error->code, error->message);
+            gm_log(player->debug, G_LOG_LEVEL_INFO, "error code = %i - %s", error->code, error->message);
             g_error_free(error);
             error = NULL;
         }
@@ -2507,8 +2555,7 @@ gpointer launch_mplayer(gpointer data)
         }
 
         if (spawn) {
-            //if (player->debug)
-            //    printf("spawn succeeded, setup up channels\n");
+            gm_log(player->debug, G_LOG_LEVEL_DEBUG, "spawn succeeded, setup up channels");
 
             player->player_state = PLAYER_STATE_RUNNING;
             player->media_state = MEDIA_STATE_BUFFERING;
@@ -2550,11 +2597,9 @@ gpointer launch_mplayer(gpointer data)
 #else
             g_timeout_add(1000, thread_query, player);
 #endif
-            //if (player->debug)
-            //    printf("waiting for mplayer_complete_cond\n");
+            gm_log(player->debug, G_LOG_LEVEL_DEBUG, "waiting for mplayer_complete_cond");
             g_cond_wait(player->mplayer_complete_cond, player->thread_running);
-            //if (player->debug)
-            //    printf("mplayer_complete_cond was signalled\n");
+            gm_log(player->debug, G_LOG_LEVEL_DEBUG, "mplayer_complete_cond was signalled");
 
             g_source_remove(player->watch_in_id);
             g_source_remove(player->watch_err_id);
@@ -2640,12 +2685,11 @@ gpointer launch_mplayer(gpointer data)
             break;
         }
 
-        //printf("playback error code is %i\n", player->playback_error);
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "playback error code is %i", player->playback_error);
 
     } while (player->playback_error != NO_ERROR);
 
-    //if (player->debug)
-    //    printf("marking playback complete\n");
+    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "marking playback complete");
     player->player_state = PLAYER_STATE_DEAD;
     player->media_state = MEDIA_STATE_UNKNOWN;
     g_mutex_unlock(player->thread_running);
@@ -2660,6 +2704,8 @@ gpointer launch_mplayer(gpointer data)
         create_event_int(player, "media-state-changed", player->media_state);
     }
 
+    gmtk_media_player_log_state(player, "launched");
+
     return NULL;
 }
 
@@ -2673,6 +2719,7 @@ gboolean thread_complete(GIOChannel * source, GIOCondition condition, gpointer d
     g_source_remove(player->watch_err_id);
     g_cond_signal(player->mplayer_complete_cond);
     g_unlink(player->af_export_filename);
+    gmtk_media_player_log_state(player, "completed");
 
     return FALSE;
 }
@@ -2691,25 +2738,22 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
     }
 
     if (source == NULL) {
-        //if (player->debug)
-        //    printf("source is null\n");
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "source is null");
         g_source_remove(player->watch_in_id);
         g_source_remove(player->watch_in_hup_id);
         return FALSE;
     }
 
     if (player->player_state == PLAYER_STATE_DEAD) {
-        //if (player->debug)
-        //    printf("player is dead\n");
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "player is dead");
         return FALSE;
     }
 
     mplayer_output = g_string_new("");
     status = g_io_channel_read_line_string(source, mplayer_output, NULL, NULL);
 
-    if (player->debug) {
-        if (g_strrstr(mplayer_output->str, "ANS") == NULL)
-            printf("ERROR: %s", mplayer_output->str);
+    if (g_strrstr(mplayer_output->str, "ANS") == NULL) {
+        gm_logsp(player->debug, G_LOG_LEVEL_INFO, "ERROR:", mplayer_output->str);
     }
 
     if (strstr(mplayer_output->str, "Couldn't open DVD device") != 0) {
@@ -2884,21 +2928,19 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
     GtkWidget *dialog;
 
     if (player == NULL) {
-        printf("player is NULL\n");
+        gm_log(player->debug, G_LOG_LEVEL_MESSAGE, "player is NULL");
         return FALSE;
     }
 
     if (source == NULL) {
-        if (player->debug)
-            printf("source is null\n");
+        gm_log(player->debug, G_LOG_LEVEL_INFO, "source is null");
         g_source_remove(player->watch_in_id);
         g_source_remove(player->watch_in_hup_id);
         return FALSE;
     }
 
     if (player->player_state == PLAYER_STATE_DEAD) {
-        if (player->debug)
-            printf("player is dead\n");
+        gm_log(player->debug, G_LOG_LEVEL_INFO, "player is dead");
         return FALSE;
     }
 
@@ -2906,13 +2948,11 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
 
     status = g_io_channel_read_line_string(source, mplayer_output, NULL, &error);
     if (status == G_IO_STATUS_ERROR) {
-        if (player->debug)
-            printf("GIO IO Error: %s\n", mplayer_output->str);
+        gm_logsp(player->debug, G_LOG_LEVEL_INFO, "GIO IO Error:", mplayer_output->str);
         return TRUE;
     } else {
-        if (player->debug) {
-            if (g_strrstr(mplayer_output->str, "ANS") == NULL)
-                printf("%s", mplayer_output->str);
+        if (g_strrstr(mplayer_output->str, "ANS") == NULL) {
+            gm_logs(player->debug, G_LOG_LEVEL_INFO, mplayer_output->str);
         }
 
         if (strstr(mplayer_output->str, "Cache fill") != 0) {
@@ -2930,7 +2970,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
         if (strstr(mplayer_output->str, "VO:") != NULL) {
             buf = strstr(mplayer_output->str, "VO:");
             sscanf(buf, "VO: [%[^]]] %ix%i => %ix%i", vm, &w, &h, &(player->video_width), &(player->video_height));
-            // printf("%ix%i => %ix%i\n", w, h, player->video_width, player->video_height);
+            gm_log(player->debug, G_LOG_LEVEL_DEBUG, "%ix%i => %ix%i", w, h, player->video_width, player->video_height);
             gmtk_get_allocation(GTK_WIDGET(player), &allocation);
             player->media_state = MEDIA_STATE_PLAY;
             if (player->restart) {
@@ -3062,7 +3102,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
         if (strstr(mplayer_output->str, "ANS_speed") != 0) {
             buf = strstr(mplayer_output->str, "ANS_speed");
             sscanf(buf, "ANS_speed=%lf", &player->speed);
-            printf("new speed is %lf\n", player->speed);
+            gm_log(player->debug, G_LOG_LEVEL_MESSAGE, "new speed is %lf", player->speed);
             create_event_int(player, "attribute-changed", ATTRIBUTE_SPEED_SET);
         }
 
@@ -3261,8 +3301,8 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
             player->video_format = g_strdup(buf);
             create_event_int(player, "attribute-changed", ATTRIBUTE_VIDEO_FORMAT);
             if (player->video_width == 0 && player->video_height == 0) {
-                if (player->debug)
-                    printf("Setting to minimum size so that mplayer has something to draw to\n");
+                gm_log(player->debug, G_LOG_LEVEL_INFO,
+                       "Setting to minimum size so that mplayer has something to draw to");
                 allocation.width = 32;
                 allocation.height = 16;
                 create_event_allocation(player, "size_allocate", &allocation);
@@ -3557,15 +3597,15 @@ gboolean thread_query(gpointer data)
     GmtkMediaPlayer *player = GMTK_MEDIA_PLAYER(data);
     gint written;
 
-    //printf("in thread_query, data = %p\n", data);
+    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "in thread_query, data = %p", data);
     if (player == NULL) {
-        //printf("thread_query called with player == NULL\n");
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "thread_query called with player == NULL");
         return FALSE;
     }
 
     if (player->player_state == PLAYER_STATE_RUNNING) {
         if (player->media_state == MEDIA_STATE_PLAY) {
-            //printf("writing\n");
+            gm_log(player->debug, G_LOG_LEVEL_DEBUG, "writing");
             if (player->use_mplayer2) {
                 written = write(player->std_in, "get_time_pos\n", strlen("get_time_pos\n"));
             } else {
@@ -3573,11 +3613,10 @@ gboolean thread_query(gpointer data)
                     write(player->std_in, "pausing_keep_force get_time_pos\n",
                           strlen("pausing_keep_force get_time_pos\n"));
             }
-            //printf("written = %i\n", written);
+            gm_log(player->debug, G_LOG_LEVEL_DEBUG, "written = %i", written);
             if (written == -1) {
                 //return TRUE;
-                if (player->debug)
-                    printf("thread_query, write failed\n");
+                gm_log(player->debug, G_LOG_LEVEL_INFO, "thread_query, write failed");
                 return FALSE;
             } else {
                 return TRUE;
@@ -3586,8 +3625,7 @@ gboolean thread_query(gpointer data)
             return TRUE;
         }
     } else {
-        //if (player->debug)
-        //    printf("thread_query, player is dead\n");
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "thread_query, player is dead");
         return FALSE;
     }
 }
@@ -3598,7 +3636,8 @@ gboolean write_to_mplayer(GmtkMediaPlayer * player, const gchar * cmd)
     gsize bytes_written;
     gchar *pkf_cmd;
 
-    //printf("write to mplayer = %s\n", cmd);
+    /* ending \n is part of cmd */
+    gm_logsp(player->debug, G_LOG_LEVEL_DEBUG, "write to mplayer =", cmd);
 
     if (player->channel_in) {
         if (player->use_mplayer2) {
@@ -3664,7 +3703,7 @@ gboolean detect_mplayer_features(GmtkMediaPlayer * player)
     }
 
     if (error != NULL) {
-        printf("Error when running: %s\n", error->message);
+        gm_log(player->debug, G_LOG_LEVEL_MESSAGE, "Error when running: %s", error->message);
         g_error_free(error);
         error = NULL;
         if (out != NULL) {
@@ -3696,7 +3735,8 @@ gboolean detect_mplayer_features(GmtkMediaPlayer * player)
 
     player->features_detected = TRUE;
     if (!ret) {
-        printf(g_dgettext(GETTEXT_PACKAGE, "You might want to consider upgrading mplayer to a newer version\n"));
+        gm_log(player->debug, G_LOG_LEVEL_MESSAGE,
+               g_dgettext(GETTEXT_PACKAGE, "You might want to consider upgrading mplayer to a newer version"));
     }
     return ret;
 }
