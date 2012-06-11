@@ -36,7 +36,7 @@ G_MESSAGES_DEBUG. Since glib 2.31, but emulated below for earlier versions.
 A space-separated list of log domains for which informational and
 debug messages should be printed. By default, these messages are not printed.
 
-G_MESSAGES_DEBUG=GMTK enables a lot of output from gmtk
+G_MESSAGES_DEBUG=GMLIB enables a lot of output from gmlib
 
 */
 
@@ -56,27 +56,26 @@ static int fixup_loglevel(gboolean force_info_to_message, GLogLevelFlags * log_l
         (*log_level) &= ~G_LOG_LEVEL_INFO;
         (*log_level) |= G_LOG_LEVEL_MESSAGE;
     }
-    // emulate G_MESSAGES_DEBUG for glib < 2.31
-#if GLIB_MAJOR_VERSION == 2
-#if GLIB_MINOR_VERSION < 31
-    if ((*log_level) & G_LOG_LEVEL_DEBUG) {
-        const gchar *G_MESSAGES_DEBUG = g_getenv("G_MESSAGES_DEBUG");
+    // emulate G_MESSAGES_DEBUG for glib < 2.31. We determine version at runtime
+    // because it might have changed from the time we compiled this
+    if (glib_major_version == 2 && glib_minor_version < 31) {
+        if ((*log_level) & G_LOG_LEVEL_DEBUG) {
+            const gchar *G_MESSAGES_DEBUG = g_getenv("G_MESSAGES_DEBUG");
 
-        // if it doesn't exists or we can't find the string "GMLIB",
-        // then don't print this message
-        if (G_MESSAGES_DEBUG == NULL) {
-            return 0;
-        }
-        if (G_MESSAGES_DEBUG[0] == '\0') {
-            return 0;
-        }
-        // this is not quite proper, but for a simple emulation whose need will go away in the future...
-        if (strstr(G_MESSAGES_DEBUG, G_LOG_DOMAIN) == NULL && strstr(G_MESSAGES_DEBUG, "all") == NULL) {
-            return 0;
+            // if it doesn't exists or we can't find the string "GMLIB",
+            // then don't print this message
+            if (G_MESSAGES_DEBUG == NULL) {
+                return 0;
+            }
+            if (G_MESSAGES_DEBUG[0] == '\0') {
+                return 0;
+            }
+            // this is not quite proper, but for a simple emulation whose need will go away in the future...
+            if (strstr(G_MESSAGES_DEBUG, G_LOG_DOMAIN) == NULL && strstr(G_MESSAGES_DEBUG, "all") == NULL) {
+                return 0;
+            }
         }
     }
-#endif
-#endif
     return 1;
 }
 
