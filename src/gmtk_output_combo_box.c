@@ -85,8 +85,9 @@ void pa_sink_cb(pa_context * c, const pa_sink_info * i, int eol, gpointer data)
 
 void context_state_callback(pa_context * context, gpointer data)
 {
-    gm_log(FALSE, G_LOG_LEVEL_DEBUG, "context state callback");
     int i;
+
+    gm_log(FALSE, G_LOG_LEVEL_DEBUG, "context state callback");
 
     switch (pa_context_get_state(context)) {
     case PA_CONTEXT_READY:{
