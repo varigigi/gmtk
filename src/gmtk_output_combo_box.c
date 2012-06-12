@@ -53,7 +53,7 @@ gint sort_iter_compare_func(GtkTreeModel * model, GtkTreeIter * a, GtkTreeIter *
         break;
 
     default:
-        gm_log(FALSE, G_LOG_LEVEL_MESSAGE, "unimplemented sort routine\n");
+        gm_log(FALSE, G_LOG_LEVEL_MESSAGE, "unimplemented sort routine");
     }
 
     return ret;
@@ -85,7 +85,7 @@ void pa_sink_cb(pa_context * c, const pa_sink_info * i, int eol, gpointer data)
 
 void context_state_callback(pa_context * context, gpointer data)
 {
-    gm_log(FALSE, G_LOG_LEVEL_DEBUG, "context state callback\n");
+    gm_log(FALSE, G_LOG_LEVEL_DEBUG, "context state callback");
     int i;
 
     switch (pa_context_get_state(context)) {
@@ -179,7 +179,7 @@ static void gmtk_output_combo_box_init(GmtkOutputComboBox * output)
     card = -1;
 
     while (snd_card_next(&card) >= 0) {
-        gm_log(FALSE, G_LOG_LEVEL_DEBUG, "card = %i\n", card);
+        gm_log(FALSE, G_LOG_LEVEL_DEBUG, "card = %i", card);
         if (card < 0)
             break;
         if (name != NULL) {
@@ -188,7 +188,7 @@ static void gmtk_output_combo_box_init(GmtkOutputComboBox * output)
         }
         name = malloc(32);
         sprintf(name, "hw:%i", card);
-        gm_log(FALSE, G_LOG_LEVEL_DEBUG, "name = %s\n", name);
+        gm_log(FALSE, G_LOG_LEVEL_DEBUG, "name = %s", name);
 
         if ((err = snd_ctl_open(&handle, name, 0)) < 0) {
             continue;
