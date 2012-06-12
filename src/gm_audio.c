@@ -158,7 +158,7 @@ gboolean gm_audio_query_devices()
     card = -1;
 
     while (snd_card_next(&card) >= 0) {
-        //printf("card = %i\n", card);
+        gm_log(FALSE, G_LOG_LEVEL_DEBUG, "card = %i", card);
         if (card < 0)
             break;
         if (name != NULL) {
@@ -167,7 +167,7 @@ gboolean gm_audio_query_devices()
         }
         name = malloc(32);
         sprintf(name, "hw:%i", card);
-        //printf("name = %s\n",name);
+        gm_log(FALSE, G_LOG_LEVEL_DEBUG, "name = %s", name);
 
         if ((err = snd_ctl_open(&handle, name, 0)) < 0) {
             continue;
@@ -243,7 +243,7 @@ gboolean gm_audio_update_device(AudioDevice * device)
     if (gm_audio_devices == NULL) {
         gm_audio_query_devices();
     }
-    //printf("update device, looking for %s\n", device->description);
+    gm_log(FALSE, G_LOG_LEVEL_DEBUG, "update device, looking for %s", device->description);
 
     device->type = AUDIO_TYPE_UNKNOWN;
     if (device->alsa_device_name != NULL) {
@@ -258,7 +258,7 @@ gboolean gm_audio_update_device(AudioDevice * device)
     iter = gm_audio_devices;
     while (iter != NULL) {
         data = (AudioDevice *) iter->data;
-        //printf("Checking %s\n", data->description);
+        gm_log(FALSE, G_LOG_LEVEL_DEBUG, "Checking %s", data->description);
         if ((device->description != NULL && g_ascii_strcasecmp(device->description, data->description) == 0)
             || ((device->description == NULL || g_ascii_strcasecmp(device->description, "") == 0)
                 && g_ascii_strcasecmp(data->description, g_dgettext(GETTEXT_PACKAGE, "Default")) == 0)) {
@@ -322,7 +322,7 @@ gint gm_audio_get_default_pulse_index()
             ret = device->pulse_index;
         }
     }
-    //printf("default index is = %i\n", ret);
+    gm_log(FALSE, G_LOG_LEVEL_DEBUG, "default index is = %i", ret);
     return ret;
 }
 
@@ -391,7 +391,8 @@ gboolean gm_audio_alsa_monitor(gpointer data)
     gdouble old_volume;
 
     old_volume = device->volume;
-    //printf("old volume = %f '%s' '%s'\n",old_volume,device->alsa_device_name, device->alsa_mixer);
+    gm_log(FALSE, G_LOG_LEVEL_DEBUG, "old volume = %f '%s' '%s'", old_volume, device->alsa_device_name,
+           device->alsa_mixer);
 
 #ifdef HAVE_ASOUNDLIB
     if (device->alsa_device_name && device->alsa_mixer)
@@ -401,7 +402,7 @@ gboolean gm_audio_alsa_monitor(gpointer data)
     if (gm_audio_server_volume_update_callback && old_volume != device->volume)
         g_idle_add(gm_audio_server_volume_update_callback, NULL);
 
-    //printf("in alsa monitor %f\n",device->volume);
+    gm_log(FALSE, G_LOG_LEVEL_DEBUG, "in alsa monitor %f", device->volume);
     return device->type == AUDIO_TYPE_ALSA;
 }
 
@@ -424,7 +425,7 @@ void gm_audio_pa_sink_update_volume_cb(pa_context * c, const pa_sink_info * i, i
     gdouble old_volume = 0.0;
     gint index;
 
-    //printf("gm_audio_pa_sink_update_volume_cb %p, %i, %p\n",i, eol,data);
+    gm_log(FALSE, G_LOG_LEVEL_DEBUG, "gm_audio_pa_sink_update_volume_cb %p, %i, %p", i, eol, data);
     if (i) {
         if (device) {
             device->pulse_channels = i->volume.channels;
@@ -442,7 +443,8 @@ void gm_audio_pa_sink_update_volume_cb(pa_context * c, const pa_sink_info * i, i
                         if (i->index == index) {
                             old_volume = device->volume;
                             device->volume = (gdouble) pa_cvolume_avg(&(i->volume)) / (gdouble) PA_VOLUME_NORM;
-                            // printf("updated %s volume to %f\n", device->description, device->volume);
+                            gm_log(FALSE, G_LOG_LEVEL_DEBUG, "updated %s volume to %f", device->description,
+                                   device->volume);
                         }
                     }
                     iter = iter->next;
@@ -451,7 +453,9 @@ void gm_audio_pa_sink_update_volume_cb(pa_context * c, const pa_sink_info * i, i
                     g_idle_add(gm_audio_server_volume_update_callback, NULL);
             }
         }
-        //printf("device volume = %f\n", device->volume);
+        if (device) {
+            gm_log(FALSE, G_LOG_LEVEL_DEBUG, "device volume = %f", device->volume);
+        }
     } else {
         // eol == -1 when the index requested is not found
         if (eol == -1 && device)
@@ -468,7 +472,7 @@ void gm_audio_pa_sink_cb(pa_context * c, const pa_sink_info * i, int eol, gpoint
 
     if (i) {
 
-        // printf("sink %i name: '%s'\n", i->index, i->name);
+        gm_log(FALSE, G_LOG_LEVEL_DEBUG, "sink %i name: '%s'", i->index, i->name);
 
         desc = g_strdup_printf("%s (PulseAudio)", i->description);
         mplayer_ao = g_strdup_printf("pulse::%i", i->index);
@@ -482,7 +486,8 @@ void gm_audio_pa_sink_cb(pa_context * c, const pa_sink_info * i, int eol, gpoint
         device->volume = (gdouble) pa_cvolume_avg(&(i->volume)) / (gdouble) PA_VOLUME_NORM;
         device->mplayer_ao = g_strdup(mplayer_ao);
         gm_audio_devices = g_list_append(gm_audio_devices, device);
-        //printf("\n%s\n\nproperties\n%s",desc,pa_proplist_to_string(i->proplist));
+        gm_log(FALSE, G_LOG_LEVEL_DEBUG, "%s", desc);
+        gm_logsp(FALSE, G_LOG_LEVEL_DEBUG, "properties", pa_proplist_to_string(i->proplist));
 
         g_free(desc);
         g_free(mplayer_ao);
@@ -493,7 +498,7 @@ void gm_audio_pa_sink_cb(pa_context * c, const pa_sink_info * i, int eol, gpoint
 
 void gm_audio_pa_subscribe_callback(pa_context * c, pa_subscription_event_type_t t, uint32_t index, void *userdata)
 {
-    // printf("subscribe_callback\n");
+    gm_log(FALSE, G_LOG_LEVEL_DEBUG, "subscribe_callback");
     switch (t & PA_SUBSCRIPTION_EVENT_FACILITY_MASK) {
     case PA_SUBSCRIPTION_EVENT_SINK:
         pa_context_get_sink_info_by_index(c, index, gm_audio_pa_sink_update_volume_cb, NULL);
@@ -502,7 +507,7 @@ void gm_audio_pa_subscribe_callback(pa_context * c, pa_subscription_event_type_t
         pa_context_get_server_info(c, gm_audio_pa_server_info_cb, NULL);
         break;
     default:
-        //printf("index = %i\n",index);
+        gm_log(FALSE, G_LOG_LEVEL_DEBUG, "index = %i", index);
         break;
     }
 }
@@ -521,7 +526,7 @@ void gm_audio_pa_server_info_cb(pa_context * c, const pa_server_info * i, void *
             if (device->pulse_sink_name != NULL) {
                 if (g_ascii_strncasecmp(i->default_sink_name, device->pulse_sink_name, strlen(i->default_sink_name)) ==
                     0) {
-                    // printf("The default output sink name is '%s'\n", i->default_sink_name);
+                    gm_log(FALSE, G_LOG_LEVEL_DEBUG, "The default output sink name is '%s'", i->default_sink_name);
                     device->pulse_default = 1;
                     pa_context_get_sink_info_by_index(c, device->pulse_index, gm_audio_pa_sink_update_volume_cb, NULL);
                 } else {
@@ -536,8 +541,9 @@ void gm_audio_pa_server_info_cb(pa_context * c, const pa_server_info * i, void *
 
 void gm_audio_context_state_callback(pa_context * c, gpointer data)
 {
-    //printf("context state callback\n");
     int i;
+
+    gm_log(FALSE, G_LOG_LEVEL_DEBUG, "context state callback");
 
     switch (pa_context_get_state(c)) {
     case PA_CONTEXT_READY:{
@@ -571,22 +577,22 @@ gdouble get_alsa_volume(gchar * device, gchar * mixer)
     gchar **local_mixer;
 
     if ((err = snd_mixer_open(&mhandle, 0)) < 0) {
-        printf("Mixer open error %s\n", snd_strerror(err));
+        gm_log(FALSE, G_LOG_LEVEL_MESSAGE, "Mixer open error %s", snd_strerror(err));
         return vol;
     }
 
     if ((err = snd_mixer_attach(mhandle, device)) < 0) {
-        printf("Mixer attach error %s\n", snd_strerror(err));
+        gm_log(FALSE, G_LOG_LEVEL_MESSAGE, "Mixer attach error %s", snd_strerror(err));
         return vol;
     }
 
     if ((err = snd_mixer_selem_register(mhandle, NULL, NULL)) < 0) {
-        printf("Mixer register error %s\n", snd_strerror(err));
+        gm_log(FALSE, G_LOG_LEVEL_MESSAGE, "Mixer register error %s", snd_strerror(err));
         return vol;
     }
 
     if ((err = snd_mixer_load(mhandle)) < 0) {
-        printf("Mixer load error %s\n", snd_strerror(err));
+        gm_log(FALSE, G_LOG_LEVEL_MESSAGE, "Mixer load error %s", snd_strerror(err));
         return vol;
     }
 
@@ -621,13 +627,11 @@ gdouble get_alsa_volume(gchar * device, gchar * mixer)
             } else {
                 vol = 0;
             }
-            if (gm_audio_debug) {
-                printf("Getting Volume \n");
-                printf("%s Playback is %i\n", mixer, playback);
-                printf("%s Range is %li to %li \n", mixer, pmin, pmax);
-                printf("%s Current Volume %li, multiplier = %f\n", mixer, get_vol, f_multi);
-                printf("Scaled Volume is %lf\n", vol);
-            }
+            gm_log(gm_audio_debug, G_LOG_LEVEL_INFO, "Getting Volume");
+            gm_log(gm_audio_debug, G_LOG_LEVEL_INFO, "%s Playback is %i", mixer, playback);
+            gm_log(gm_audio_debug, G_LOG_LEVEL_INFO, "%s Range is %li to %li", mixer, pmin, pmax);
+            gm_log(gm_audio_debug, G_LOG_LEVEL_INFO, "%s Current Volume %li, multiplier = %f", mixer, get_vol, f_multi);
+            gm_log(gm_audio_debug, G_LOG_LEVEL_INFO, "Scaled Volume is %lf", vol);
         }
         snd_mixer_selem_id_free(sid);
     }
@@ -655,22 +659,22 @@ gboolean set_alsa_volume(gchar * device, gchar * mixer, gdouble volume)
     gchar **local_mixer;
 
     if ((err = snd_mixer_open(&mhandle, 0)) < 0) {
-        printf("Mixer open error %s\n", snd_strerror(err));
+        gm_log(FALSE, G_LOG_LEVEL_MESSAGE, "Mixer open error %s", snd_strerror(err));
         return found;
     }
 
     if ((err = snd_mixer_attach(mhandle, device)) < 0) {
-        printf("Mixer attach error %s\n", snd_strerror(err));
+        gm_log(FALSE, G_LOG_LEVEL_MESSAGE, "Mixer attach error %s", snd_strerror(err));
         return found;
     }
 
     if ((err = snd_mixer_selem_register(mhandle, NULL, NULL)) < 0) {
-        printf("Mixer register error %s\n", snd_strerror(err));
+        gm_log(FALSE, G_LOG_LEVEL_MESSAGE, "Mixer register error %s", snd_strerror(err));
         return found;
     }
 
     if ((err = snd_mixer_load(mhandle)) < 0) {
-        printf("Mixer load error %s\n", snd_strerror(err));
+        gm_log(FALSE, G_LOG_LEVEL_MESSAGE, "Mixer load error %s", snd_strerror(err));
         return found;
     }
 
@@ -708,13 +712,11 @@ gboolean set_alsa_volume(gchar * device, gchar * mixer, gdouble volume)
                 set_vol = (gdouble) ((volume) * f_multi) + pmin;
                 snd_mixer_selem_set_playback_volume_all(elem, set_vol);
             }
-            if (gm_audio_debug) {
-                printf("Setting Volume\n");
-                printf("%s Playback is %i\n", mixer, playback);
-                printf("%s Range is %li to %li \n", mixer, pmin, pmax);
-                printf("%s Volume %f, multiplier = %f\n", mixer, volume, f_multi);
-                printf("Scaled Volume is %li\n", set_vol);
-            }
+            gm_log(gm_audio_debug, G_LOG_LEVEL_INFO, "Setting Volume");
+            gm_log(gm_audio_debug, G_LOG_LEVEL_INFO, "%s Playback is %i", mixer, playback);
+            gm_log(gm_audio_debug, G_LOG_LEVEL_INFO, "%s Range is %li to %li", mixer, pmin, pmax);
+            gm_log(gm_audio_debug, G_LOG_LEVEL_INFO, "%s Volume %f, multiplier = %f", mixer, volume, f_multi);
+            gm_log(gm_audio_debug, G_LOG_LEVEL_INFO, "Scaled Volume is %li", set_vol);
             found = TRUE;
         }
         snd_mixer_selem_id_free(sid);

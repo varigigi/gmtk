@@ -178,14 +178,14 @@ gboolean gm_parse_asx_is_asx(const gchar * uri)
                 if (g_utf8_strlen(line, -1) == 0) {
                     // do nothing;
                 } else {
-                    //printf("line = %s\n", line);
+                    gm_log(FALSE, G_LOG_LEVEL_DEBUG, "line = %s", line);
                     newline = g_strdup(line);
                     if (g_ascii_strncasecmp(newline, "<asx", g_utf8_strlen("<asx", -1)) == 0) {
-                        //printf("asx\n");
+                        gm_log(FALSE, G_LOG_LEVEL_DEBUG, "asx");
                         ret = TRUE;
                         g_free(newline);
                     } else if (g_strrstr(newline, "<asx") != NULL) {
-                        //printf("asx\n");
+                        gm_log(FALSE, G_LOG_LEVEL_DEBUG, "asx");
                         ret = TRUE;
                         g_free(newline);
                     }
