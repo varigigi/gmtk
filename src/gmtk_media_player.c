@@ -176,6 +176,26 @@ gchar *gmtk_media_player_switch_protocol(const gchar * uri, gchar * new_protocol
         return NULL;
 }
 
+static const gchar *media_state_to_string(const GmtkMediaPlayerMediaState media_state)
+{
+    switch (media_state) {
+    case MEDIA_STATE_UNKNOWN:
+        return "unknown";
+    case MEDIA_STATE_PLAY:
+        return "play";
+    case MEDIA_STATE_PAUSE:
+        return "pause";
+    case MEDIA_STATE_STOP:
+        return "stop";
+    case MEDIA_STATE_QUIT:
+        return "quit";
+    case MEDIA_STATE_BUFFERING:
+        return "buffering";
+    default:
+        return "???";
+    }
+}
+
 static void gmtk_media_player_log_state(GmtkMediaPlayer * player, char const *const context)
 {
 #define gmpls_len 1024
@@ -202,32 +222,11 @@ static void gmtk_media_player_log_state(GmtkMediaPlayer * player, char const *co
         g_strlcat(msg, "running", gmpls_len);
         break;
     default:
-        g_strlcat(msg, "unknown", gmpls_len);
+        g_strlcat(msg, "???", gmpls_len);
     }
 
     g_strlcat(msg, " media=", gmpls_len);
-    switch (player->media_state) {
-    case MEDIA_STATE_UNKNOWN:
-        g_strlcat(msg, "unknown", gmpls_len);
-        break;
-    case MEDIA_STATE_PLAY:
-        g_strlcat(msg, "play", gmpls_len);
-        break;
-    case MEDIA_STATE_PAUSE:
-        g_strlcat(msg, "pause", gmpls_len);
-        break;
-    case MEDIA_STATE_STOP:
-        g_strlcat(msg, "stop", gmpls_len);
-        break;
-    case MEDIA_STATE_QUIT:
-        g_strlcat(msg, "quit", gmpls_len);
-        break;
-    case MEDIA_STATE_BUFFERING:
-        g_strlcat(msg, "buffering", gmpls_len);
-        break;
-    default:
-        g_strlcat(msg, "unknown", gmpls_len);
-    }
+    g_strlcat(msg, media_state_to_string(player->media_state), gmpls_len);
     g_strlcat(msg, " uri=", gmpls_len);
     if (player->uri != NULL) {
         g_strlcat(msg, player->uri, gmpls_len);
@@ -849,6 +848,8 @@ const gchar *gmtk_media_player_get_uri(GmtkMediaPlayer * player)
 void gmtk_media_player_set_state(GmtkMediaPlayer * player, const GmtkMediaPlayerMediaState new_state)
 {
     gmtk_media_player_log_state(player, "old");
+    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "setting state to %s", media_state_to_string(new_state));
+
     if (player->player_state == PLAYER_STATE_DEAD) {
 
         if (new_state == MEDIA_STATE_QUIT) {
