@@ -24,6 +24,7 @@
 
 #include "gmtk_output_combo_box.h"
 #include "gmtk_common.h"
+#include "gm_log.h"
 
 static GObjectClass *parent_class = NULL;
 

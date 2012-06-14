@@ -33,6 +33,7 @@
 #endif
 
 #include <math.h>
+#include "gm_log.h"
 
 GList *gm_audio_devices = NULL;
 gboolean gm_audio_debug = FALSE;

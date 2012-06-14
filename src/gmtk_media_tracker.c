@@ -24,6 +24,7 @@
 
 #include "gmtk_media_tracker.h"
 #include "gmtk_common.h"
+#include "gm_log.h"
 
 G_DEFINE_TYPE(GmtkMediaTracker, gmtk_media_tracker, GTK_TYPE_VBOX);
 static GObjectClass *parent_class = NULL;
