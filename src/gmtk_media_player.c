@@ -96,6 +96,8 @@ gboolean signal_event(gpointer data)
         case EVENT_TYPE_ALLOCATION:
             if (!(event->event_allocation->width >= 65535 || event->event_allocation->height >= 65535))
                 g_signal_emit_by_name(event->player, event->event_name, event->event_allocation);
+            g_free(event->event_allocation);
+            event->event_allocation = NULL;
             break;
 
         default:
@@ -155,7 +157,8 @@ void create_event_allocation(GmtkMediaPlayer * player, const gchar * name, GtkAl
     event->player = player;
     event->type = EVENT_TYPE_ALLOCATION;
     event->event_name = g_strdup(name);
-    event->event_allocation = allocation;
+    event->event_allocation = g_new0(GtkAllocation, 1);
+    memcpy(event->event_allocation, allocation, sizeof(GtkAllocation));
     g_idle_add(signal_event, event);
 
 }
@@ -2926,6 +2929,9 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
     GmtkMediaPlayerAudioTrack *audio_track = NULL;
     GList *iter;
     GtkWidget *dialog;
+
+    // the Gtk code in gmtk_media_player_size_allocate() reads the .x and .y members
+    memset(&allocation, 0, sizeof(GtkAllocation));
 
     if (player == NULL) {
         gm_log(player->debug, G_LOG_LEVEL_MESSAGE, "player is NULL");
