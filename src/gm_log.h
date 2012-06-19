@@ -28,7 +28,8 @@ extern "C" {
 
 #endif
     void gm_logv(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * format, va_list args);
-    void gm_log(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * format, ...);
+    __attribute__ ((format(printf, 3, 4))) void gm_log(gboolean force_info_to_message, GLogLevelFlags log_level,
+                                                       const gchar * format, ...);
     void gm_logs(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * msg);
     void gm_logsp(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * prefix, const gchar * msg);
 
