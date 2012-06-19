@@ -2925,14 +2925,11 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
     gfloat percent, oldposition;
     gchar vm[10];
     gint id;
-    GtkAllocation allocation;
+    GtkAllocation allocation = { 0 };
     GmtkMediaPlayerSubtitle *subtitle = NULL;
     GmtkMediaPlayerAudioTrack *audio_track = NULL;
     GList *iter;
     GtkWidget *dialog;
-
-    // the Gtk code in gmtk_media_player_size_allocate() reads the .x and .y members
-    memset(&allocation, 0, sizeof(GtkAllocation));
 
     if (player == NULL) {
         gm_log(player->debug, G_LOG_LEVEL_MESSAGE, "player is NULL");
