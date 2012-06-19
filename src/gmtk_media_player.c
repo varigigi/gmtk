@@ -3604,7 +3604,7 @@ gboolean thread_query(gpointer data)
     GmtkMediaPlayer *player = GMTK_MEDIA_PLAYER(data);
     gint written;
 
-    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "in thread_query, data = %p", data);
+    // gm_log(player->debug, G_LOG_LEVEL_DEBUG, "in thread_query, data = %p", data);
     if (player == NULL) {
         gm_log(player->debug, G_LOG_LEVEL_DEBUG, "thread_query called with player == NULL");
         return FALSE;
@@ -3612,7 +3612,7 @@ gboolean thread_query(gpointer data)
 
     if (player->player_state == PLAYER_STATE_RUNNING) {
         if (player->media_state == MEDIA_STATE_PLAY) {
-            gm_log(player->debug, G_LOG_LEVEL_DEBUG, "writing");
+            // gm_log(player->debug, G_LOG_LEVEL_DEBUG, "writing");
             if (player->use_mplayer2) {
                 written = write(player->std_in, "get_time_pos\n", strlen("get_time_pos\n"));
             } else {
@@ -3620,7 +3620,7 @@ gboolean thread_query(gpointer data)
                     write(player->std_in, "pausing_keep_force get_time_pos\n",
                           strlen("pausing_keep_force get_time_pos\n"));
             }
-            gm_log(player->debug, G_LOG_LEVEL_DEBUG, "written = %i", written);
+            // gm_log(player->debug, G_LOG_LEVEL_DEBUG, "written = %i", written);
             if (written == -1) {
                 //return TRUE;
                 gm_log(player->debug, G_LOG_LEVEL_INFO, "thread_query, write failed");
