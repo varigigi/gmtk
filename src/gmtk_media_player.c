@@ -407,6 +407,7 @@ static void gmtk_media_player_init(GmtkMediaPlayer * player)
     player->artist = NULL;
     player->title = NULL;
     player->album = NULL;
+    player->disposed = FALSE;
     gmtk_media_player_log_state(player, "after init");
 }
 
@@ -414,6 +415,13 @@ static void gmtk_media_player_dispose(GObject * object)
 {
 
     GmtkMediaPlayer *player = GMTK_MEDIA_PLAYER(object);
+
+    if (player->disposed) {
+        return;
+    }
+    player->disposed = TRUE;
+
+    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "gmtk_media_player_dispose");
 
     // cleanup the memory used
 

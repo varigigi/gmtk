@@ -388,6 +388,8 @@ struct _GmtkMediaPlayer {
 
     gboolean has_metadata;
     gdouble speed;
+
+    gboolean disposed;
 };
 
 struct _GmtkMediaPlayerClass {
