@@ -125,22 +125,34 @@ void gm_logs(gboolean force_info_to_message, GLogLevelFlags log_level, const gch
 
 void gm_logsp(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * prefix, const gchar * msg)
 {
-    size_t len;
-    gchar *msg_nonl = NULL;
+    gchar **lines = NULL;
+    gchar *nl_loc;
+    gint linei;
 
     if (!fixup_loglevel(force_info_to_message, &log_level)) {
         return;
     }
-    // this function should be called if there might be a newline
-    // at the end of the string. it will only allocate a copy
-    // if necessary.
-    len = strlen(msg);
-    if (msg[len - 1] != '\n') {
+
+    nl_loc = strchr(msg, '\n');
+
+    if (nl_loc == NULL) {
         g_log(G_LOG_DOMAIN, log_level, "%s %s", prefix, msg);
         return;
     }
-    msg_nonl = g_strdup(msg);
-    msg_nonl[len - 1] = '\0';
-    g_log(G_LOG_DOMAIN, log_level, "%s %s", prefix, msg_nonl);
-    g_free(msg_nonl);
+    
+    // slow path
+    // there is a \n somewhere, so we have to do an allocation either way
+    lines = g_strsplit(msg, "\n", 0);
+    linei = 0;
+    while (lines[linei] != NULL) {
+        g_strchomp(lines[linei]);
+        if (lines[linei][0] != '\0') {
+            g_log(G_LOG_DOMAIN, log_level, "%s %s", prefix, lines[linei]);
+        }
+        linei++;
+    }
+
+    g_strfreev(lines);
+    lines = NULL;
+
 }
