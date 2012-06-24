@@ -1,4 +1,9 @@
 Development
+    Fix a double free at program exit time (removes an occasional segfault)
+    Initialize a struct to 0 to remove "branch depends on uninitialized memory" error
+    Fix "pointer to object on stack passed out of function" bug.
+    Add a function attribute, so calls to gm_log() are checked for printf format string errors 
+    Hook gm_log functions into the remainder of the sources
     Hook functions from gm_log into the main gmtk_media_player class, add log_state method
     Make gm_log.c/,h compatible with indent
     Fix compile error in gm_log
