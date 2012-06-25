@@ -1,4 +1,5 @@
 Development
+	Define the player_lock mutex
     Fix a double free at program exit time (removes an occasional segfault)
     Initialize a struct to 0 to remove "branch depends on uninitialized memory" error
     Fix "pointer to object on stack passed out of function" bug.

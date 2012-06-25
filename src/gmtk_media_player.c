@@ -408,6 +408,7 @@ static void gmtk_media_player_init(GmtkMediaPlayer * player)
     player->title = NULL;
     player->album = NULL;
     player->disposed = FALSE;
+	player->player_lock = g_mutex_new();
     gmtk_media_player_log_state(player, "after init");
 }
 
