@@ -494,6 +494,31 @@ static void gmtk_media_player_dispose(GObject * object)
         player->af_export_filename = NULL;
     }
 
+    if (player->subtitle_font != NULL) {
+        g_free(player->subtitle_font);
+        player->subtitle_font = NULL;
+    }
+
+    if (player->subtitle_color != NULL) {
+        g_free(player->subtitle_color);
+        player->subtitle_color = NULL;
+    }
+
+    if (player->profile != NULL) {
+        g_free(player->profile);
+        player->profile = NULL;
+    }
+
+    if (player->slang != NULL) {
+        g_free(player->slang);
+        player->slang = NULL;
+    }
+
+    if (player->alang != NULL) {
+        g_free(player->alang);
+        player->alang = NULL;
+    }
+
     gdk_color_free(player->default_background);
 
     G_OBJECT_CLASS(parent_class)->dispose(object);
