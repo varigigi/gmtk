@@ -133,7 +133,7 @@ void gm_logsp(gboolean force_info_to_message, GLogLevelFlags log_level, const gc
         return;
     }
 
-    nl_loc = strchr(msg, '\n');
+    nl_loc = g_strrstr(msg, "\n");
 
     if (nl_loc == NULL) {
         g_log(G_LOG_DOMAIN, log_level, "%s %s", prefix, msg);

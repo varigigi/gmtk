@@ -1,4 +1,5 @@
 Development
+	Change strchr to g_strrstr in gm_log
 	Uppercase constant GMPLS_LEN
 	Define the player_lock mutex
     Fix a double free at program exit time (removes an occasional segfault)
