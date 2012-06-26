@@ -201,15 +201,17 @@ static void gmtk_media_player_log_state(GmtkMediaPlayer * player, char const *co
 // Gmtk_Media_Player_Log_State  
 #define GMPLS_LEN 1024
     gchar msg[GMPLS_LEN] = "";
+    gchar *tmp;
+
     if (context != NULL && (*context) != '\0') {
         g_strlcat(msg, context, GMPLS_LEN);
         g_strlcat(msg, ": ", GMPLS_LEN);
     }
-    g_snprintf(msg + strlen(msg), GMPLS_LEN - strlen(msg), "position=%.3f", player->position);
-    g_snprintf(msg + strlen(msg), GMPLS_LEN - strlen(msg), " length=%.3f", player->length);
-    g_snprintf(msg + strlen(msg), GMPLS_LEN - strlen(msg), " start_time=%.3f", player->start_time);
-    g_snprintf(msg + strlen(msg), GMPLS_LEN - strlen(msg), " run_time=%.3f", player->run_time);
-    g_snprintf(msg + strlen(msg), GMPLS_LEN - strlen(msg), " volume=%.2f", player->volume);
+    tmp = g_strdup_printf("position=%.3f length=%.3f start_time=%.3f run_time=%.3f volume=%.2f", player->position,
+                          player->length, player->start_time, player->run_time, player->volume);
+    g_strlcat(msg, tmp, GMPLS_LEN);
+    g_free(tmp);
+
     if (player->muted) {
         g_strlcat(msg, " muted", GMPLS_LEN);
     }
