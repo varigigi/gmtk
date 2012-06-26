@@ -228,6 +228,7 @@ gboolean gm_audio_query_devices()
         pa_context_set_state_callback(gm_audio_context, gm_audio_context_state_callback, gm_audio_devices);
     }
     // make sure the pulse events are done before we exit this function
+    gm_log(FALSE, G_LOG_LEVEL_DEBUG, "waiting for all PA events to drain");
     while (g_main_context_pending(NULL))
         g_main_context_iteration(NULL, FALSE);
 
@@ -349,6 +350,7 @@ gdouble gm_audio_get_volume(AudioDevice * device)
                                                   gm_audio_pa_sink_update_volume_cb, device);
             }
         }
+        gm_log(FALSE, G_LOG_LEVEL_DEBUG, "waiting for all events to drain and volume to not be -1");
         while (g_main_context_pending(NULL) || device->volume == -1)
             g_main_context_iteration(NULL, FALSE);
 

@@ -250,6 +250,7 @@ static void gmtk_output_combo_box_init(GmtkOutputComboBox * output)
         pa_context_set_state_callback(context, context_state_callback, output);
     }
     // make sure the pulse events are done before we exit this function
+    gm_log(FALSE, G_LOG_LEVEL_DEBUG, "waiting for all events to drain");
     while (gtk_events_pending())
         gtk_main_iteration();
 
