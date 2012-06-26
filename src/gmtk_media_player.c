@@ -876,6 +876,7 @@ void gmtk_media_player_set_state(GmtkMediaPlayer * player, const GmtkMediaPlayer
 
         if (new_state == MEDIA_STATE_PLAY) {
             // launch player
+            gm_log(player->debug, G_LOG_LEVEL_DEBUG, "launching launch_mplayer thread");
             player->mplayer_thread = g_thread_create(launch_mplayer, player, TRUE, NULL);
             if (player->mplayer_thread != NULL) {
                 if (player->message != NULL) {
@@ -2065,6 +2066,8 @@ gpointer launch_mplayer(gpointer data)
     GFile *file;
 #endif
 
+    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "within launch_mplayer()");
+
     player->seekable = FALSE;
     player->has_chapters = FALSE;
     player->video_present = FALSE;
@@ -2077,6 +2080,7 @@ gpointer launch_mplayer(gpointer data)
     player->sub_visible = TRUE;
     player->speed = 1.0;
 
+    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "locking thread_running");
     g_mutex_lock(player->thread_running);
 
     do {
@@ -2706,6 +2710,7 @@ gpointer launch_mplayer(gpointer data)
     gm_log(player->debug, G_LOG_LEVEL_DEBUG, "marking playback complete");
     player->player_state = PLAYER_STATE_DEAD;
     player->media_state = MEDIA_STATE_UNKNOWN;
+    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "unlocking thread_running");
     g_mutex_unlock(player->thread_running);
     player->mplayer_thread = NULL;
     player->start_time = 0.0;
@@ -2731,6 +2736,7 @@ gboolean thread_complete(GIOChannel * source, GIOCondition condition, gpointer d
     player->media_state = MEDIA_STATE_UNKNOWN;
     g_source_remove(player->watch_in_id);
     g_source_remove(player->watch_err_id);
+    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
     g_cond_signal(player->mplayer_complete_cond);
     g_unlink(player->af_export_filename);
     gmtk_media_player_log_state(player, "completed");
