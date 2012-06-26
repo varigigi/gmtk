@@ -390,7 +390,7 @@ struct _GmtkMediaPlayer {
     gdouble speed;
 
     gboolean disposed;
-	GMutex *player_lock;
+    GMutex *player_lock;
 };
 
 struct _GmtkMediaPlayerClass {

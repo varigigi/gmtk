@@ -139,7 +139,6 @@ void gm_logsp(gboolean force_info_to_message, GLogLevelFlags log_level, const gc
         g_log(G_LOG_DOMAIN, log_level, "%s %s", prefix, msg);
         return;
     }
-    
     // slow path
     // there is a \n somewhere, so we have to do an allocation either way
     lines = g_strsplit(msg, "\n", 0);

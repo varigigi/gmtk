@@ -198,38 +198,39 @@ static const gchar *media_state_to_string(const GmtkMediaPlayerMediaState media_
 
 static void gmtk_media_player_log_state(GmtkMediaPlayer * player, char const *const context)
 {
-#define gmpls_len 1024
-    gchar msg[gmpls_len] = "";
+// Gmtk_Media_Player_Log_State  
+#define GMPLS_LEN 1024
+    gchar msg[GMPLS_LEN] = "";
     if (context != NULL && (*context) != '\0') {
-        g_strlcat(msg, context, gmpls_len);
-        g_strlcat(msg, ": ", gmpls_len);
+        g_strlcat(msg, context, GMPLS_LEN);
+        g_strlcat(msg, ": ", GMPLS_LEN);
     }
-    g_snprintf(msg + strlen(msg), gmpls_len, "position=%.3f", player->position);
-    g_snprintf(msg + strlen(msg), gmpls_len, " length=%.3f", player->length);
-    g_snprintf(msg + strlen(msg), gmpls_len, " start_time=%.3f", player->start_time);
-    g_snprintf(msg + strlen(msg), gmpls_len, " run_time=%.3f", player->run_time);
-    g_snprintf(msg + strlen(msg), gmpls_len, " volume=%.2f", player->volume);
+    g_snprintf(msg + strlen(msg), GMPLS_LEN, "position=%.3f", player->position);
+    g_snprintf(msg + strlen(msg), GMPLS_LEN, " length=%.3f", player->length);
+    g_snprintf(msg + strlen(msg), GMPLS_LEN, " start_time=%.3f", player->start_time);
+    g_snprintf(msg + strlen(msg), GMPLS_LEN, " run_time=%.3f", player->run_time);
+    g_snprintf(msg + strlen(msg), GMPLS_LEN, " volume=%.2f", player->volume);
     if (player->muted) {
-        g_strlcat(msg, " muted", gmpls_len);
+        g_strlcat(msg, " muted", GMPLS_LEN);
     }
 
-    g_strlcat(msg, " player=", gmpls_len);
+    g_strlcat(msg, " player=", GMPLS_LEN);
     switch (player->player_state) {
     case PLAYER_STATE_DEAD:
-        g_strlcat(msg, "dead", gmpls_len);
+        g_strlcat(msg, "dead", GMPLS_LEN);
         break;
     case PLAYER_STATE_RUNNING:
-        g_strlcat(msg, "running", gmpls_len);
+        g_strlcat(msg, "running", GMPLS_LEN);
         break;
     default:
-        g_strlcat(msg, "???", gmpls_len);
+        g_strlcat(msg, "???", GMPLS_LEN);
     }
 
-    g_strlcat(msg, " media=", gmpls_len);
-    g_strlcat(msg, media_state_to_string(player->media_state), gmpls_len);
-    g_strlcat(msg, " uri=", gmpls_len);
+    g_strlcat(msg, " media=", GMPLS_LEN);
+    g_strlcat(msg, media_state_to_string(player->media_state), GMPLS_LEN);
+    g_strlcat(msg, " uri=", GMPLS_LEN);
     if (player->uri != NULL) {
-        g_strlcat(msg, player->uri, gmpls_len);
+        g_strlcat(msg, player->uri, GMPLS_LEN);
     }
     gm_log(player->debug, G_LOG_LEVEL_DEBUG, "%s", msg);
 }
@@ -408,7 +409,7 @@ static void gmtk_media_player_init(GmtkMediaPlayer * player)
     player->title = NULL;
     player->album = NULL;
     player->disposed = FALSE;
-	player->player_lock = g_mutex_new();
+    player->player_lock = g_mutex_new();
     gmtk_media_player_log_state(player, "after init");
 }
 
