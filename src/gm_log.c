@@ -79,14 +79,74 @@ static int fixup_loglevel(gboolean force_info_to_message, GLogLevelFlags * log_l
     return 1;
 }
 
+// in newer versions of GLib you can use a static (or stack-allocated)
+// GMutex directly, but for older versions you need to use a GStaticMutex
+static GStaticMutex ptr2strmutex = G_STATIC_MUTEX_INIT;
+static GHashTable *ptr2str = NULL;
+static guint ptr2stri = 0;
+
+static gboolean key_equal_func(gconstpointer a, gconstpointer b)
+{
+    if (a == b) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+/*
+   This function operates on static data structures, thus it needs to be
+   locked by the above mutex.
+   
+   It returns a string representation of the current thread number.
+   Unfortunately, in GLib you can only access g_thread_self(), which is a
+   pointer. Using printf("%p", g_thread_self()) is certainly possible, but
+   difficult to understand at a glance, and hard to compare traces from
+   different runs.
+*/
+static const gchar *threadid_core()
+{
+    if (ptr2str == NULL) {
+        ptr2str = g_hash_table_new(g_direct_hash, key_equal_func);
+    }
+    void *key = g_thread_self();
+    void *value = g_hash_table_lookup(ptr2str, key);
+    if (value == NULL) {
+        value = g_strdup_printf("[th%u] ", ptr2stri);
+        g_hash_table_insert(ptr2str, key, value);
+        ptr2stri++;
+    }
+    return value;
+}
+
+/*
+ If GM_DEBUG_THREADS is set, return a string representation of
+ the current thread number. If it is not set, return the empty string.
+*/
+static const gchar *threadid()
+{
+    const gchar *str;
+    if (!g_getenv("GM_DEBUG_THREADS")) {
+        return "";
+    }
+    g_static_mutex_lock(&ptr2strmutex);
+    str = threadid_core();
+    g_static_mutex_unlock(&ptr2strmutex);
+    return str;
+}
 
 // Note that the format should not have a trailing \n - the glib logging system adds it
 void gm_logv(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * format, va_list args)
 {
+    gchar *f = NULL;
+
     if (!fixup_loglevel(force_info_to_message, &log_level)) {
         return;
     }
-    g_logv(G_LOG_DOMAIN, log_level, format, args);
+
+    f = g_strdup_printf("%s%s", threadid(), format);
+    g_logv(G_LOG_DOMAIN, log_level, f, args);
+    g_free(f);
 
     return;
 }
@@ -113,13 +173,13 @@ void gm_logs(gboolean force_info_to_message, GLogLevelFlags log_level, const gch
     len = strlen(msg);
 
     if (msg[len - 1] != '\n') {
-        g_log(G_LOG_DOMAIN, log_level, "%s", msg);
+        g_log(G_LOG_DOMAIN, log_level, "%s%s", threadid(), msg);
         return;
     }
 
     msg_nonl = g_strdup(msg);
     msg_nonl[len - 1] = '\0';
-    g_log(G_LOG_DOMAIN, log_level, "%s", msg_nonl);
+    g_log(G_LOG_DOMAIN, log_level, "%s%s", threadid(), msg_nonl);
     g_free(msg_nonl);
 }
 
@@ -136,7 +196,7 @@ void gm_logsp(gboolean force_info_to_message, GLogLevelFlags log_level, const gc
     nl_loc = g_strrstr(msg, "\n");
 
     if (nl_loc == NULL) {
-        g_log(G_LOG_DOMAIN, log_level, "%s %s", prefix, msg);
+        g_log(G_LOG_DOMAIN, log_level, "%s%s %s", threadid(), prefix, msg);
         return;
     }
     // slow path
@@ -146,7 +206,7 @@ void gm_logsp(gboolean force_info_to_message, GLogLevelFlags log_level, const gc
     while (lines[linei] != NULL) {
         g_strchomp(lines[linei]);
         if (lines[linei][0] != '\0') {
-            g_log(G_LOG_DOMAIN, log_level, "%s %s", prefix, lines[linei]);
+            g_log(G_LOG_DOMAIN, log_level, "%s%s %s", threadid(), prefix, lines[linei]);
         }
         linei++;
     }

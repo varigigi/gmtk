@@ -1,4 +1,5 @@
 Development
+    Print thread number with all debug messages if GM_DEBUG_THREADS is set
 	Change strchr to g_strrstr in gm_log
 	Uppercase constant GMPLS_LEN
 	Define the player_lock mutex
