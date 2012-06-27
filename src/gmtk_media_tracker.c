@@ -160,7 +160,7 @@ static gboolean gmtk_media_tracker_button_press(GtkWidget * tracker, GdkEventBut
 static gboolean gmtk_media_tracker_button_release(GtkWidget * tracker, GdkEventButton * event)
 {
     gdouble position;
-    gdouble difference;
+    //gdouble difference;
     GtkAllocation alloc;
 
     gmtk_get_allocation(tracker, &alloc);

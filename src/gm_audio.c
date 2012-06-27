@@ -425,7 +425,7 @@ void gm_audio_pa_sink_update_volume_cb(pa_context * c, const pa_sink_info * i, i
 {
     AudioDevice *device = (AudioDevice *) data;
     GList *iter;
-    gdouble old_volume = 0.0;
+    // gdouble old_volume = 0.0;
     gint index;
 
     gm_log(FALSE, G_LOG_LEVEL_DEBUG, "gm_audio_pa_sink_update_volume_cb %p, %i, %p", i, eol, data);
@@ -444,7 +444,7 @@ void gm_audio_pa_sink_update_volume_cb(pa_context * c, const pa_sink_info * i, i
                             index = gm_audio_get_default_pulse_index();
                         }
                         if (i->index == index) {
-                            old_volume = device->volume;
+                            //old_volume = device->volume;
                             device->volume = (gdouble) pa_cvolume_avg(&(i->volume)) / (gdouble) PA_VOLUME_NORM;
                             gm_log(FALSE, G_LOG_LEVEL_DEBUG, "updated %s volume to %f", device->description,
                                    device->volume);

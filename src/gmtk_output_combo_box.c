@@ -110,11 +110,11 @@ G_DEFINE_TYPE(GmtkOutputComboBox, gmtk_output_combo_box, GTK_TYPE_COMBO_BOX);
 
 static void gmtk_output_combo_box_class_init(GmtkOutputComboBoxClass * class)
 {
-    GtkWidgetClass *widget_class;
-    GObjectClass *object_class;
+    //GtkWidgetClass *widget_class;
+    //GObjectClass *object_class;
 
-    object_class = G_OBJECT_CLASS(class);
-    widget_class = GTK_WIDGET_CLASS(class);
+    //object_class = G_OBJECT_CLASS(class);
+    //widget_class = GTK_WIDGET_CLASS(class);
 
     parent_class = g_type_class_peek_parent(class);
 }
@@ -268,6 +268,8 @@ static void gmtk_output_combo_box_init(GmtkOutputComboBox * output)
 
 }
 
+/* unused
+
 static void gmtk_output_combo_box_dispose(GObject * object)
 {
     GmtkOutputComboBox *output = GMTK_OUTPUT_COMBO_BOX(object);
@@ -278,7 +280,7 @@ static void gmtk_output_combo_box_dispose(GObject * object)
     G_OBJECT_CLASS(parent_class)->dispose(object);
 
 }
-
+*/
 
 
 GtkWidget *gmtk_output_combo_box_new()

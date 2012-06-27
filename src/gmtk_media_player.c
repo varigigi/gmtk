@@ -2775,7 +2775,7 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
 {
     GmtkMediaPlayer *player = GMTK_MEDIA_PLAYER(data);
     GString *mplayer_output;
-    GIOStatus status;
+    // GIOStatus status;
     gchar *error_msg = NULL;
     GtkWidget *dialog;
     gchar *buf;
@@ -2797,7 +2797,7 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
     }
 
     mplayer_output = g_string_new("");
-    status = g_io_channel_read_line_string(source, mplayer_output, NULL, NULL);
+    //status = g_io_channel_read_line_string(source, mplayer_output, NULL, NULL);
 
     if (g_strrstr(mplayer_output->str, "ANS") == NULL) {
         gm_logsp(player->debug, G_LOG_LEVEL_INFO, "ERROR:", mplayer_output->str);
