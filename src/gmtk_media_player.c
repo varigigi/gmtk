@@ -2775,7 +2775,7 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
 {
     GmtkMediaPlayer *player = GMTK_MEDIA_PLAYER(data);
     GString *mplayer_output;
-    // GIOStatus status;
+    GIOStatus status;
     gchar *error_msg = NULL;
     GtkWidget *dialog;
     gchar *buf;
@@ -2797,161 +2797,165 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
     }
 
     mplayer_output = g_string_new("");
-    //status = g_io_channel_read_line_string(source, mplayer_output, NULL, NULL);
+    status = g_io_channel_read_line_string(source, mplayer_output, NULL, NULL);
+    if (status == G_IO_STATUS_ERROR) {
+        gm_logsp(player->debug, G_LOG_LEVEL_INFO, "GIO IO Error:", mplayer_output->str);
+        return TRUE;
+    } else {
+        if (g_strrstr(mplayer_output->str, "ANS") == NULL) {
+            gm_logsp(player->debug, G_LOG_LEVEL_INFO, "ERROR:", mplayer_output->str);
+        }
 
-    if (g_strrstr(mplayer_output->str, "ANS") == NULL) {
-        gm_logsp(player->debug, G_LOG_LEVEL_INFO, "ERROR:", mplayer_output->str);
-    }
+        if (strstr(mplayer_output->str, "Couldn't open DVD device") != 0) {
+            error_msg = g_strdup(mplayer_output->str);
+        }
 
-    if (strstr(mplayer_output->str, "Couldn't open DVD device") != 0) {
-        error_msg = g_strdup(mplayer_output->str);
-    }
+        if (strstr(mplayer_output->str, "X11 error") != 0) {
+            create_event_int(player, "attribute-changed", ATTRIBUTE_SIZE);
+        }
 
-    if (strstr(mplayer_output->str, "X11 error") != 0) {
-        create_event_int(player, "attribute-changed", ATTRIBUTE_SIZE);
-    }
-
-    if (strstr(mplayer_output->str, "signal") != NULL) {
-        if (strstr(mplayer_output->str, "decode") != NULL) {
+        if (strstr(mplayer_output->str, "signal") != NULL) {
+            if (strstr(mplayer_output->str, "decode") != NULL) {
+                create_event_int(player, "attribute-changed", ATTRIBUTE_SIZE);
+                if (player->position == 0) {
+                    player->playback_error = ERROR_RETRY;
+                }
+            } else if (strstr(mplayer_output->str, "filter video") != NULL) {
+                player->playback_error = ERROR_RETRY;
+            } else {
+                error_msg = g_strdup(mplayer_output->str);
+            }
+        }
+        if (strstr(mplayer_output->str, "Error when calling vdp_output_surface_create") != NULL) {
             create_event_int(player, "attribute-changed", ATTRIBUTE_SIZE);
             if (player->position == 0) {
                 player->playback_error = ERROR_RETRY;
             }
-        } else if (strstr(mplayer_output->str, "filter video") != NULL) {
-            player->playback_error = ERROR_RETRY;
-        } else {
-            error_msg = g_strdup(mplayer_output->str);
         }
-    }
-    if (strstr(mplayer_output->str, "Error when calling vdp_output_surface_create") != NULL) {
-        create_event_int(player, "attribute-changed", ATTRIBUTE_SIZE);
-        if (player->position == 0) {
-            player->playback_error = ERROR_RETRY;
+
+        if (strstr(mplayer_output->str, "Failed creating VDPAU decoder") != NULL) {
+            if (player->enable_divx && (g_ascii_strncasecmp(player->vo, "vdpau", strlen("vdpau")) == 0))
+                player->playback_error = ERROR_RETRY_WITHOUT_DIVX_VDPAU;
         }
-    }
 
-    if (strstr(mplayer_output->str, "Failed creating VDPAU decoder") != NULL) {
-        if (player->enable_divx && (g_ascii_strncasecmp(player->vo, "vdpau", strlen("vdpau")) == 0))
-            player->playback_error = ERROR_RETRY_WITHOUT_DIVX_VDPAU;
-    }
+        if (strstr(mplayer_output->str, "decoding to PIX_FMT_NONE is not supported") != NULL) {
+            if (player->enable_divx)
+                player->playback_error = ERROR_RETRY_WITHOUT_HARDWARE_CODECS;
+        }
 
-    if (strstr(mplayer_output->str, "decoding to PIX_FMT_NONE is not supported") != NULL) {
-        if (player->enable_divx)
-            player->playback_error = ERROR_RETRY_WITHOUT_HARDWARE_CODECS;
-    }
+        if (strstr(mplayer_output->str, "The selected video_out device is incompatible with this codec") != NULL) {
+            if (!player->disable_xvmc && (g_ascii_strncasecmp(player->vo, "xvmc", strlen("xvmc")) == 0))
+                player->playback_error = ERROR_RETRY_WITHOUT_XVMC;
+        }
 
-    if (strstr(mplayer_output->str, "The selected video_out device is incompatible with this codec") != NULL) {
-        if (!player->disable_xvmc && (g_ascii_strncasecmp(player->vo, "xvmc", strlen("xvmc")) == 0))
-            player->playback_error = ERROR_RETRY_WITHOUT_XVMC;
-    }
+        if (strstr(mplayer_output->str, "[AO_ALSA] Playback open error: Device or resource busy") != NULL) {
+            player->playback_error = ERROR_RETRY_ALSA_BUSY;
+        }
 
-    if (strstr(mplayer_output->str, "[AO_ALSA] Playback open error: Device or resource busy") != NULL) {
-        player->playback_error = ERROR_RETRY_ALSA_BUSY;
-    }
+        /*
+           if (strstr(mplayer_output->str, "Error when calling vdp_output_surface_create") != NULL) {
+           create_event_int(player, "attribute-changed", ATTRIBUTE_SIZE);
+           player->playback_error = ERROR_RETRY_VDPAU;
+           write_to_mplayer(player, "quit\n");
+           }
+         */
 
-    /*
-       if (strstr(mplayer_output->str, "Error when calling vdp_output_surface_create") != NULL) {
-       create_event_int(player, "attribute-changed", ATTRIBUTE_SIZE);
-       player->playback_error = ERROR_RETRY_VDPAU;
-       write_to_mplayer(player, "quit\n");
-       }
-     */
+        if (strstr(mplayer_output->str, "Failed to open") != NULL) {
+            if (strstr(mplayer_output->str, "LIRC") == NULL &&
+                strstr(mplayer_output->str, "/dev/rtc") == NULL &&
+                strstr(mplayer_output->str, "VDPAU") == NULL && strstr(mplayer_output->str, "registry file") == NULL) {
+                if (strstr(mplayer_output->str, "<") == NULL && strstr(mplayer_output->str, ">") == NULL
+                    && player->type == TYPE_FILE) {
+                    error_msg =
+                        g_strdup_printf(g_dgettext(GETTEXT_PACKAGE, "Failed to open %s"),
+                                        mplayer_output->str + strlen("Failed to open "));
+                }
 
-    if (strstr(mplayer_output->str, "Failed to open") != NULL) {
-        if (strstr(mplayer_output->str, "LIRC") == NULL &&
-            strstr(mplayer_output->str, "/dev/rtc") == NULL &&
-            strstr(mplayer_output->str, "VDPAU") == NULL && strstr(mplayer_output->str, "registry file") == NULL) {
-            if (strstr(mplayer_output->str, "<") == NULL && strstr(mplayer_output->str, ">") == NULL
-                && player->type == TYPE_FILE) {
-                error_msg =
-                    g_strdup_printf(g_dgettext(GETTEXT_PACKAGE, "Failed to open %s"),
-                                    mplayer_output->str + strlen("Failed to open "));
-            }
-
-            if (strstr(mplayer_output->str, "mms://") != NULL && player->type == TYPE_NETWORK) {
-                player->playback_error = ERROR_RETRY_WITH_MMSHTTP;
+                if (strstr(mplayer_output->str, "mms://") != NULL && player->type == TYPE_NETWORK) {
+                    player->playback_error = ERROR_RETRY_WITH_MMSHTTP;
+                }
             }
         }
-    }
 
-    if (strstr(mplayer_output->str, "MPlayer interrupted by signal 13 in module: open_stream") != NULL
-        && g_strrstr(player->uri, "mms://") != NULL) {
-        player->playback_error = ERROR_RETRY_WITH_MMSHTTP;
-    }
-
-    if (strstr(mplayer_output->str, "No stream found to handle url mmshttp://") != NULL) {
-        player->playback_error = ERROR_RETRY_WITH_HTTP;
-    }
-
-    if (strstr(mplayer_output->str, "Server returned 404:File Not Found") != NULL
-        && g_strrstr(player->uri, "mmshttp://") != NULL) {
-        player->playback_error = ERROR_RETRY_WITH_HTTP;
-    }
-
-    if (strstr(mplayer_output->str, "unknown ASF streaming type") != NULL
-        && g_strrstr(player->uri, "mmshttp://") != NULL) {
-        player->playback_error = ERROR_RETRY_WITH_HTTP;
-    }
-
-    if (strstr(mplayer_output->str, "Error while parsing chunk header") != NULL) {
-        player->playback_error = ERROR_RETRY_WITH_HTTP_AND_PLAYLIST;
-    }
-
-    if (strstr(mplayer_output->str, "Failed to initiate \"video/X-ASF-PF\" RTP subsession") != NULL) {
-        player->playback_error = ERROR_RETRY_WITH_PLAYLIST;
-    }
-
-    if (strstr(mplayer_output->str, "playlist support will not be used") != NULL) {
-        player->playback_error = ERROR_RETRY_WITH_PLAYLIST;
-    }
-
-    if (strstr(mplayer_output->str, "Compressed SWF format not supported") != NULL) {
-        error_msg = g_strdup_printf(g_dgettext(GETTEXT_PACKAGE, "Compressed SWF format not supported"));
-    }
-
-    if (strstr(mplayer_output->str, "moov atom not found") != NULL) {
-        player->retry_on_full_cache = TRUE;
-        create_event_boolean(player, "attribute-changed", ATTRIBUTE_RETRY_ON_FULL_CACHE);
-    }
-
-    if (strstr(mplayer_output->str, "MOV: missing header (moov/cmov) chunk") != NULL) {
-        player->retry_on_full_cache = TRUE;
-        create_event_boolean(player, "attribute-changed", ATTRIBUTE_RETRY_ON_FULL_CACHE);
-    }
-
-    if (strstr(mplayer_output->str, "Seek failed") != NULL) {
-        write_to_mplayer(player, "quit\n");
-        player->retry_on_full_cache = TRUE;
-        create_event_boolean(player, "attribute-changed", ATTRIBUTE_RETRY_ON_FULL_CACHE);
-    }
-
-    if (strstr(mplayer_output->str, "Title: ") != 0) {
-        buf = strstr(mplayer_output->str, "Title:");
-        buf = strstr(mplayer_output->str, "Title: ") + strlen("Title: ");
-        buf = g_strchomp(buf);
-        if (player->title != NULL) {
-            g_free(player->title);
-            player->title = NULL;
+        if (strstr(mplayer_output->str, "MPlayer interrupted by signal 13 in module: open_stream") != NULL
+            && g_strrstr(player->uri, "mms://") != NULL) {
+            player->playback_error = ERROR_RETRY_WITH_MMSHTTP;
         }
 
-        player->title = g_locale_to_utf8(buf, -1, NULL, NULL, NULL);
-        if (player->title == NULL) {
-            player->title = g_strdup(buf);
-            gm_str_strip_unicode(player->title, strlen(player->title));
+        if (strstr(mplayer_output->str, "No stream found to handle url mmshttp://") != NULL) {
+            player->playback_error = ERROR_RETRY_WITH_HTTP;
         }
-        create_event_int(player, "attribute-changed", ATTRIBUTE_TITLE);
-    }
 
-    if (error_msg != NULL && player->playback_error == NO_ERROR) {
-        dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
-                                        GTK_BUTTONS_CLOSE, "%s", error_msg);
-        gtk_window_set_title(GTK_WINDOW(dialog), g_dgettext(GETTEXT_PACKAGE, "GNOME MPlayer Error"));
-        gtk_dialog_run(GTK_DIALOG(dialog));
-        gtk_widget_destroy(dialog);
-        g_free(error_msg);
-        error_msg = NULL;
-    }
+        if (strstr(mplayer_output->str, "Server returned 404:File Not Found") != NULL
+            && g_strrstr(player->uri, "mmshttp://") != NULL) {
+            player->playback_error = ERROR_RETRY_WITH_HTTP;
+        }
 
+        if (strstr(mplayer_output->str, "unknown ASF streaming type") != NULL
+            && g_strrstr(player->uri, "mmshttp://") != NULL) {
+            player->playback_error = ERROR_RETRY_WITH_HTTP;
+        }
+
+        if (strstr(mplayer_output->str, "Error while parsing chunk header") != NULL) {
+            player->playback_error = ERROR_RETRY_WITH_HTTP_AND_PLAYLIST;
+        }
+
+        if (strstr(mplayer_output->str, "Failed to initiate \"video/X-ASF-PF\" RTP subsession") != NULL) {
+            player->playback_error = ERROR_RETRY_WITH_PLAYLIST;
+        }
+
+        if (strstr(mplayer_output->str, "playlist support will not be used") != NULL) {
+            player->playback_error = ERROR_RETRY_WITH_PLAYLIST;
+        }
+
+        if (strstr(mplayer_output->str, "Compressed SWF format not supported") != NULL) {
+            error_msg = g_strdup_printf(g_dgettext(GETTEXT_PACKAGE, "Compressed SWF format not supported"));
+        }
+
+        if (strstr(mplayer_output->str, "moov atom not found") != NULL) {
+            player->retry_on_full_cache = TRUE;
+            create_event_boolean(player, "attribute-changed", ATTRIBUTE_RETRY_ON_FULL_CACHE);
+        }
+
+        if (strstr(mplayer_output->str, "MOV: missing header (moov/cmov) chunk") != NULL) {
+            player->retry_on_full_cache = TRUE;
+            create_event_boolean(player, "attribute-changed", ATTRIBUTE_RETRY_ON_FULL_CACHE);
+        }
+
+        if (strstr(mplayer_output->str, "Seek failed") != NULL) {
+            write_to_mplayer(player, "quit\n");
+            player->retry_on_full_cache = TRUE;
+            create_event_boolean(player, "attribute-changed", ATTRIBUTE_RETRY_ON_FULL_CACHE);
+        }
+
+        if (strstr(mplayer_output->str, "Title: ") != 0) {
+            buf = strstr(mplayer_output->str, "Title:");
+            buf = strstr(mplayer_output->str, "Title: ") + strlen("Title: ");
+            buf = g_strchomp(buf);
+            if (player->title != NULL) {
+                g_free(player->title);
+                player->title = NULL;
+            }
+
+            player->title = g_locale_to_utf8(buf, -1, NULL, NULL, NULL);
+            if (player->title == NULL) {
+                player->title = g_strdup(buf);
+                gm_str_strip_unicode(player->title, strlen(player->title));
+            }
+            create_event_int(player, "attribute-changed", ATTRIBUTE_TITLE);
+        }
+
+        if (error_msg != NULL && player->playback_error == NO_ERROR) {
+            dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
+                                            GTK_BUTTONS_CLOSE, "%s", error_msg);
+            gtk_window_set_title(GTK_WINDOW(dialog), g_dgettext(GETTEXT_PACKAGE, "GNOME MPlayer Error"));
+            gtk_dialog_run(GTK_DIALOG(dialog));
+            gtk_widget_destroy(dialog);
+            g_free(error_msg);
+            error_msg = NULL;
+        }
+
+    }
     g_string_free(mplayer_output, TRUE);
 
     return TRUE;

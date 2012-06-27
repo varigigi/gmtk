@@ -1,4 +1,5 @@
 Development
+	Fix usage of status in thread_reader_error correctly
 	Clean up the pointer math in gmtk_media_player_log_state
 	Clean up some memory allocations identified by valgrind
     Print thread number with all debug messages if GM_DEBUG_THREADS is set
