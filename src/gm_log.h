@@ -32,6 +32,7 @@ extern "C" {
                                                        const gchar * format, ...);
     void gm_logs(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * msg);
     void gm_logsp(gboolean force_info_to_message, GLogLevelFlags log_level, const gchar * prefix, const gchar * msg);
+    void gm_log_name_this_thread(gchar const *const name);
 
 #ifdef __cplusplus
 }

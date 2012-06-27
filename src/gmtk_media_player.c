@@ -2093,6 +2093,7 @@ gpointer launch_mplayer(gpointer data)
     GFile *file;
 #endif
 
+    gm_log_name_this_thread("lm");
     gm_log(player->debug, G_LOG_LEVEL_DEBUG, "within launch_mplayer()");
 
     player->seekable = FALSE;
