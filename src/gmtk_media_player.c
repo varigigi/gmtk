@@ -2756,6 +2756,7 @@ gpointer launch_mplayer(gpointer data)
     return NULL;
 }
 
+// this executes in the main thread
 gboolean thread_complete(GIOChannel * source, GIOCondition condition, gpointer data)
 {
     GmtkMediaPlayer *player = GMTK_MEDIA_PLAYER(data);
@@ -2772,6 +2773,7 @@ gboolean thread_complete(GIOChannel * source, GIOCondition condition, gpointer d
     return FALSE;
 }
 
+// this executes in the main thread
 gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpointer data)
 {
     GmtkMediaPlayer *player = GMTK_MEDIA_PLAYER(data);
@@ -2962,6 +2964,7 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
     return TRUE;
 }
 
+// this executes in the main thread
 gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer data)
 {
     GmtkMediaPlayer *player = GMTK_MEDIA_PLAYER(data);
@@ -3644,6 +3647,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
     return TRUE;
 }
 
+// this executes in the main thread
 gboolean thread_query(gpointer data)
 {
     GmtkMediaPlayer *player = GMTK_MEDIA_PLAYER(data);
