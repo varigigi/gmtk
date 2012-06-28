@@ -2076,6 +2076,39 @@ void gmtk_media_player_select_audio_track_by_id(GmtkMediaPlayer * player, gint i
     }
 }
 
+static const gchar *playback_error_to_string(const GmtkMediaPlayerPlaybackError playback_error)
+{
+    switch (playback_error) {
+    case NO_ERROR:
+        return "NO_ERROR";
+    case ERROR_RETRY_WITH_PLAYLIST:
+        return "RETRY_WITH_PLAYLIST";
+    case ERROR_RETRY_WITH_HTTP:
+        return "RETRY_WITH_HTTP";
+    case ERROR_RETRY_WITH_HTTP_AND_PLAYLIST:
+        return "RETRY_WITH_HTTP_AND_PLAYLIST";
+    case ERROR_RETRY_WITH_MMSHTTP:
+        return "RETRY_WITH_MMSHTTP";
+    case ERROR_RETRY_WITHOUT_DIVX_VDPAU:
+        return "RETRY_WITHOUT_DIVX_VDPAU";
+    case ERROR_RETRY_WITHOUT_XVMC:
+        return "RETRY_WITHOUT_XVMC";
+    case ERROR_RETRY_ALSA_BUSY:
+        return "RETRY_ALSA_BUSY";
+    case ERROR_RETRY_VDPAU:
+        return "RETRY_VDPAU";
+    case ERROR_RETRY_WITHOUT_HARDWARE_CODECS:
+        return "RETRY_WITHOUT_HARDWARE_CODECS";
+    case ERROR_RETRY:
+        return "RETRY";
+    default:
+        return "???";
+    }
+
+}
+
+
+
 gpointer launch_mplayer(gpointer data)
 {
     GmtkMediaPlayer *player = GMTK_MEDIA_PLAYER(data);
@@ -2085,7 +2118,7 @@ gpointer launch_mplayer(gpointer data)
     GPid pid;
     GError *error;
     gint i;
-    gint spawn;
+    gboolean spawn;
     gchar *fontname;
     gchar *size;
     gchar *tmp;
@@ -2586,13 +2619,12 @@ gpointer launch_mplayer(gpointer data)
         player->std_in = -1;
         player->std_out = -1;
         player->std_err = -1;
-        spawn = FALSE;
         spawn =
             g_spawn_async_with_pipes(NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, &pid,
                                      &(player->std_in), &(player->std_out), &(player->std_err), &error);
 
-        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "spawn = %i files in %i out %i err %in", spawn, player->std_in,
-               player->std_out, player->std_err);
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "spawn = %s files in %i out %i err %in", gm_bool_to_string(spawn),
+               player->std_in, player->std_out, player->std_err);
 
         if (error != NULL) {
             gm_log(player->debug, G_LOG_LEVEL_INFO, "error code = %i - %s", error->code, error->message);
@@ -2743,7 +2775,8 @@ gpointer launch_mplayer(gpointer data)
             break;
         }
 
-        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "playback error code is %i", player->playback_error);
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "playback error code is %s",
+               playback_error_to_string(player->playback_error));
 
     } while (player->playback_error != NO_ERROR);
 
