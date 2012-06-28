@@ -1,5 +1,6 @@
 Development
-   new function gm_log_name_this_thread(): improves thread logging
+    Emit mplayer_complete_cond anytime we find an error reading from the mplayer thread
+    new function gm_log_name_this_thread(): improves thread logging
 	Fix usage of status in thread_reader_error correctly
 	Clean up the pointer math in gmtk_media_player_log_state
 	Clean up some memory allocations identified by valgrind

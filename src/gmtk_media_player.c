@@ -2784,6 +2784,10 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
     gchar *buf;
 
     if (player == NULL) {
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
+        g_cond_signal(player->mplayer_complete_cond);
+        g_unlink(player->af_export_filename);
+        gmtk_media_player_log_state(player, "completed");
         return FALSE;
     }
 
@@ -2791,11 +2795,19 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
         gm_log(player->debug, G_LOG_LEVEL_DEBUG, "source is null");
         g_source_remove(player->watch_in_id);
         g_source_remove(player->watch_in_hup_id);
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
+        g_cond_signal(player->mplayer_complete_cond);
+        g_unlink(player->af_export_filename);
+        gmtk_media_player_log_state(player, "completed");
         return FALSE;
     }
 
     if (player->player_state == PLAYER_STATE_DEAD) {
         gm_log(player->debug, G_LOG_LEVEL_DEBUG, "player is dead");
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
+        g_cond_signal(player->mplayer_complete_cond);
+        g_unlink(player->af_export_filename);
+        gmtk_media_player_log_state(player, "completed");
         return FALSE;
     }
 
@@ -2984,6 +2996,10 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
 
     if (player == NULL) {
         gm_log(player->debug, G_LOG_LEVEL_MESSAGE, "player is NULL");
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
+        g_cond_signal(player->mplayer_complete_cond);
+        g_unlink(player->af_export_filename);
+        gmtk_media_player_log_state(player, "completed");
         return FALSE;
     }
 
@@ -2991,11 +3007,19 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
         gm_log(player->debug, G_LOG_LEVEL_INFO, "source is null");
         g_source_remove(player->watch_in_id);
         g_source_remove(player->watch_in_hup_id);
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
+        g_cond_signal(player->mplayer_complete_cond);
+        g_unlink(player->af_export_filename);
+        gmtk_media_player_log_state(player, "completed");
         return FALSE;
     }
 
     if (player->player_state == PLAYER_STATE_DEAD) {
         gm_log(player->debug, G_LOG_LEVEL_INFO, "player is dead");
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
+        g_cond_signal(player->mplayer_complete_cond);
+        g_unlink(player->af_export_filename);
+        gmtk_media_player_log_state(player, "completed");
         return FALSE;
     }
 
@@ -3656,6 +3680,10 @@ gboolean thread_query(gpointer data)
     // gm_log(player->debug, G_LOG_LEVEL_DEBUG, "in thread_query, data = %p", data);
     if (player == NULL) {
         gm_log(player->debug, G_LOG_LEVEL_DEBUG, "thread_query called with player == NULL");
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
+        g_cond_signal(player->mplayer_complete_cond);
+        g_unlink(player->af_export_filename);
+        gmtk_media_player_log_state(player, "completed");
         return FALSE;
     }
 
@@ -3682,6 +3710,10 @@ gboolean thread_query(gpointer data)
         }
     } else {
         gm_log(player->debug, G_LOG_LEVEL_DEBUG, "thread_query, player is dead");
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
+        g_cond_signal(player->mplayer_complete_cond);
+        g_unlink(player->af_export_filename);
+        gmtk_media_player_log_state(player, "completed");
         return FALSE;
     }
 }
