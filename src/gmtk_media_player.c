@@ -889,26 +889,26 @@ const gchar *gmtk_media_player_get_uri(GmtkMediaPlayer * player)
     return player->uri;
 }
 
-void gmtk_media_player_set_state(GmtkMediaPlayer * player, const GmtkMediaPlayerMediaState new_state)
+void gmtk_media_player_set_state(GmtkMediaPlayer * player, const GmtkMediaPlayerMediaState new_media_state)
 {
     gmtk_media_player_log_state(player, "old");
-    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "setting media state to %s", gmtk_media_state_to_string(new_state));
+    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "setting media state to %s", gmtk_media_state_to_string(new_media_state));
 
     if (player->player_state == PLAYER_STATE_DEAD) {
 
-        if (new_state == MEDIA_STATE_QUIT) {
+        if (new_media_state == MEDIA_STATE_QUIT) {
             player->media_state = MEDIA_STATE_UNKNOWN;
         }
 
-        if (new_state == MEDIA_STATE_STOP) {
+        if (new_media_state == MEDIA_STATE_STOP) {
             player->media_state = MEDIA_STATE_UNKNOWN;
         }
 
-        if (new_state == MEDIA_STATE_PAUSE) {
+        if (new_media_state == MEDIA_STATE_PAUSE) {
             player->media_state = MEDIA_STATE_UNKNOWN;
         }
 
-        if (new_state == MEDIA_STATE_PLAY) {
+        if (new_media_state == MEDIA_STATE_PLAY) {
             // launch player
             gm_log(player->debug, G_LOG_LEVEL_DEBUG, "launching launch_mplayer thread");
             player->mplayer_thread = g_thread_create(launch_mplayer, player, TRUE, NULL);
@@ -931,7 +931,7 @@ void gmtk_media_player_set_state(GmtkMediaPlayer * player, const GmtkMediaPlayer
     }
 
     if (player->player_state == PLAYER_STATE_RUNNING) {
-        if (new_state == MEDIA_STATE_STOP) {
+        if (new_media_state == MEDIA_STATE_STOP) {
             if (player->type == TYPE_NETWORK) {
                 write_to_mplayer(player, "quit\n");
             } else {
@@ -946,7 +946,7 @@ void gmtk_media_player_set_state(GmtkMediaPlayer * player, const GmtkMediaPlayer
             }
         }
 
-        if (new_state == MEDIA_STATE_PLAY) {
+        if (new_media_state == MEDIA_STATE_PLAY) {
             gtk_widget_show(GTK_WIDGET(player->socket));
 
             if (player->media_state == MEDIA_STATE_PAUSE || player->media_state == MEDIA_STATE_STOP) {
@@ -962,7 +962,7 @@ void gmtk_media_player_set_state(GmtkMediaPlayer * player, const GmtkMediaPlayer
             }
         }
 
-        if (new_state == MEDIA_STATE_PAUSE) {
+        if (new_media_state == MEDIA_STATE_PAUSE) {
             if (player->media_state == MEDIA_STATE_PLAY) {
                 write_to_mplayer(player, "pause\n");
                 player->media_state = MEDIA_STATE_PAUSE;
@@ -971,7 +971,7 @@ void gmtk_media_player_set_state(GmtkMediaPlayer * player, const GmtkMediaPlayer
             }
         }
 
-        if (new_state == MEDIA_STATE_QUIT) {
+        if (new_media_state == MEDIA_STATE_QUIT) {
             write_to_mplayer(player, "quit\n");
         }
     }
