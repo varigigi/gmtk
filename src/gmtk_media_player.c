@@ -176,7 +176,7 @@ gchar *gmtk_media_player_switch_protocol(const gchar * uri, gchar * new_protocol
         return NULL;
 }
 
-static const gchar *media_state_to_string(const GmtkMediaPlayerMediaState media_state)
+const gchar *gmtk_media_state_to_string(const GmtkMediaPlayerMediaState media_state)
 {
     switch (media_state) {
     case MEDIA_STATE_UNKNOWN:
@@ -229,7 +229,7 @@ static void gmtk_media_player_log_state(GmtkMediaPlayer * player, char const *co
     }
 
     g_strlcat(msg, " media=", GMPLS_LEN);
-    g_strlcat(msg, media_state_to_string(player->media_state), GMPLS_LEN);
+    g_strlcat(msg, gmtk_media_state_to_string(player->media_state), GMPLS_LEN);
     g_strlcat(msg, " uri=", GMPLS_LEN);
     if (player->uri != NULL) {
         g_strlcat(msg, player->uri, GMPLS_LEN);
@@ -891,7 +891,7 @@ const gchar *gmtk_media_player_get_uri(GmtkMediaPlayer * player)
 void gmtk_media_player_set_state(GmtkMediaPlayer * player, const GmtkMediaPlayerMediaState new_state)
 {
     gmtk_media_player_log_state(player, "old");
-    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "setting state to %s", media_state_to_string(new_state));
+    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "setting media state to %s", gmtk_media_state_to_string(new_state));
 
     if (player->player_state == PLAYER_STATE_DEAD) {
 

@@ -455,6 +455,7 @@ void gmtk_media_player_send_command(GmtkMediaPlayer * player, GmtkMediaPlayerCom
 
 void gmtk_media_player_set_aspect(GmtkMediaPlayer * player, GmtkMediaPlayerAspectRatio aspect);
 GmtkMediaPlayerAspectRatio gmtk_media_player_get_aspect(GmtkMediaPlayer * player);
+const gchar *gmtk_media_state_to_string(const GmtkMediaPlayerMediaState media_state);
 
 
 G_END_DECLS
