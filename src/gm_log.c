@@ -139,6 +139,9 @@ static const gchar *threadid()
     return str;
 }
 
+// this function will only change the thread name if it is the first gm_log* function called within that thread
+// there are pros and cons for this behavior, but consistent thread names (that don't change because somebody calls
+// this function) are certainly a "pro".
 void gm_log_name_this_thread(gchar const *const name)
 {
     if (!g_getenv("GM_DEBUG_THREADS")) {
