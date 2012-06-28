@@ -413,7 +413,7 @@ void gmtk_media_player_set_uri(GmtkMediaPlayer * player, const gchar * uri);
 const gchar *gmtk_media_player_get_uri(GmtkMediaPlayer * player);
 
 void gmtk_media_player_set_state(GmtkMediaPlayer * player, const GmtkMediaPlayerMediaState new_state);
-GmtkMediaPlayerMediaState gmtk_media_player_get_state(GmtkMediaPlayer * player);
+GmtkMediaPlayerMediaState gmtk_media_player_get_media_state(GmtkMediaPlayer * player);
 
 void gmtk_media_player_set_attribute_boolean(GmtkMediaPlayer * player,
                                              GmtkMediaPlayerMediaAttributes attribute, gboolean value);

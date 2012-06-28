@@ -826,8 +826,8 @@ static void gmtk_media_player_restart_complete_callback(GmtkMediaPlayer * player
     gmtk_media_player_seek(player, player->restart_position, SEEK_ABSOLUTE);
     player->restart = FALSE;
     gm_log(player->debug, G_LOG_LEVEL_DEBUG, "restart state = %i, current state = %i", player->restart_state,
-           gmtk_media_player_get_state(player));
-    if (player->restart_state != gmtk_media_player_get_state(player))
+           gmtk_media_player_get_media_state(player));
+    if (player->restart_state != gmtk_media_player_get_media_state(player))
         gmtk_media_player_set_state(GMTK_MEDIA_PLAYER(player), player->restart_state);
     gm_log(player->debug, G_LOG_LEVEL_INFO, "restart complete");
 }
@@ -847,7 +847,7 @@ void gmtk_media_player_restart(GmtkMediaPlayer * player)
 {
     if (player->player_state == PLAYER_STATE_RUNNING) {
         player->restart = TRUE;
-        player->restart_state = gmtk_media_player_get_state(player);
+        player->restart_state = gmtk_media_player_get_media_state(player);
         gmtk_media_player_set_state(player, MEDIA_STATE_PAUSE);
         player->restart_position = player->position;
         gmtk_media_player_set_state(GMTK_MEDIA_PLAYER(player), MEDIA_STATE_QUIT);
@@ -978,7 +978,7 @@ void gmtk_media_player_set_state(GmtkMediaPlayer * player, const GmtkMediaPlayer
     gmtk_media_player_log_state(player, "new");
 }
 
-GmtkMediaPlayerMediaState gmtk_media_player_get_state(GmtkMediaPlayer * player)
+GmtkMediaPlayerMediaState gmtk_media_player_get_media_state(GmtkMediaPlayer * player)
 {
     return player->media_state;
 }
