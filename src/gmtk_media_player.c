@@ -418,7 +418,13 @@ static void gmtk_media_player_init(GmtkMediaPlayer * player)
 static void gmtk_media_player_dispose(GObject * object)
 {
 
-    GmtkMediaPlayer *player = GMTK_MEDIA_PLAYER(object);
+    GmtkMediaPlayer *player;
+
+    if (object == NULL) {
+        return;
+    }
+
+    player = GMTK_MEDIA_PLAYER(object);
 
     if (player->disposed) {
         return;
@@ -2601,6 +2607,7 @@ gpointer launch_mplayer(gpointer data)
         }
 
         if (spawn) {
+            gmtk_media_player_log_state(player, "launched");
             gm_log(player->debug, G_LOG_LEVEL_DEBUG, "spawn succeeded, setup up channels");
 
             player->player_state = PLAYER_STATE_RUNNING;
@@ -2750,8 +2757,6 @@ gpointer launch_mplayer(gpointer data)
         create_event_int(player, "player-state-changed", player->player_state);
         create_event_int(player, "media-state-changed", player->media_state);
     }
-
-    gmtk_media_player_log_state(player, "launched");
 
     return NULL;
 }
@@ -3071,6 +3076,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
             create_event_int(player, "attribute-changed", ATTRIBUTE_AF_EXPORT_FILENAME);
             create_event_int(player, "attribute-changed", ATTRIBUTE_AUDIO_TRACK);
             create_event_int(player, "attribute-changed", ATTRIBUTE_SUBTITLE);
+            gmtk_media_player_log_state(player, "media_loaded");
         }
 
         if (strstr(mplayer_output->str, "Video: no video") != NULL) {
@@ -3092,6 +3098,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
             create_event_int(player, "attribute-changed", ATTRIBUTE_AF_EXPORT_FILENAME);
             create_event_int(player, "attribute-changed", ATTRIBUTE_AUDIO_TRACK);
             create_event_int(player, "attribute-changed", ATTRIBUTE_SUBTITLE);
+            gmtk_media_player_log_state(player, "media_loaded");
         }
 
         if (strstr(mplayer_output->str, "ANS_TIME_POSITION") != 0) {
