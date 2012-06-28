@@ -2650,6 +2650,10 @@ gpointer launch_mplayer(gpointer data)
 #else
             g_timeout_add(1000, thread_query, player);
 #endif
+
+            // /////////////////////////////////////////////////////////////////////
+            // Now this thread waits till somebody signals player->mplayer_complete_cond
+
             gm_log(player->debug, G_LOG_LEVEL_DEBUG, "waiting for mplayer_complete_cond");
             g_cond_wait(player->mplayer_complete_cond, player->thread_running);
             gm_log(player->debug, G_LOG_LEVEL_DEBUG, "mplayer_complete_cond was signalled");
@@ -2745,11 +2749,15 @@ gpointer launch_mplayer(gpointer data)
     gm_log(player->debug, G_LOG_LEVEL_DEBUG, "marking playback complete");
     player->player_state = PLAYER_STATE_DEAD;
     player->media_state = MEDIA_STATE_UNKNOWN;
-    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "unlocking thread_running");
-    g_mutex_unlock(player->thread_running);
     player->mplayer_thread = NULL;
     player->start_time = 0.0;
     player->run_time = 0.0;
+
+    gmtk_media_player_log_state(player, "finished");
+
+    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "unlocking thread_running");
+    g_mutex_unlock(player->thread_running);
+
     if (player->restart) {
         g_signal_emit_by_name(player, "restart-shutdown-complete", NULL);
     } else {
@@ -2761,6 +2769,17 @@ gpointer launch_mplayer(gpointer data)
     return NULL;
 }
 
+static void finalize_mplayer(GmtkMediaPlayer * player)
+{
+    g_source_remove(player->watch_in_id);
+    g_source_remove(player->watch_in_hup_id);
+    g_source_remove(player->watch_err_id);
+    g_unlink(player->af_export_filename);
+    gmtk_media_player_log_state(player, "completed");
+    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
+    g_cond_signal(player->mplayer_complete_cond);
+}
+
 // this executes in the main thread
 gboolean thread_complete(GIOChannel * source, GIOCondition condition, gpointer data)
 {
@@ -2768,12 +2787,7 @@ gboolean thread_complete(GIOChannel * source, GIOCondition condition, gpointer d
 
     player->player_state = PLAYER_STATE_DEAD;
     player->media_state = MEDIA_STATE_UNKNOWN;
-    g_source_remove(player->watch_in_id);
-    g_source_remove(player->watch_err_id);
-    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
-    g_cond_signal(player->mplayer_complete_cond);
-    g_unlink(player->af_export_filename);
-    gmtk_media_player_log_state(player, "completed");
+    finalize_mplayer(player);
 
     return FALSE;
 }
@@ -2789,30 +2803,19 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
     gchar *buf;
 
     if (player == NULL) {
-        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
-        g_cond_signal(player->mplayer_complete_cond);
-        g_unlink(player->af_export_filename);
-        gmtk_media_player_log_state(player, "completed");
+        finalize_mplayer(player);
         return FALSE;
     }
 
     if (source == NULL) {
         gm_log(player->debug, G_LOG_LEVEL_DEBUG, "source is null");
-        g_source_remove(player->watch_in_id);
-        g_source_remove(player->watch_in_hup_id);
-        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
-        g_cond_signal(player->mplayer_complete_cond);
-        g_unlink(player->af_export_filename);
-        gmtk_media_player_log_state(player, "completed");
+        finalize_mplayer(player);
         return FALSE;
     }
 
     if (player->player_state == PLAYER_STATE_DEAD) {
         gm_log(player->debug, G_LOG_LEVEL_DEBUG, "player is dead");
-        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
-        g_cond_signal(player->mplayer_complete_cond);
-        g_unlink(player->af_export_filename);
-        gmtk_media_player_log_state(player, "completed");
+        finalize_mplayer(player);
         return FALSE;
     }
 
@@ -3001,30 +3004,19 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
 
     if (player == NULL) {
         gm_log(player->debug, G_LOG_LEVEL_MESSAGE, "player is NULL");
-        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
-        g_cond_signal(player->mplayer_complete_cond);
-        g_unlink(player->af_export_filename);
-        gmtk_media_player_log_state(player, "completed");
+        finalize_mplayer(player);
         return FALSE;
     }
 
     if (source == NULL) {
         gm_log(player->debug, G_LOG_LEVEL_INFO, "source is null");
-        g_source_remove(player->watch_in_id);
-        g_source_remove(player->watch_in_hup_id);
-        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
-        g_cond_signal(player->mplayer_complete_cond);
-        g_unlink(player->af_export_filename);
-        gmtk_media_player_log_state(player, "completed");
+        finalize_mplayer(player);
         return FALSE;
     }
 
     if (player->player_state == PLAYER_STATE_DEAD) {
         gm_log(player->debug, G_LOG_LEVEL_INFO, "player is dead");
-        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
-        g_cond_signal(player->mplayer_complete_cond);
-        g_unlink(player->af_export_filename);
-        gmtk_media_player_log_state(player, "completed");
+        finalize_mplayer(player);
         return FALSE;
     }
 
@@ -3687,10 +3679,7 @@ gboolean thread_query(gpointer data)
     // gm_log(player->debug, G_LOG_LEVEL_DEBUG, "in thread_query, data = %p", data);
     if (player == NULL) {
         gm_log(player->debug, G_LOG_LEVEL_DEBUG, "thread_query called with player == NULL");
-        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
-        g_cond_signal(player->mplayer_complete_cond);
-        g_unlink(player->af_export_filename);
-        gmtk_media_player_log_state(player, "completed");
+        finalize_mplayer(player);
         return FALSE;
     }
 
@@ -3717,10 +3706,7 @@ gboolean thread_query(gpointer data)
         }
     } else {
         gm_log(player->debug, G_LOG_LEVEL_DEBUG, "thread_query, player is dead");
-        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "signaling mplayer_complete_cond");
-        g_cond_signal(player->mplayer_complete_cond);
-        g_unlink(player->af_export_filename);
-        gmtk_media_player_log_state(player, "completed");
+        finalize_mplayer(player);
         return FALSE;
     }
 }
