@@ -24,8 +24,8 @@
 
 #include <glib.h>
 
-#ifndef bool_to_string
-#define bool_to_string(x) ((x) ? "true" : "false")
+#ifndef gm_bool_to_string
+#define gm_bool_to_string(x) ((x) ? "true" : "false")
 #endif
 
 #ifdef __cplusplus
