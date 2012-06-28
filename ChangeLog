@@ -1,4 +1,5 @@
 Development
+	Clear artist, title and album on media end, prevents wrong cover art lookup
 	Change gmtk_media_player_log_state log level from DEBUG to INFO
 	Move and add gmtk_media_player_log_state status messages around
 	Prevent class cast on possible NULL pointer

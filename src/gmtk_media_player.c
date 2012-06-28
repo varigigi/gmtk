@@ -2752,6 +2752,18 @@ gpointer launch_mplayer(gpointer data)
     player->mplayer_thread = NULL;
     player->start_time = 0.0;
     player->run_time = 0.0;
+    if (player->artist) {
+        g_free(player->artist);
+        player->artist = NULL;
+    }
+    if (player->title) {
+        g_free(player->title);
+        player->title = NULL;
+    }
+    if (player->album) {
+        g_free(player->album);
+        player->album = NULL;
+    }
 
     gmtk_media_player_log_state(player, "finished");
 
