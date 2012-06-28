@@ -2785,6 +2785,7 @@ gboolean thread_complete(GIOChannel * source, GIOCondition condition, gpointer d
 {
     GmtkMediaPlayer *player = GMTK_MEDIA_PLAYER(data);
 
+    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "thread_complete()");
     player->player_state = PLAYER_STATE_DEAD;
     player->media_state = MEDIA_STATE_UNKNOWN;
     finalize_mplayer(player);
@@ -2803,6 +2804,7 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
     gchar *buf;
 
     if (player == NULL) {
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "player is NULL");
         finalize_mplayer(player);
         return FALSE;
     }
