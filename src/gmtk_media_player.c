@@ -808,8 +808,8 @@ static void gmtk_media_player_size_allocate(GtkWidget * widget, GtkAllocation * 
         }
     }
 
-    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "gmtk allocation video:%i %ix%i", player->video_present, allocation->width,
-           allocation->height);
+    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "gmtk allocation video:%s %ix%i", gm_bool_to_string(player->video_present),
+           allocation->width, allocation->height);
     GTK_WIDGET_CLASS(parent_class)->size_allocate(widget, allocation);
 
 }
@@ -2623,7 +2623,7 @@ gpointer launch_mplayer(gpointer data)
             g_spawn_async_with_pipes(NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, &pid,
                                      &(player->std_in), &(player->std_out), &(player->std_err), &error);
 
-        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "spawn = %s files in %i out %i err %in", gm_bool_to_string(spawn),
+        gm_log(player->debug, G_LOG_LEVEL_DEBUG, "spawn = %s files in %i out %i err %i", gm_bool_to_string(spawn),
                player->std_in, player->std_out, player->std_err);
 
         if (error != NULL) {
