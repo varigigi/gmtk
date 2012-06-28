@@ -234,7 +234,7 @@ static void gmtk_media_player_log_state(GmtkMediaPlayer * player, char const *co
     if (player->uri != NULL) {
         g_strlcat(msg, player->uri, GMPLS_LEN);
     }
-    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "%s", msg);
+    gm_log(player->debug, G_LOG_LEVEL_INFO, "%s", msg);
 }
 
 static void gmtk_media_player_class_init(GmtkMediaPlayerClass * class)
