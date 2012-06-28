@@ -825,8 +825,9 @@ static void gmtk_media_player_restart_complete_callback(GmtkMediaPlayer * player
 {
     gmtk_media_player_seek(player, player->restart_position, SEEK_ABSOLUTE);
     player->restart = FALSE;
-    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "restart state = %i, current state = %i", player->restart_state,
-           gmtk_media_player_get_media_state(player));
+    gm_log(player->debug, G_LOG_LEVEL_DEBUG, "restart state = %s, current state = %s",
+           gmtk_media_state_to_string(player->restart_state),
+           gmtk_media_state_to_string(gmtk_media_player_get_media_state(player)));
     if (player->restart_state != gmtk_media_player_get_media_state(player))
         gmtk_media_player_set_state(GMTK_MEDIA_PLAYER(player), player->restart_state);
     gm_log(player->debug, G_LOG_LEVEL_INFO, "restart complete");
