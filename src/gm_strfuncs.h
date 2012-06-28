@@ -24,6 +24,10 @@
 
 #include <glib.h>
 
+#ifndef bool_to_string
+#define bool_to_string(x) ((x) ? "true" : "false")
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
