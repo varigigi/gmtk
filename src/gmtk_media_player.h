@@ -214,7 +214,8 @@ typedef enum {
     EVENT_TYPE_INT,
     EVENT_TYPE_DOUBLE,
     EVENT_TYPE_BOOLEAN,
-    EVENT_TYPE_ALLOCATION
+    EVENT_TYPE_ALLOCATION,
+    EVENT_TYPE_STRING
 } GmtkMediaPlayerEventType;
 
 typedef struct _GmtkMediaPlayer GmtkMediaPlayer;
@@ -244,6 +245,7 @@ typedef struct _GmtkMediaPlayerEvent {
     gdouble event_data_double;
     gboolean event_data_boolean;
     GtkAllocation *event_allocation;
+    gchar *event_data_string;
 } GmtkMediaPlayerEvent;
 
 struct _GmtkMediaPlayer {
@@ -404,6 +406,7 @@ struct _GmtkMediaPlayerClass {
     void (*audio_tracks_changed) (GmtkMediaPlayer * player);
     void (*restart_shutdown_complete) (GmtkMediaPlayer * player);
     void (*restart_complete) (GmtkMediaPlayer * player);
+    void (*error_message) (GmtkMediaPlayer * player);
 };
 
 GType gmtk_media_player_get_type(void);

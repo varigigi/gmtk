@@ -100,6 +100,12 @@ gboolean signal_event(gpointer data)
             event->event_allocation = NULL;
             break;
 
+        case EVENT_TYPE_STRING:
+            g_signal_emit_by_name(event->player, event->event_name, event->event_data_string);
+            g_free(event->event_data_string);
+            event->event_data_string = NULL;
+            break;
+
         default:
             gm_log(event->player->debug, G_LOG_LEVEL_MESSAGE, "undefined event %s", event->event_name);
         }
@@ -159,6 +165,19 @@ void create_event_allocation(GmtkMediaPlayer * player, const gchar * name, GtkAl
     event->event_name = g_strdup(name);
     event->event_allocation = g_new0(GtkAllocation, 1);
     memcpy(event->event_allocation, allocation, sizeof(GtkAllocation));
+    g_idle_add(signal_event, event);
+
+}
+
+void create_event_string(GmtkMediaPlayer * player, const gchar * name, gchar * string)
+{
+    GmtkMediaPlayerEvent *event;
+
+    event = g_new0(GmtkMediaPlayerEvent, 1);
+    event->player = player;
+    event->type = EVENT_TYPE_STRING;
+    event->event_name = g_strdup(name);
+    event->event_data_string = g_strdup(string);
     g_idle_add(signal_event, event);
 
 }
@@ -306,6 +325,12 @@ static void gmtk_media_player_class_init(GmtkMediaPlayerClass * class)
                  G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
                  G_STRUCT_OFFSET(GmtkMediaPlayerClass, restart_complete),
                  NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
+
+    g_signal_new("error-message",
+                 G_OBJECT_CLASS_TYPE(object_class),
+                 G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+                 G_STRUCT_OFFSET(GmtkMediaPlayerClass, error_message),
+                 NULL, NULL, g_cclosure_marshal_VOID__STRING, G_TYPE_NONE, 1, G_TYPE_STRING);
 
 }
 
@@ -2846,7 +2871,7 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
     GString *mplayer_output;
     GIOStatus status;
     gchar *error_msg = NULL;
-    GtkWidget *dialog;
+    //GtkWidget *dialog;
     gchar *buf;
 
     if (player == NULL) {
@@ -3017,11 +3042,14 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
         }
 
         if (error_msg != NULL && player->playback_error == NO_ERROR) {
-            dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
-                                            GTK_BUTTONS_CLOSE, "%s", error_msg);
-            gtk_window_set_title(GTK_WINDOW(dialog), g_dgettext(GETTEXT_PACKAGE, "GNOME MPlayer Error"));
-            gtk_dialog_run(GTK_DIALOG(dialog));
-            gtk_widget_destroy(dialog);
+            create_event_string(player, "error-message", error_msg);
+            /*
+               dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
+               GTK_BUTTONS_CLOSE, "%s", error_msg);
+               gtk_window_set_title(GTK_WINDOW(dialog), g_dgettext(GETTEXT_PACKAGE, "GNOME MPlayer Error"));
+               gtk_dialog_run(GTK_DIALOG(dialog));
+               gtk_widget_destroy(dialog);
+             */
             g_free(error_msg);
             error_msg = NULL;
         }
