@@ -1,7 +1,8 @@
-# generated automatically by aclocal 1.11.1 -*- Autoconf -*-
+# generated automatically by aclocal 1.11.3 -*- Autoconf -*-
 
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004,
-# 2005, 2006, 2007, 2008, 2009  Free Software Foundation, Inc.
+# 2005, 2006, 2007, 2008, 2009, 2010, 2011 Free Software Foundation,
+# Inc.
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -585,6 +586,221 @@ m4_ifdef([_AM_SUBST_NOTMAKE], [_AM_SUBST_NOTMAKE([$1])])
 ]
 )
 
+
+dnl IT_PROG_INTLTOOL([MINIMUM-VERSION], [no-xml])
+# serial 42 IT_PROG_INTLTOOL
+AC_DEFUN([IT_PROG_INTLTOOL], [
+AC_PREREQ([2.50])dnl
+AC_REQUIRE([AM_NLS])dnl
+
+case "$am__api_version" in
+    1.[01234])
+	AC_MSG_ERROR([Automake 1.5 or newer is required to use intltool])
+    ;;
+    *)
+    ;;
+esac
+
+INTLTOOL_REQUIRED_VERSION_AS_INT=`echo $1 | awk -F. '{ print $ 1 * 1000 + $ 2 * 100 + $ 3; }'`
+INTLTOOL_APPLIED_VERSION=`intltool-update --version | head -1 | cut -d" " -f3`
+INTLTOOL_APPLIED_VERSION_AS_INT=`echo $INTLTOOL_APPLIED_VERSION | awk -F. '{ print $ 1 * 1000 + $ 2 * 100 + $ 3; }'`
+if test -n "$1"; then
+    AC_MSG_CHECKING([for intltool >= $1])
+    AC_MSG_RESULT([$INTLTOOL_APPLIED_VERSION found])
+    test "$INTLTOOL_APPLIED_VERSION_AS_INT" -ge "$INTLTOOL_REQUIRED_VERSION_AS_INT" ||
+	AC_MSG_ERROR([Your intltool is too old.  You need intltool $1 or later.])
+fi
+
+AC_PATH_PROG(INTLTOOL_UPDATE, [intltool-update])
+AC_PATH_PROG(INTLTOOL_MERGE, [intltool-merge])
+AC_PATH_PROG(INTLTOOL_EXTRACT, [intltool-extract])
+if test -z "$INTLTOOL_UPDATE" -o -z "$INTLTOOL_MERGE" -o -z "$INTLTOOL_EXTRACT"; then
+    AC_MSG_ERROR([The intltool scripts were not found. Please install intltool.])
+fi
+
+if test -z "$AM_DEFAULT_VERBOSITY"; then
+  AM_DEFAULT_VERBOSITY=1
+fi
+AC_SUBST([AM_DEFAULT_VERBOSITY])
+
+INTLTOOL_V_MERGE='$(INTLTOOL__v_MERGE_$(V))'
+INTLTOOL__v_MERGE_='$(INTLTOOL__v_MERGE_$(AM_DEFAULT_VERBOSITY))'
+INTLTOOL__v_MERGE_0='@echo "  ITMRG " [$]@;'
+AC_SUBST(INTLTOOL_V_MERGE)
+AC_SUBST(INTLTOOL__v_MERGE_)
+AC_SUBST(INTLTOOL__v_MERGE_0)
+
+INTLTOOL_V_MERGE_OPTIONS='$(intltool__v_merge_options_$(V))'
+intltool__v_merge_options_='$(intltool__v_merge_options_$(AM_DEFAULT_VERBOSITY))'
+intltool__v_merge_options_0='-q'
+AC_SUBST(INTLTOOL_V_MERGE_OPTIONS)
+AC_SUBST(intltool__v_merge_options_)
+AC_SUBST(intltool__v_merge_options_0)
+
+  INTLTOOL_DESKTOP_RULE='%.desktop:   %.desktop.in   $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+INTLTOOL_DIRECTORY_RULE='%.directory: %.directory.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+     INTLTOOL_KEYS_RULE='%.keys:      %.keys.in      $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -k -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+     INTLTOOL_PROP_RULE='%.prop:      %.prop.in      $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+      INTLTOOL_OAF_RULE='%.oaf:       %.oaf.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -o -p $(top_srcdir)/po $< [$]@'
+     INTLTOOL_PONG_RULE='%.pong:      %.pong.in      $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+   INTLTOOL_SERVER_RULE='%.server:    %.server.in    $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -o -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+    INTLTOOL_SHEET_RULE='%.sheet:     %.sheet.in     $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+INTLTOOL_SOUNDLIST_RULE='%.soundlist: %.soundlist.in $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+       INTLTOOL_UI_RULE='%.ui:        %.ui.in        $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+      INTLTOOL_XML_RULE='%.xml:       %.xml.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+if test "$INTLTOOL_APPLIED_VERSION_AS_INT" -ge 5000; then
+      INTLTOOL_XML_NOMERGE_RULE='%.xml:       %.xml.in       $(INTLTOOL_MERGE) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u --no-translations $< [$]@'
+else
+      INTLTOOL_XML_NOMERGE_RULE='%.xml:       %.xml.in       $(INTLTOOL_MERGE) ; $(INTLTOOL_V_MERGE)_it_tmp_dir=tmp.intltool.[$][$]RANDOM && mkdir [$][$]_it_tmp_dir && LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u [$][$]_it_tmp_dir $< [$]@ && rmdir [$][$]_it_tmp_dir'
+fi
+      INTLTOOL_XAM_RULE='%.xam:       %.xml.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+      INTLTOOL_KBD_RULE='%.kbd:       %.kbd.in       $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -m -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+    INTLTOOL_CAVES_RULE='%.caves:     %.caves.in     $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+  INTLTOOL_SCHEMAS_RULE='%.schemas:   %.schemas.in   $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -s -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+    INTLTOOL_THEME_RULE='%.theme:     %.theme.in     $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@' 
+    INTLTOOL_SERVICE_RULE='%.service: %.service.in   $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@'
+   INTLTOOL_POLICY_RULE='%.policy:    %.policy.in    $(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po) ; $(INTLTOOL_V_MERGE)LC_ALL=C $(INTLTOOL_MERGE) $(INTLTOOL_V_MERGE_OPTIONS) -x -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< [$]@'
+
+_IT_SUBST(INTLTOOL_DESKTOP_RULE)
+_IT_SUBST(INTLTOOL_DIRECTORY_RULE)
+_IT_SUBST(INTLTOOL_KEYS_RULE)
+_IT_SUBST(INTLTOOL_PROP_RULE)
+_IT_SUBST(INTLTOOL_OAF_RULE)
+_IT_SUBST(INTLTOOL_PONG_RULE)
+_IT_SUBST(INTLTOOL_SERVER_RULE)
+_IT_SUBST(INTLTOOL_SHEET_RULE)
+_IT_SUBST(INTLTOOL_SOUNDLIST_RULE)
+_IT_SUBST(INTLTOOL_UI_RULE)
+_IT_SUBST(INTLTOOL_XAM_RULE)
+_IT_SUBST(INTLTOOL_KBD_RULE)
+_IT_SUBST(INTLTOOL_XML_RULE)
+_IT_SUBST(INTLTOOL_XML_NOMERGE_RULE)
+_IT_SUBST(INTLTOOL_CAVES_RULE)
+_IT_SUBST(INTLTOOL_SCHEMAS_RULE)
+_IT_SUBST(INTLTOOL_THEME_RULE)
+_IT_SUBST(INTLTOOL_SERVICE_RULE)
+_IT_SUBST(INTLTOOL_POLICY_RULE)
+
+# Check the gettext tools to make sure they are GNU
+AC_PATH_PROG(XGETTEXT, xgettext)
+AC_PATH_PROG(MSGMERGE, msgmerge)
+AC_PATH_PROG(MSGFMT, msgfmt)
+AC_PATH_PROG(GMSGFMT, gmsgfmt, $MSGFMT)
+if test -z "$XGETTEXT" -o -z "$MSGMERGE" -o -z "$MSGFMT"; then
+    AC_MSG_ERROR([GNU gettext tools not found; required for intltool])
+fi
+xgversion="`$XGETTEXT --version|grep '(GNU ' 2> /dev/null`"
+mmversion="`$MSGMERGE --version|grep '(GNU ' 2> /dev/null`"
+mfversion="`$MSGFMT --version|grep '(GNU ' 2> /dev/null`"
+if test -z "$xgversion" -o -z "$mmversion" -o -z "$mfversion"; then
+    AC_MSG_ERROR([GNU gettext tools not found; required for intltool])
+fi
+
+AC_PATH_PROG(INTLTOOL_PERL, perl)
+if test -z "$INTLTOOL_PERL"; then
+   AC_MSG_ERROR([perl not found])
+fi
+AC_MSG_CHECKING([for perl >= 5.8.1])
+$INTLTOOL_PERL -e "use 5.8.1;" > /dev/null 2>&1
+if test $? -ne 0; then
+   AC_MSG_ERROR([perl 5.8.1 is required for intltool])
+else
+   IT_PERL_VERSION=`$INTLTOOL_PERL -e "printf '%vd', $^V"`
+   AC_MSG_RESULT([$IT_PERL_VERSION])
+fi
+if test "x$2" != "xno-xml"; then
+   AC_MSG_CHECKING([for XML::Parser])
+   if `$INTLTOOL_PERL -e "require XML::Parser" 2>/dev/null`; then
+       AC_MSG_RESULT([ok])
+   else
+       AC_MSG_ERROR([XML::Parser perl module is required for intltool])
+   fi
+fi
+
+# Substitute ALL_LINGUAS so we can use it in po/Makefile
+AC_SUBST(ALL_LINGUAS)
+
+# Set DATADIRNAME correctly if it is not set yet
+# (copied from glib-gettext.m4)
+if test -z "$DATADIRNAME"; then
+  AC_LINK_IFELSE(
+    [AC_LANG_PROGRAM([[]],
+                     [[extern int _nl_msg_cat_cntr;
+                       return _nl_msg_cat_cntr]])],
+    [DATADIRNAME=share],
+    [case $host in
+    *-*-solaris*)
+    dnl On Solaris, if bind_textdomain_codeset is in libc,
+    dnl GNU format message catalog is always supported,
+    dnl since both are added to the libc all together.
+    dnl Hence, we'd like to go with DATADIRNAME=share
+    dnl in this case.
+    AC_CHECK_FUNC(bind_textdomain_codeset,
+      [DATADIRNAME=share], [DATADIRNAME=lib])
+    ;;
+    *)
+    [DATADIRNAME=lib]
+    ;;
+    esac])
+fi
+AC_SUBST(DATADIRNAME)
+
+IT_PO_SUBDIR([po])
+
+])
+
+
+# IT_PO_SUBDIR(DIRNAME)
+# ---------------------
+# All po subdirs have to be declared with this macro; the subdir "po" is
+# declared by IT_PROG_INTLTOOL.
+#
+AC_DEFUN([IT_PO_SUBDIR],
+[AC_PREREQ([2.53])dnl We use ac_top_srcdir inside AC_CONFIG_COMMANDS.
+dnl
+dnl The following CONFIG_COMMANDS should be executed at the very end
+dnl of config.status.
+AC_CONFIG_COMMANDS_PRE([
+  AC_CONFIG_COMMANDS([$1/stamp-it], [
+    if [ ! grep "^# INTLTOOL_MAKEFILE$" "$1/Makefile.in" > /dev/null ]; then
+       AC_MSG_ERROR([$1/Makefile.in.in was not created by intltoolize.])
+    fi
+    rm -f "$1/stamp-it" "$1/stamp-it.tmp" "$1/POTFILES" "$1/Makefile.tmp"
+    >"$1/stamp-it.tmp"
+    [sed '/^#/d
+	 s/^[[].*] *//
+	 /^[ 	]*$/d
+	'"s|^|	$ac_top_srcdir/|" \
+      "$srcdir/$1/POTFILES.in" | sed '$!s/$/ \\/' >"$1/POTFILES"
+    ]
+    [sed '/^POTFILES =/,/[^\\]$/ {
+		/^POTFILES =/!d
+		r $1/POTFILES
+	  }
+	 ' "$1/Makefile.in" >"$1/Makefile"]
+    rm -f "$1/Makefile.tmp"
+    mv "$1/stamp-it.tmp" "$1/stamp-it"
+  ])
+])dnl
+])
+
+# _IT_SUBST(VARIABLE)
+# -------------------
+# Abstract macro to do either _AM_SUBST_NOTMAKE or AC_SUBST
+#
+AC_DEFUN([_IT_SUBST],
+[
+AC_SUBST([$1])
+m4_ifdef([_AM_SUBST_NOTMAKE], [_AM_SUBST_NOTMAKE([$1])])
+]
+)
+
+# deprecated macros
+AU_ALIAS([AC_PROG_INTLTOOL], [IT_PROG_INTLTOOL])
+# A hint is needed for aclocal from Automake <= 1.9.4:
+# AC_DEFUN([AC_PROG_INTLTOOL], ...)
+
+
 # nls.m4 serial 5 (gettext-0.18)
 dnl Copyright (C) 1995-2003, 2005-2006, 2008-2010 Free Software Foundation,
 dnl Inc.
@@ -776,11 +992,14 @@ else
 fi[]dnl
 ])# PKG_CHECK_MODULES
 
-# Copyright (C) 2002, 2003, 2005, 2006, 2007, 2008  Free Software Foundation, Inc.
+# Copyright (C) 2002, 2003, 2005, 2006, 2007, 2008, 2011 Free Software
+# Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
+
+# serial 1
 
 # AM_AUTOMAKE_VERSION(VERSION)
 # ----------------------------
@@ -791,7 +1010,7 @@ AC_DEFUN([AM_AUTOMAKE_VERSION],
 [am__api_version='1.11'
 dnl Some users find AM_AUTOMAKE_VERSION and mistake it for a way to
 dnl require some minimum version.  Point them to the right macro.
-m4_if([$1], [1.11.1], [],
+m4_if([$1], [1.11.3], [],
       [AC_FATAL([Do not call $0, use AM_INIT_AUTOMAKE([$1]).])])dnl
 ])
 
@@ -807,18 +1026,20 @@ m4_define([_AM_AUTOCONF_VERSION], [])
 # Call AM_AUTOMAKE_VERSION and AM_AUTOMAKE_VERSION so they can be traced.
 # This function is AC_REQUIREd by AM_INIT_AUTOMAKE.
 AC_DEFUN([AM_SET_CURRENT_AUTOMAKE_VERSION],
-[AM_AUTOMAKE_VERSION([1.11.1])dnl
+[AM_AUTOMAKE_VERSION([1.11.3])dnl
 m4_ifndef([AC_AUTOCONF_VERSION],
   [m4_copy([m4_PACKAGE_VERSION], [AC_AUTOCONF_VERSION])])dnl
 _AM_AUTOCONF_VERSION(m4_defn([AC_AUTOCONF_VERSION]))])
 
 # AM_AUX_DIR_EXPAND                                         -*- Autoconf -*-
 
-# Copyright (C) 2001, 2003, 2005  Free Software Foundation, Inc.
+# Copyright (C) 2001, 2003, 2005, 2011 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
+
+# serial 1
 
 # For projects using AC_CONFIG_AUX_DIR([foo]), Autoconf sets
 # $ac_aux_dir to `$srcdir/foo'.  In other projects, it is set to
@@ -901,14 +1122,14 @@ AC_CONFIG_COMMANDS_PRE(
 Usually this means the macro was only invoked conditionally.]])
 fi])])
 
-# Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2009
-# Free Software Foundation, Inc.
+# Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2009,
+# 2010, 2011 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
 
-# serial 10
+# serial 12
 
 # There are a few dirty hacks below to avoid letting `AC_PROG_CC' be
 # written in clear, in which case automake, when reading aclocal.m4,
@@ -948,6 +1169,7 @@ AC_CACHE_CHECK([dependency style of $depcc],
   # instance it was reported that on HP-UX the gcc test will end up
   # making a dummy file named `D' -- because `-MD' means `put the output
   # in D'.
+  rm -rf conftest.dir
   mkdir conftest.dir
   # Copy depcomp to subdir because otherwise we won't find it if we're
   # using a relative directory.
@@ -1012,7 +1234,7 @@ AC_CACHE_CHECK([dependency style of $depcc],
 	break
       fi
       ;;
-    msvisualcpp | msvcmsys)
+    msvc7 | msvc7msys | msvisualcpp | msvcmsys)
       # This compiler won't grok `-c -o', but also, the minuso test has
       # not run yet.  These depmodes are late enough in the game, and
       # so weak that their functioning should not be impacted.
@@ -1077,10 +1299,13 @@ AC_DEFUN([AM_DEP_TRACK],
 if test "x$enable_dependency_tracking" != xno; then
   am_depcomp="$ac_aux_dir/depcomp"
   AMDEPBACKSLASH='\'
+  am__nodep='_no'
 fi
 AM_CONDITIONAL([AMDEP], [test "x$enable_dependency_tracking" != xno])
 AC_SUBST([AMDEPBACKSLASH])dnl
 _AM_SUBST_NOTMAKE([AMDEPBACKSLASH])dnl
+AC_SUBST([am__nodep])dnl
+_AM_SUBST_NOTMAKE([am__nodep])dnl
 ])
 
 # Generate code to set up dependency tracking.              -*- Autoconf -*-
@@ -1302,11 +1527,14 @@ for _am_header in $config_headers :; do
 done
 echo "timestamp for $_am_arg" >`AS_DIRNAME(["$_am_arg"])`/stamp-h[]$_am_stamp_count])
 
-# Copyright (C) 2001, 2003, 2005, 2008  Free Software Foundation, Inc.
+# Copyright (C) 2001, 2003, 2005, 2008, 2011 Free Software Foundation,
+# Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
+
+# serial 1
 
 # AM_PROG_INSTALL_SH
 # ------------------
@@ -1347,8 +1575,8 @@ AC_SUBST([am__leading_dot])])
 # Add --enable-maintainer-mode option to configure.         -*- Autoconf -*-
 # From Jim Meyering
 
-# Copyright (C) 1996, 1998, 2000, 2001, 2002, 2003, 2004, 2005, 2008
-# Free Software Foundation, Inc.
+# Copyright (C) 1996, 1998, 2000, 2001, 2002, 2003, 2004, 2005, 2008,
+# 2011 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -1368,7 +1596,7 @@ AC_DEFUN([AM_MAINTAINER_MODE],
        [disable], [m4_define([am_maintainer_other], [enable])],
        [m4_define([am_maintainer_other], [enable])
         m4_warn([syntax], [unexpected argument to AM@&t@_MAINTAINER_MODE: $1])])
-AC_MSG_CHECKING([whether to am_maintainer_other maintainer-specific portions of Makefiles])
+AC_MSG_CHECKING([whether to enable maintainer-specific portions of Makefiles])
   dnl maintainer-mode's default is 'disable' unless 'enable' is passed
   AC_ARG_ENABLE([maintainer-mode],
 [  --][am_maintainer_other][-maintainer-mode  am_maintainer_other make rules and dependencies not useful
@@ -1479,11 +1707,14 @@ else
 fi
 ])
 
-# Copyright (C) 2003, 2004, 2005, 2006  Free Software Foundation, Inc.
+# Copyright (C) 2003, 2004, 2005, 2006, 2011 Free Software Foundation,
+# Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
+
+# serial 1
 
 # AM_PROG_MKDIR_P
 # ---------------
@@ -1507,13 +1738,14 @@ esac
 
 # Helper functions for option handling.                     -*- Autoconf -*-
 
-# Copyright (C) 2001, 2002, 2003, 2005, 2008  Free Software Foundation, Inc.
+# Copyright (C) 2001, 2002, 2003, 2005, 2008, 2010 Free Software
+# Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
 
-# serial 4
+# serial 5
 
 # _AM_MANGLE_OPTION(NAME)
 # -----------------------
@@ -1521,13 +1753,13 @@ AC_DEFUN([_AM_MANGLE_OPTION],
 [[_AM_OPTION_]m4_bpatsubst($1, [[^a-zA-Z0-9_]], [_])])
 
 # _AM_SET_OPTION(NAME)
-# ------------------------------
+# --------------------
 # Set option NAME.  Presently that only means defining a flag for this option.
 AC_DEFUN([_AM_SET_OPTION],
 [m4_define(_AM_MANGLE_OPTION([$1]), 1)])
 
 # _AM_SET_OPTIONS(OPTIONS)
-# ----------------------------------
+# ------------------------
 # OPTIONS is a space-separated list of Automake options.
 AC_DEFUN([_AM_SET_OPTIONS],
 [m4_foreach_w([_AM_Option], [$1], [_AM_SET_OPTION(_AM_Option)])])
@@ -1603,13 +1835,13 @@ Check your system clock])
 fi
 AC_MSG_RESULT(yes)])
 
-# Copyright (C) 2009  Free Software Foundation, Inc.
+# Copyright (C) 2009, 2011  Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
 
-# serial 1
+# serial 2
 
 # AM_SILENT_RULES([DEFAULT])
 # --------------------------
@@ -1624,17 +1856,49 @@ yes) AM_DEFAULT_VERBOSITY=0;;
 no)  AM_DEFAULT_VERBOSITY=1;;
 *)   AM_DEFAULT_VERBOSITY=m4_if([$1], [yes], [0], [1]);;
 esac
+dnl
+dnl A few `make' implementations (e.g., NonStop OS and NextStep)
+dnl do not support nested variable expansions.
+dnl See automake bug#9928 and bug#10237.
+am_make=${MAKE-make}
+AC_CACHE_CHECK([whether $am_make supports nested variables],
+   [am_cv_make_support_nested_variables],
+   [if AS_ECHO([['TRUE=$(BAR$(V))
+BAR0=false
+BAR1=true
+V=1
+am__doit:
+	@$(TRUE)
+.PHONY: am__doit']]) | $am_make -f - >/dev/null 2>&1; then
+  am_cv_make_support_nested_variables=yes
+else
+  am_cv_make_support_nested_variables=no
+fi])
+if test $am_cv_make_support_nested_variables = yes; then
+  dnl Using `$V' instead of `$(V)' breaks IRIX make.
+  AM_V='$(V)'
+  AM_DEFAULT_V='$(AM_DEFAULT_VERBOSITY)'
+else
+  AM_V=$AM_DEFAULT_VERBOSITY
+  AM_DEFAULT_V=$AM_DEFAULT_VERBOSITY
+fi
+AC_SUBST([AM_V])dnl
+AM_SUBST_NOTMAKE([AM_V])dnl
+AC_SUBST([AM_DEFAULT_V])dnl
+AM_SUBST_NOTMAKE([AM_DEFAULT_V])dnl
 AC_SUBST([AM_DEFAULT_VERBOSITY])dnl
 AM_BACKSLASH='\'
 AC_SUBST([AM_BACKSLASH])dnl
 _AM_SUBST_NOTMAKE([AM_BACKSLASH])dnl
 ])
 
-# Copyright (C) 2001, 2003, 2005  Free Software Foundation, Inc.
+# Copyright (C) 2001, 2003, 2005, 2011 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
+
+# serial 1
 
 # AM_PROG_INSTALL_STRIP
 # ---------------------
@@ -1658,13 +1922,13 @@ fi
 INSTALL_STRIP_PROGRAM="\$(install_sh) -c -s"
 AC_SUBST([INSTALL_STRIP_PROGRAM])])
 
-# Copyright (C) 2006, 2008  Free Software Foundation, Inc.
+# Copyright (C) 2006, 2008, 2010 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
 
-# serial 2
+# serial 3
 
 # _AM_SUBST_NOTMAKE(VARIABLE)
 # ---------------------------
@@ -1673,13 +1937,13 @@ AC_SUBST([INSTALL_STRIP_PROGRAM])])
 AC_DEFUN([_AM_SUBST_NOTMAKE])
 
 # AM_SUBST_NOTMAKE(VARIABLE)
-# ---------------------------
+# --------------------------
 # Public sister of _AM_SUBST_NOTMAKE.
 AC_DEFUN([AM_SUBST_NOTMAKE], [_AM_SUBST_NOTMAKE($@)])
 
 # Check how to create a tarball.                            -*- Autoconf -*-
 
-# Copyright (C) 2004, 2005  Free Software Foundation, Inc.
+# Copyright (C) 2004, 2005, 2012 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -1701,10 +1965,11 @@ AC_DEFUN([AM_SUBST_NOTMAKE], [_AM_SUBST_NOTMAKE($@)])
 # a tarball read from stdin.
 #     $(am__untar) < result.tar
 AC_DEFUN([_AM_PROG_TAR],
-[# Always define AMTAR for backward compatibility.
-AM_MISSING_PROG([AMTAR], [tar])
+[# Always define AMTAR for backward compatibility.  Yes, it's still used
+# in the wild :-(  We should find a proper way to deprecate it ...
+AC_SUBST([AMTAR], ['$${TAR-tar}'])
 m4_if([$1], [v7],
-     [am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'],
+     [am__tar='$${TAR-tar} chof - "$$tardir"' am__untar='$${TAR-tar} xf -'],
      [m4_case([$1], [ustar],, [pax],,
               [m4_fatal([Unknown tar format])])
 AC_MSG_CHECKING([how to create a $1 tar archive])
@@ -1773,7 +2038,6 @@ AC_SUBST([am__tar])
 AC_SUBST([am__untar])
 ]) # _AM_PROG_TAR
 
-m4_include([m4/intltool.m4])
 m4_include([m4/libtool.m4])
 m4_include([m4/ltoptions.m4])
 m4_include([m4/ltsugar.m4])

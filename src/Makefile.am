@@ -31,7 +31,10 @@ libgmtk_la_CFLAGS = -fPIC \
 	$(ALSA_CFLAGS) \
 	$(PULSE_CFLAGS)	
 
-libgmtk_la_LDFLAGS = -L.libs
+libgmtk_la_LDFLAGS = -L.libs \
+	-version-number $(LIB_VERSION) \
+	-no-undefined \
+	$(AM_LDFLAGS)
 
 libgmtk_la_LIBADD = \
     -lgmlib \
@@ -67,7 +70,10 @@ libgmlib_la_CFLAGS = -fPIC \
 	$(ALSA_CFLAGS) \
 	$(PULSE_CFLAGS)	
 
-libgmlib_la_LDFLAGS = 
+libgmlib_la_LDFLAGS = \
+	-version-number $(LIB_VERSION) \
+	-no-undefined \
+	$(AM_LDFLAGS)
 
 libgmlib_la_LIBADD = \
     $(LIBS) \

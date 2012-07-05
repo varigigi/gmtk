@@ -1,19 +1,20 @@
 Development
+    Version the libraries that are built
     Change error message dialog in thread_reader_error to event that is raised, let the front end handle it
     add gm_bool_to_string() macro (use like a function returning const gchar*)
-	Clear artist, title and album on media end, prevents wrong cover art lookup
-	Change gmtk_media_player_log_state log level from DEBUG to INFO
-	Move and add gmtk_media_player_log_state status messages around
-	Prevent class cast on possible NULL pointer
+    Clear artist, title and album on media end, prevents wrong cover art lookup
+    Change gmtk_media_player_log_state log level from DEBUG to INFO
+    Move and add gmtk_media_player_log_state status messages around
+    Prevent class cast on possible NULL pointer
     Emit mplayer_complete_cond anytime we find an error reading from the mplayer thread
     new function gm_log_name_this_thread(): improves thread logging
-	Fix usage of status in thread_reader_error correctly
-	Clean up the pointer math in gmtk_media_player_log_state
-	Clean up some memory allocations identified by valgrind
+    Fix usage of status in thread_reader_error correctly
+    Clean up the pointer math in gmtk_media_player_log_state
+    Clean up some memory allocations identified by valgrind
     Print thread number with all debug messages if GM_DEBUG_THREADS is set
-	Change strchr to g_strrstr in gm_log
-	Uppercase constant GMPLS_LEN
-	Define the player_lock mutex
+    Change strchr to g_strrstr in gm_log
+    Uppercase constant GMPLS_LEN
+    Define the player_lock mutex
     Fix a double free at program exit time (removes an occasional segfault)
     Initialize a struct to 0 to remove "branch depends on uninitialized memory" error
     Fix "pointer to object on stack passed out of function" bug.
@@ -25,9 +26,9 @@ Development
     Adjust formatting in gm_log files to match up with rest of project
     Add in gm_log from Hans Ecke
     Return a NULL instead of a "" string for metadata
-	Apply patch from Issue #9 to fix some cppcheck warnings
+    Apply patch from Issue #9 to fix some cppcheck warnings
     Fix a couple of keyboard shortcuts as they were in the wrong shift state, similar to gnome-mplayer fix
-	Initialize some media metadata
+    Initialize some media metadata
     Change some minor video initialization setup steps
     Implement getting ATTRIBUTE_SPEED_SET
     Fix problem with removal of read metadata and replacing it with filename info
