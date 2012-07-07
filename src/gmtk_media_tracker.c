@@ -83,7 +83,7 @@ static void gmtk_media_tracker_init(GmtkMediaTracker * tracker)
     gtk_widget_push_composite_child();
 
 #if GTK_MAJOR_VERSION == 3 && GTK_MINOR_VERSION >= 2
-	tracker->scale = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 1, 0.001);
+    tracker->scale = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, 0, 1, 0.001);
 #else
     tracker->scale = gtk_hscale_new_with_range(0, 1, 0.001);
 #endif
@@ -113,8 +113,8 @@ static void gmtk_media_tracker_init(GmtkMediaTracker * tracker)
                              G_CALLBACK(gmtk_media_tracker_motion_notify), tracker);
 
 #if GTK_MAJOR_VERSION == 3 && GTK_MINOR_VERSION >= 2
-	tracker->hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-	gtk_box_set_homogeneous (GTK_BOX(tracker->hbox), FALSE);
+    tracker->hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_box_set_homogeneous(GTK_BOX(tracker->hbox), FALSE);
 #else
     tracker->hbox = gtk_hbox_new(0, FALSE);
 #endif

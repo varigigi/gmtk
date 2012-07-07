@@ -752,15 +752,15 @@ static gboolean player_motion_notify_event_callback(GtkWidget * widget, GdkEvent
     gchar *cmd;
     gint x, y;
 #if GTK_MAJOR_VERSION == 3 && GTK_MINOR_VERSION >= 4
-	GdkDeviceManager *device_manager;
-	GdkDevice *pointer;
+    GdkDeviceManager *device_manager;
+    GdkDevice *pointer;
 #endif
-	
+
     if (player->title_is_menu) {
 #if GTK_MAJOR_VERSION == 3 && GTK_MINOR_VERSION >= 4
-		device_manager = gdk_display_get_device_manager (gtk_widget_get_display (widget));
-		pointer = gdk_device_manager_get_client_pointer (device_manager);
-		gdk_window_get_device_position (gtk_widget_get_window (widget), pointer, &x, &y, NULL);
+        device_manager = gdk_display_get_device_manager(gtk_widget_get_display(widget));
+        pointer = gdk_device_manager_get_client_pointer(device_manager);
+        gdk_window_get_device_position(gtk_widget_get_window(widget), pointer, &x, &y, NULL);
 #else
         gtk_widget_get_pointer(player->socket, &x, &y);
 #endif
