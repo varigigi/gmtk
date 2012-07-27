@@ -1,4 +1,5 @@
 Development
+    Basic scrolling wheel patch from Gnome Mplayer Issue #621
 	Don't flush events when querying devices
     Cleanup GTK depreciated warnings in gmtk_media_tracker
     Cleanup gtk_widget_get_pointer depreciated warning on GTK 3.4

@@ -344,7 +344,7 @@ static void gmtk_media_player_init(GmtkMediaPlayer * player)
     gtk_widget_add_events(GTK_WIDGET(player),
                           GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK |
                           GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK |
-                          GDK_POINTER_MOTION_MASK | GDK_LEAVE_NOTIFY_MASK | GDK_ENTER_NOTIFY_MASK);
+                          GDK_POINTER_MOTION_MASK | GDK_LEAVE_NOTIFY_MASK | GDK_ENTER_NOTIFY_MASK | GDK_SCROLL_MASK);
 
 
     g_signal_connect(player, "key_press_event", G_CALLBACK(player_key_press_event_callback), NULL);
