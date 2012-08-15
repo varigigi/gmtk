@@ -1050,6 +1050,14 @@ void gmtk_media_player_send_command(GmtkMediaPlayer * player, GmtkMediaPlayerCom
             write_to_mplayer(player, "sub_select\n");
             break;
 
+        case COMMAND_SUBTITLE_STEP_FORWARD:
+            write_to_mplayer(player, "sub_step 1\n");
+            break;
+
+        case COMMAND_SUBTITLE_STEP_BACKWARD:
+            write_to_mplayer(player, "sub_step -1\n");
+            break;
+
         case COMMAND_SWITCH_FRAME_DROP:
             write_to_mplayer(player, "frame_drop\n");
             cmd =
