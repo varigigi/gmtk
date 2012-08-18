@@ -412,7 +412,6 @@ static void gmtk_media_player_init(GmtkMediaPlayer * player)
     player->audio_codec = NULL;
     player->disable_upscaling = FALSE;
     player->mplayer_binary = NULL;
-    player->media_device = NULL;
     player->extra_opts = NULL;
     player->use_mplayer2 = FALSE;
     player->features_detected = FALSE;
@@ -490,11 +489,6 @@ static void gmtk_media_player_dispose(GObject * object)
     if (player->message != NULL) {
         g_free(player->message);
         player->message = NULL;
-    }
-
-    if (player->media_device != NULL) {
-        g_free(player->media_device);
-        player->media_device = NULL;
     }
 
     if (player->extra_opts != NULL) {

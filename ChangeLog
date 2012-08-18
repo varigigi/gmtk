@@ -1,4 +1,5 @@
 Development
+    Clean up double setting of media_device in gmtk_media_player
 	Add subtitle step forward and backward commands
     Basic scrolling wheel patch from Gnome Mplayer Issue #621
 	Don't flush events when querying devices
