@@ -3160,13 +3160,14 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
         }
 
         if (strstr(mplayer_output->str, "Video: no video") != NULL) {
+			gm_log(player->debug, G_LOG_LEVEL_MESSAGE, "Running in audio only mode");
             player->video_width = 0;
             player->video_height = 0;
             gmtk_get_allocation(GTK_WIDGET(player), &allocation);
+            player->media_state = MEDIA_STATE_PLAY;
             if (player->restart) {
                 g_signal_emit_by_name(player, "restart-complete", NULL);
             } else {
-                player->media_state = MEDIA_STATE_PLAY;
                 create_event_int(player, "media-state-changed", player->media_state);
                 player->video_present = FALSE;
                 create_event_int(player, "attribute-changed", ATTRIBUTE_SIZE);
