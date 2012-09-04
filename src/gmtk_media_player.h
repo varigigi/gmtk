@@ -93,7 +93,8 @@ typedef enum {
     ASPECT_4X3,
     ASPECT_16X9,
     ASPECT_16X10,
-    ASPECT_WINDOW
+    ASPECT_WINDOW,
+    ASPECT_ANAMORPHIC           // 2.39:1
 } GmtkMediaPlayerAspectRatio;
 
 typedef enum {

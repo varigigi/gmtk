@@ -799,6 +799,9 @@ static void gmtk_media_player_size_allocate(GtkWidget * widget, GtkAllocation * 
         case ASPECT_WINDOW:
             video_aspect = (gdouble) allocation->width / (gdouble) allocation->height;
             break;
+        case ASPECT_ANAMORPHIC:
+            video_aspect = 2.39;
+            break;
         case ASPECT_DEFAULT:
         default:
             video_aspect = (gdouble) player->video_width / (gdouble) player->video_height;
@@ -3160,7 +3163,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
         }
 
         if (strstr(mplayer_output->str, "Video: no video") != NULL) {
-			gm_log(player->debug, G_LOG_LEVEL_MESSAGE, "Running in audio only mode");
+            gm_log(player->debug, G_LOG_LEVEL_MESSAGE, "Running in audio only mode");
             player->video_width = 0;
             player->video_height = 0;
             gmtk_get_allocation(GTK_WIDGET(player), &allocation);
