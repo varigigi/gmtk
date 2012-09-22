@@ -1,4 +1,5 @@
 Development
+    Update makefile so that libgmtk is dependent on libgmlib so that parallel builds work
     Updated Polish translation
     Add anamorphic aspect ratio (2.39:1)
     Fix problem with audio only file restarts in gmtk_media_player gnome-mplayer Issue #634

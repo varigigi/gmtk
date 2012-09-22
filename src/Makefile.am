@@ -24,7 +24,8 @@ libgmtk_la_SOURCES = \
 	gmtk_media_tracker.c \
 	gmtk_media_tracker.h \
 	gmtk_output_combo_box.c \
-	gmtk_output_combo_box.h
+	gmtk_output_combo_box.h \
+    libgmlib.la
 
 libgmtk_la_CFLAGS = -fPIC \
 	$(GTK_CFLAGS) \
