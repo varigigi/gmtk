@@ -3,13 +3,13 @@
 # Copyright (C) 2007 THE gmtk'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the gmtk package.
 #
-# Julian Sikorski <belegdol@gmail.com>, 2007, 2008, 2009, 2010, 2011.
+# Julian Sikorski <belegdol@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 06:47-0700\n"
-"PO-Revision-Date: 2011-11-08 20:14+0100\n"
+"POT-Creation-Date: 2012-09-22 10:56+0200\n"
+"PO-Revision-Date: 2012-09-22 10:58+0200\n"
 "Last-Translator: Julian Sikorski <belegdol@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -19,82 +19,78 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
 "X-Launchpad-Export-Date: 2011-06-09 16:08+0000\n"
-"X-Generator: Lokalize 1.2\n"
+"X-Generator: Lokalize 1.4\n"
 
-#: ../src/gm_audio.c:78 ../src/gm_audio.c:252
-#: ../src/gmtk_output_combo_box.c:148
+#: ../src/gm_audio.c:80 ../src/gm_audio.c:266
+#: ../src/gmtk_output_combo_box.c:150
 msgid "Default"
 msgstr "Domyślny"
 
-#: ../src/gmtk_media_player.c:554 ../src/gmtk_media_player.c:891
+#: ../src/gmtk_media_player.c:688 ../src/gmtk_media_player.c:1062
 msgid "Frame Dropping"
 msgstr "Opuszczanie klatek"
 
-#: ../src/gmtk_media_player.c:568
+#: ../src/gmtk_media_player.c:702
 msgid "Deinterlace"
 msgstr "Usuwanie przeplotu"
 
-#: ../src/gmtk_media_player.c:791
+#: ../src/gmtk_media_player.c:952
 msgid "Loading..."
 msgstr "Wczytywanie..."
 
-#: ../src/gmtk_media_player.c:918
+#: ../src/gmtk_media_player.c:1090
 msgid "Subtitles Visible"
 msgstr "Napisy widoczne"
 
-#: ../src/gmtk_media_player.c:921
+#: ../src/gmtk_media_player.c:1093
 msgid "Subtitles Hidden"
 msgstr "Napisy ukryte"
 
-#: ../src/gmtk_media_player.c:2671
+#: ../src/gmtk_media_player.c:2981
 #, c-format
 msgid "Failed to open %s"
 msgstr "Nie udało się otworzyć „%s”"
 
-#: ../src/gmtk_media_player.c:2708
+#: ../src/gmtk_media_player.c:3023
 msgid "Compressed SWF format not supported"
 msgstr "Skompresowany format SWF nieobsługiwany"
 
-#: ../src/gmtk_media_player.c:2736
-msgid "GNOME MPlayer Error"
-msgstr "Błąd GNOME MPlayer"
-
-#: ../src/gmtk_media_player.c:2799
+#: ../src/gmtk_media_player.c:3128
 #, c-format
 msgid "Cache fill: %2.2f%%"
 msgstr "Zapełnienie bufora: %2.2f%%"
 
-#: ../src/gmtk_media_player.c:2945 ../src/gmtk_media_player.c:2946
-#: ../src/gmtk_media_player.c:2995 ../src/gmtk_media_player.c:3027
-#: ../src/gmtk_media_player.c:3028 ../src/gmtk_media_player.c:3060
-#: ../src/gmtk_media_player.c:3092
+#: ../src/gmtk_media_player.c:3294 ../src/gmtk_media_player.c:3295
+#: ../src/gmtk_media_player.c:3344 ../src/gmtk_media_player.c:3376
+#: ../src/gmtk_media_player.c:3377 ../src/gmtk_media_player.c:3409
+#: ../src/gmtk_media_player.c:3441
 msgid "Unknown"
 msgstr "Nieznany"
 
-#: ../src/gmtk_media_player.c:3006
+#: ../src/gmtk_media_player.c:3355
 #, c-format
 msgid "External Subtitle #%i"
 msgstr "Napisy zewnętrzne #%i"
 
-#: ../src/gmtk_media_player.c:3199
+#: ../src/gmtk_media_player.c:3548
 #, c-format
 msgid "Screenshot saved to '%s'"
 msgstr "Obraz ekranu zapisano do pliku „%s”"
 
-#: ../src/gmtk_media_player.c:3202 ../src/gmtk_media_player.c:3298
+#: ../src/gmtk_media_player.c:3551 ../src/gmtk_media_player.c:3652
 msgid "GNOME MPlayer Notification"
 msgstr "Powiadomienie"
 
-#: ../src/gmtk_media_player.c:3295
+#: ../src/gmtk_media_player.c:3649
 msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr "MPlayer powinien zostać zaktualizowany do nowszej wersji"
 
-#: ../src/gmtk_media_player.c:3541
-msgid "You might want to consider upgrading mplayer to a newer version\n"
-msgstr "Proszę rozważyć aktualizację do nowszej wersji mplayera\n"
+#: ../src/gmtk_media_player.c:3912
+msgid "You might want to consider upgrading mplayer to a newer version"
+msgstr "Proszę rozważyć aktualizację mplayera do nowszej wersji"
 
-#: ../src/gmtk_media_tracker.c:97 ../src/gmtk_media_tracker.c:101
-#: ../src/gmtk_media_tracker.c:208
+#: ../src/gmtk_media_tracker.c:102 ../src/gmtk_media_tracker.c:106
+#: ../src/gmtk_media_tracker.c:216
 msgid "No Information"
 msgstr "Brak informacji"
 
@@ -102,3 +98,5 @@ msgstr "Brak informacji"
 msgid "No Data"
 msgstr "Brak danych"
 
+#~ msgid "GNOME MPlayer Error"
+#~ msgstr "Błąd GNOME MPlayer"
