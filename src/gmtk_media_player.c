@@ -713,6 +713,9 @@ static gboolean player_key_press_event_callback(GtkWidget * widget, GdkEventKey 
         case GDK_z:
             write_to_mplayer(player, "sub_delay -0.1\n");
             break;
+        case GDK_o:
+            write_to_mplayer(player, "osd\n");
+            break;
         default:
             gm_log(player->debug, G_LOG_LEVEL_INFO, "ignoring key %s%s%s%s",
                    (event->state & GDK_CONTROL_MASK) ? "Control-" : "", (event->state & GDK_MOD1_MASK) ? "Alt-" : "",

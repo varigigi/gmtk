@@ -1,4 +1,5 @@
 Development
+	Make 'o' toggle the OSD in gmtk_media_player
     Update makefile so that libgmtk is dependent on libgmlib so that parallel builds work
     Updated Polish translation
     Add anamorphic aspect ratio (2.39:1)
