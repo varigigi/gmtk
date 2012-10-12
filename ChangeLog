@@ -1,4 +1,5 @@
 Development
+    Rerun autoreconf -fiv
 1.0.7b
 	Make 'o' toggle the OSD in gmtk_media_player
     Update makefile so that libgmtk is dependent on libgmlib so that parallel builds work
