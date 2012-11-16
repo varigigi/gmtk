@@ -38,7 +38,7 @@ libgmtk_la_LDFLAGS = -L.libs \
 	$(AM_LDFLAGS)
 
 libgmtk_la_LIBADD = \
-    -lgmlib \
+    libgmlib.la \
     $(GTK_LIBS) \
     $(ALSA_LIBS) \
     $(PULSE_LIBS)

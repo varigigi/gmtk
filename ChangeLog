@@ -1,4 +1,5 @@
 Development
+    Address parallel build problem from Issue #11
 1.0.7
     Rerun autoreconf -fiv
 1.0.7b
