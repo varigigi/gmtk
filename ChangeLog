@@ -1,4 +1,5 @@
 Development
+	Set background color in gmtk_media_player widget using specific realize events
     Address parallel build problem from Issue #11
 1.0.7
     Rerun autoreconf -fiv

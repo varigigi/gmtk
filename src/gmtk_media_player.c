@@ -48,26 +48,61 @@ gboolean thread_complete(GIOChannel * source, GIOCondition condition, gpointer d
 gboolean write_to_mplayer(GmtkMediaPlayer * player, const gchar * cmd);
 gboolean detect_mplayer_features(GmtkMediaPlayer * player);
 
+static void player_realized(GtkWidget * widget, gpointer data)
+{
+    GtkStyle *style;
+
+    style = gtk_widget_get_style(widget);
+    gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, &(style->black));
+    gtk_widget_modify_bg(widget, GTK_STATE_ACTIVE, &(style->black));
+    gtk_widget_modify_bg(widget, GTK_STATE_SELECTED, &(style->black));
+    gtk_widget_modify_bg(widget, GTK_STATE_PRELIGHT, &(style->black));
+    gtk_widget_modify_bg(widget, GTK_STATE_INSENSITIVE, &(style->black));
+
+}
+
+static void alignment_realized(GtkWidget * widget, gpointer data)
+{
+    GtkStyle *style;
+
+    style = gtk_widget_get_style(widget);
+    gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, &(style->black));
+    gtk_widget_modify_bg(widget, GTK_STATE_ACTIVE, &(style->black));
+    gtk_widget_modify_bg(widget, GTK_STATE_SELECTED, &(style->black));
+    gtk_widget_modify_bg(widget, GTK_STATE_PRELIGHT, &(style->black));
+    gtk_widget_modify_bg(widget, GTK_STATE_INSENSITIVE, &(style->black));
+
+}
+
 static void socket_realized(GtkWidget * widget, gpointer data)
 {
     GmtkMediaPlayer *player = GMTK_MEDIA_PLAYER(data);
     GtkStyle *style;
 
     player->socket_id = GPOINTER_TO_INT(gtk_socket_get_id(GTK_SOCKET(widget)));
-    style = gtk_widget_get_style(GTK_WIDGET(player));
-    gtk_widget_modify_bg(GTK_WIDGET(player), GTK_STATE_NORMAL, &(style->black));
-    gtk_widget_modify_bg(GTK_WIDGET(player->alignment), GTK_STATE_NORMAL, &(style->black));
-    gtk_widget_modify_bg(GTK_WIDGET(player), GTK_STATE_ACTIVE, &(style->black));
-    gtk_widget_modify_bg(GTK_WIDGET(player), GTK_STATE_SELECTED, &(style->black));
-    gtk_widget_modify_bg(GTK_WIDGET(player), GTK_STATE_PRELIGHT, &(style->black));
-    gtk_widget_modify_bg(GTK_WIDGET(player), GTK_STATE_INSENSITIVE, &(style->black));
+    style = gtk_widget_get_style(widget);
     if (player->vo != NULL) {
         if (!(g_ascii_strncasecmp(player->vo, "vdpau", strlen("vdpau")) == 0)) {
-            gtk_widget_modify_bg(GTK_WIDGET(player->socket), GTK_STATE_NORMAL, &(style->black));
-        }
+			gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, &(style->black));
+			gtk_widget_modify_bg(widget, GTK_STATE_ACTIVE, &(style->black));
+			gtk_widget_modify_bg(widget, GTK_STATE_SELECTED, &(style->black));
+			gtk_widget_modify_bg(widget, GTK_STATE_PRELIGHT, &(style->black));
+			gtk_widget_modify_bg(widget, GTK_STATE_INSENSITIVE, &(style->black));
+        } else {
+			gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, NULL);
+			gtk_widget_modify_bg(widget, GTK_STATE_ACTIVE, NULL);
+			gtk_widget_modify_bg(widget, GTK_STATE_SELECTED, NULL);
+			gtk_widget_modify_bg(widget, GTK_STATE_PRELIGHT, NULL);
+			gtk_widget_modify_bg(widget, GTK_STATE_INSENSITIVE, NULL);
+		}
     } else {
-        gtk_widget_modify_bg(GTK_WIDGET(player->socket), GTK_STATE_NORMAL, &(style->black));
+		gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, &(style->black));
+		gtk_widget_modify_bg(widget, GTK_STATE_ACTIVE, &(style->black));
+		gtk_widget_modify_bg(widget, GTK_STATE_SELECTED, &(style->black));
+		gtk_widget_modify_bg(widget, GTK_STATE_PRELIGHT, &(style->black));
+		gtk_widget_modify_bg(widget, GTK_STATE_INSENSITIVE, &(style->black));
     }
+
 }
 
 
@@ -354,6 +389,8 @@ static void gmtk_media_player_init(GmtkMediaPlayer * player)
 
     player->alignment = gtk_alignment_new(0.0, 0.0, 1.0, 1.0);
     player->socket = gtk_socket_new();
+    g_signal_connect(G_OBJECT(player), "realize", G_CALLBACK(player_realized), NULL);
+    g_signal_connect(G_OBJECT(player->alignment), "realize", G_CALLBACK(alignment_realized), NULL);
     g_signal_connect(G_OBJECT(player->socket), "realize", G_CALLBACK(socket_realized), player);
     gtk_container_add(GTK_CONTAINER(player), player->alignment);
     gtk_container_add(GTK_CONTAINER(player->alignment), player->socket);
@@ -842,7 +879,7 @@ static void gmtk_media_player_size_allocate(GtkWidget * widget, GtkAllocation * 
             }
         }
     }
-
+	
     gm_log(player->debug, G_LOG_LEVEL_DEBUG, "gmtk allocation video:%s %ix%i", gm_bool_to_string(player->video_present),
            allocation->width, allocation->height);
     GTK_WIDGET_CLASS(parent_class)->size_allocate(widget, allocation);
