@@ -1,4 +1,5 @@
 Development
+	Use cairo and the draw event to draw the background in GTK3
 	Set background color in gmtk_media_player widget using specific realize events
     Address parallel build problem from Issue #11
 1.0.7

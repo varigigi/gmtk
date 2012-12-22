@@ -35,6 +35,7 @@
 #endif
 #ifdef GTK3_ENABLED
 #include <gdk/gdkkeysyms-compat.h>
+#include <cairo.h>
 #else
 #include <gdk/gdkkeysyms.h>
 #endif
@@ -396,6 +397,7 @@ struct _GmtkMediaPlayer {
 
     gboolean disposed;
     GMutex *player_lock;
+    cairo_t *cr;
 };
 
 struct _GmtkMediaPlayerClass {

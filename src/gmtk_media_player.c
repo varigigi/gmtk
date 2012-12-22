@@ -30,6 +30,7 @@ G_DEFINE_TYPE(GmtkMediaPlayer, gmtk_media_player, GTK_TYPE_EVENT_BOX);
 static GObjectClass *parent_class = NULL;
 
 static void gmtk_media_player_dispose(GObject * object);
+static gboolean gmtk_media_player_draw_event(GtkWidget * widget, cairo_t * cr);
 static gboolean gmtk_media_player_expose_event(GtkWidget * widget, GdkEventExpose * event);
 static void gmtk_media_player_size_allocate(GtkWidget * widget, GtkAllocation * allocation);
 static gboolean player_key_press_event_callback(GtkWidget * widget, GdkEventKey * event, gpointer data);
@@ -83,24 +84,24 @@ static void socket_realized(GtkWidget * widget, gpointer data)
     style = gtk_widget_get_style(widget);
     if (player->vo != NULL) {
         if (!(g_ascii_strncasecmp(player->vo, "vdpau", strlen("vdpau")) == 0)) {
-			gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, &(style->black));
-			gtk_widget_modify_bg(widget, GTK_STATE_ACTIVE, &(style->black));
-			gtk_widget_modify_bg(widget, GTK_STATE_SELECTED, &(style->black));
-			gtk_widget_modify_bg(widget, GTK_STATE_PRELIGHT, &(style->black));
-			gtk_widget_modify_bg(widget, GTK_STATE_INSENSITIVE, &(style->black));
+            gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, &(style->black));
+            gtk_widget_modify_bg(widget, GTK_STATE_ACTIVE, &(style->black));
+            gtk_widget_modify_bg(widget, GTK_STATE_SELECTED, &(style->black));
+            gtk_widget_modify_bg(widget, GTK_STATE_PRELIGHT, &(style->black));
+            gtk_widget_modify_bg(widget, GTK_STATE_INSENSITIVE, &(style->black));
         } else {
-			gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, NULL);
-			gtk_widget_modify_bg(widget, GTK_STATE_ACTIVE, NULL);
-			gtk_widget_modify_bg(widget, GTK_STATE_SELECTED, NULL);
-			gtk_widget_modify_bg(widget, GTK_STATE_PRELIGHT, NULL);
-			gtk_widget_modify_bg(widget, GTK_STATE_INSENSITIVE, NULL);
-		}
+            gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, NULL);
+            gtk_widget_modify_bg(widget, GTK_STATE_ACTIVE, NULL);
+            gtk_widget_modify_bg(widget, GTK_STATE_SELECTED, NULL);
+            gtk_widget_modify_bg(widget, GTK_STATE_PRELIGHT, NULL);
+            gtk_widget_modify_bg(widget, GTK_STATE_INSENSITIVE, NULL);
+        }
     } else {
-		gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, &(style->black));
-		gtk_widget_modify_bg(widget, GTK_STATE_ACTIVE, &(style->black));
-		gtk_widget_modify_bg(widget, GTK_STATE_SELECTED, &(style->black));
-		gtk_widget_modify_bg(widget, GTK_STATE_PRELIGHT, &(style->black));
-		gtk_widget_modify_bg(widget, GTK_STATE_INSENSITIVE, &(style->black));
+        gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, &(style->black));
+        gtk_widget_modify_bg(widget, GTK_STATE_ACTIVE, &(style->black));
+        gtk_widget_modify_bg(widget, GTK_STATE_SELECTED, &(style->black));
+        gtk_widget_modify_bg(widget, GTK_STATE_PRELIGHT, &(style->black));
+        gtk_widget_modify_bg(widget, GTK_STATE_INSENSITIVE, &(style->black));
     }
 
 }
@@ -302,6 +303,7 @@ static void gmtk_media_player_class_init(GmtkMediaPlayerClass * class)
     parent_class = g_type_class_peek_parent(class);
     G_OBJECT_CLASS(class)->dispose = gmtk_media_player_dispose;
 #ifdef GTK3_ENABLED
+    widget_class->draw = gmtk_media_player_draw_event;
 #else
     widget_class->expose_event = gmtk_media_player_expose_event;
 #endif
@@ -380,7 +382,9 @@ static void gmtk_media_player_init(GmtkMediaPlayer * player)
                           GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK |
                           GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK |
                           GDK_POINTER_MOTION_MASK | GDK_LEAVE_NOTIFY_MASK | GDK_ENTER_NOTIFY_MASK | GDK_SCROLL_MASK);
-
+#ifdef GTK3_ENABLED
+    gtk_widget_set_app_paintable(GTK_WIDGET(player), TRUE);
+#endif
 
     g_signal_connect(player, "key_press_event", G_CALLBACK(player_key_press_event_callback), NULL);
     g_signal_connect(player, "motion_notify_event", G_CALLBACK(player_motion_notify_event_callback), NULL);
@@ -473,6 +477,7 @@ static void gmtk_media_player_init(GmtkMediaPlayer * player)
     player->album = NULL;
     player->disposed = FALSE;
     player->player_lock = g_mutex_new();
+    player->cr = NULL;
     gmtk_media_player_log_state(player, "after init");
 }
 
@@ -586,6 +591,25 @@ static void gmtk_media_player_dispose(GObject * object)
     gdk_color_free(player->default_background);
 
     G_OBJECT_CLASS(parent_class)->dispose(object);
+}
+
+static gboolean gmtk_media_player_draw_event(GtkWidget * widget, cairo_t * cr)
+{
+    GtkStyle *style;
+    GtkAllocation allocation;
+
+
+    printf("in draw event");
+    GMTK_MEDIA_PLAYER(widget)->cr = cr;
+    style = gtk_widget_get_style(widget);
+    gmtk_get_allocation(widget, &allocation);
+
+    cairo_set_source_rgb(cr, style->black.red / 65535.0, style->black.green / 65535.0, style->black.blue / 65535.0);
+    cairo_rectangle(cr, 0, 0, allocation.width, allocation.height);
+    cairo_fill(cr);
+    cairo_stroke(cr);
+
+    return FALSE;
 }
 
 static gboolean gmtk_media_player_expose_event(GtkWidget * widget, GdkEventExpose * event)
@@ -879,7 +903,8 @@ static void gmtk_media_player_size_allocate(GtkWidget * widget, GtkAllocation * 
             }
         }
     }
-	
+
+
     gm_log(player->debug, G_LOG_LEVEL_DEBUG, "gmtk allocation video:%s %ix%i", gm_bool_to_string(player->video_present),
            allocation->width, allocation->height);
     GTK_WIDGET_CLASS(parent_class)->size_allocate(widget, allocation);
