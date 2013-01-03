@@ -397,7 +397,6 @@ struct _GmtkMediaPlayer {
 
     gboolean disposed;
     GMutex *player_lock;
-    cairo_t *cr;
 };
 
 struct _GmtkMediaPlayerClass {

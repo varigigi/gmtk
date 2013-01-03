@@ -477,7 +477,6 @@ static void gmtk_media_player_init(GmtkMediaPlayer * player)
     player->album = NULL;
     player->disposed = FALSE;
     player->player_lock = g_mutex_new();
-    player->cr = NULL;
     gmtk_media_player_log_state(player, "after init");
 }
 
@@ -598,9 +597,6 @@ static gboolean gmtk_media_player_draw_event(GtkWidget * widget, cairo_t * cr)
     GtkStyle *style;
     GtkAllocation allocation;
 
-
-    printf("in draw event");
-    GMTK_MEDIA_PLAYER(widget)->cr = cr;
     style = gtk_widget_get_style(widget);
     gmtk_get_allocation(widget, &allocation);
 

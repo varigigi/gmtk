@@ -58,6 +58,9 @@ static void gmtk_audio_meter_init(GmtkAudioMeter * meter)
     meter->data_valid = FALSE;
     meter->max_division_width = -1;
     gtk_widget_set_double_buffered(GTK_WIDGET(meter), FALSE);
+#ifdef GTK3_ENABLED
+    gtk_widget_set_app_paintable(GTK_WIDGET(meter), TRUE);
+#endif
     meter->cr = NULL;
 
 }
