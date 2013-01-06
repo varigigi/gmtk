@@ -2248,6 +2248,7 @@ gpointer launch_mplayer(gpointer data)
     player->retry_on_full_cache = FALSE;
     player->sub_visible = TRUE;
     player->speed = 1.0;
+    player->hardware_ac3 = FALSE;
 
     gm_log(player->debug, G_LOG_LEVEL_DEBUG, "locking thread_running");
     g_mutex_lock(player->thread_running);
@@ -2872,6 +2873,10 @@ gpointer launch_mplayer(gpointer data)
             player->enable_hardware_codecs = FALSE;
             break;
 
+        case ERROR_RETRY_WITHOUT_AF_EXPORT:
+            player->hardware_ac3 = TRUE;
+            break;
+
         default:
             break;
         }
@@ -3022,6 +3027,10 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
 
         if (strstr(mplayer_output->str, "[AO_ALSA] Playback open error: Device or resource busy") != NULL) {
             player->playback_error = ERROR_RETRY_ALSA_BUSY;
+        }
+
+        if (strstr(mplayer_output->str, "Sample format big-endian AC3 not yet supported") != NULL) {
+            player->playback_error = ERROR_RETRY_WITHOUT_AF_EXPORT;
         }
 
         /*

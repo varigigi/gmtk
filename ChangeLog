@@ -1,4 +1,5 @@
 Development
+	Remove audio export filter when codec cannot use it
 	Remove cairo variable from gmtk_media_player
 	Version bump to 1.0.8a
 	Use cairo and the draw event to draw the background in GTK3
