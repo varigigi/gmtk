@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-08 06:47-0700\n"
+"POT-Creation-Date: 2013-01-29 15:51-0700\n"
 "PO-Revision-Date: 2012-04-05 10:48+0900\n"
 "Last-Translator: Munehiro Yamamoto <munepixyz@gmail.com>\n"
 "Language-Team: munepi <munepixyz@gmail.com>\n"
@@ -20,83 +20,83 @@ msgstr ""
 "X-Launchpad-Export-Date: 2011-06-09 16:08+0000\n"
 "X-Generator: Launchpad (build 13175)\n"
 
-#: ../src/gm_audio.c:78 ../src/gm_audio.c:252
-#: ../src/gmtk_output_combo_box.c:148
+#: ../src/gm_audio.c:80 ../src/gm_audio.c:266
+#: ../src/gmtk_output_combo_box.c:150
 msgid "Default"
 msgstr "標準"
 
-#: ../src/gmtk_media_player.c:554 ../src/gmtk_media_player.c:891
+#: ../src/gmtk_media_player.c:745 ../src/gmtk_media_player.c:1123
 msgid "Frame Dropping"
 msgstr "フレームが落ちている"
 
-#: ../src/gmtk_media_player.c:568
+#: ../src/gmtk_media_player.c:759
 msgid "Deinterlace"
 msgstr "非インタレース"
 
-#: ../src/gmtk_media_player.c:791
+#: ../src/gmtk_media_player.c:1013
 msgid "Loading..."
 msgstr "読み込み中..."
 
-#: ../src/gmtk_media_player.c:918
+#: ../src/gmtk_media_player.c:1151
 msgid "Subtitles Visible"
 msgstr "字幕表示"
 
-#: ../src/gmtk_media_player.c:921
+#: ../src/gmtk_media_player.c:1154
 msgid "Subtitles Hidden"
 msgstr "字幕非表示"
 
-#: ../src/gmtk_media_player.c:2671
+#: ../src/gmtk_media_player.c:3051
 #, c-format
 msgid "Failed to open %s"
 msgstr "%s を開くのに失敗しました"
 
-#: ../src/gmtk_media_player.c:2708
+#: ../src/gmtk_media_player.c:3093
 msgid "Compressed SWF format not supported"
 msgstr "圧縮 SWF フォーマットに対応していません"
 
-#: ../src/gmtk_media_player.c:2736
-msgid "GNOME MPlayer Error"
-msgstr "GNOME MPlayer エラー"
-
-#: ../src/gmtk_media_player.c:2799
+#: ../src/gmtk_media_player.c:3198
 #, c-format
 msgid "Cache fill: %2.2f%%"
 msgstr "キャッシュ中: %2.2f%%"
 
-#: ../src/gmtk_media_player.c:2945 ../src/gmtk_media_player.c:2946
-#: ../src/gmtk_media_player.c:2995 ../src/gmtk_media_player.c:3027
-#: ../src/gmtk_media_player.c:3028 ../src/gmtk_media_player.c:3060
-#: ../src/gmtk_media_player.c:3092
+#: ../src/gmtk_media_player.c:3364 ../src/gmtk_media_player.c:3365
+#: ../src/gmtk_media_player.c:3414 ../src/gmtk_media_player.c:3446
+#: ../src/gmtk_media_player.c:3447 ../src/gmtk_media_player.c:3479
+#: ../src/gmtk_media_player.c:3511
 msgid "Unknown"
 msgstr "不明"
 
-#: ../src/gmtk_media_player.c:3006
+#: ../src/gmtk_media_player.c:3425
 #, c-format
 msgid "External Subtitle #%i"
 msgstr "外部の字幕 #%i"
 
-#: ../src/gmtk_media_player.c:3199
+#: ../src/gmtk_media_player.c:3618
 #, c-format
 msgid "Screenshot saved to '%s'"
 msgstr "%s にスクリーンショットを保存しました"
 
-#: ../src/gmtk_media_player.c:3202 ../src/gmtk_media_player.c:3298
+#: ../src/gmtk_media_player.c:3621 ../src/gmtk_media_player.c:3722
 msgid "GNOME MPlayer Notification"
 msgstr "GNOME MPlayer 通知"
 
-#: ../src/gmtk_media_player.c:3295
+#: ../src/gmtk_media_player.c:3719
 msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr "MPlayer を新しいバージョンへ更新すべきです。"
 
-#: ../src/gmtk_media_player.c:3541
-msgid "You might want to consider upgrading mplayer to a newer version\n"
+#: ../src/gmtk_media_player.c:3982
+#, fuzzy
+msgid "You might want to consider upgrading mplayer to a newer version"
 msgstr "MPlayer を新しいバージョンへ更新したほうがよいかもしれません。\n"
 
-#: ../src/gmtk_media_tracker.c:97 ../src/gmtk_media_tracker.c:101
-#: ../src/gmtk_media_tracker.c:208
+#: ../src/gmtk_media_tracker.c:102 ../src/gmtk_media_tracker.c:106
+#: ../src/gmtk_media_tracker.c:216
 msgid "No Information"
 msgstr "情報なし"
 
-#: ../src/gmtk_audio_meter.c:212
+#: ../src/gmtk_audio_meter.c:215
 msgid "No Data"
 msgstr "データなし"
+
+#~ msgid "GNOME MPlayer Error"
+#~ msgstr "GNOME MPlayer エラー"

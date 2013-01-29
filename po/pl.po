@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-22 10:56+0200\n"
+"POT-Creation-Date: 2013-01-29 15:51-0700\n"
 "PO-Revision-Date: 2012-09-22 10:58+0200\n"
 "Last-Translator: Julian Sikorski <belegdol@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -26,66 +26,66 @@ msgstr ""
 msgid "Default"
 msgstr "Domyślny"
 
-#: ../src/gmtk_media_player.c:688 ../src/gmtk_media_player.c:1062
+#: ../src/gmtk_media_player.c:745 ../src/gmtk_media_player.c:1123
 msgid "Frame Dropping"
 msgstr "Opuszczanie klatek"
 
-#: ../src/gmtk_media_player.c:702
+#: ../src/gmtk_media_player.c:759
 msgid "Deinterlace"
 msgstr "Usuwanie przeplotu"
 
-#: ../src/gmtk_media_player.c:952
+#: ../src/gmtk_media_player.c:1013
 msgid "Loading..."
 msgstr "Wczytywanie..."
 
-#: ../src/gmtk_media_player.c:1090
+#: ../src/gmtk_media_player.c:1151
 msgid "Subtitles Visible"
 msgstr "Napisy widoczne"
 
-#: ../src/gmtk_media_player.c:1093
+#: ../src/gmtk_media_player.c:1154
 msgid "Subtitles Hidden"
 msgstr "Napisy ukryte"
 
-#: ../src/gmtk_media_player.c:2981
+#: ../src/gmtk_media_player.c:3051
 #, c-format
 msgid "Failed to open %s"
 msgstr "Nie udało się otworzyć „%s”"
 
-#: ../src/gmtk_media_player.c:3023
+#: ../src/gmtk_media_player.c:3093
 msgid "Compressed SWF format not supported"
 msgstr "Skompresowany format SWF nieobsługiwany"
 
-#: ../src/gmtk_media_player.c:3128
+#: ../src/gmtk_media_player.c:3198
 #, c-format
 msgid "Cache fill: %2.2f%%"
 msgstr "Zapełnienie bufora: %2.2f%%"
 
-#: ../src/gmtk_media_player.c:3294 ../src/gmtk_media_player.c:3295
-#: ../src/gmtk_media_player.c:3344 ../src/gmtk_media_player.c:3376
-#: ../src/gmtk_media_player.c:3377 ../src/gmtk_media_player.c:3409
-#: ../src/gmtk_media_player.c:3441
+#: ../src/gmtk_media_player.c:3364 ../src/gmtk_media_player.c:3365
+#: ../src/gmtk_media_player.c:3414 ../src/gmtk_media_player.c:3446
+#: ../src/gmtk_media_player.c:3447 ../src/gmtk_media_player.c:3479
+#: ../src/gmtk_media_player.c:3511
 msgid "Unknown"
 msgstr "Nieznany"
 
-#: ../src/gmtk_media_player.c:3355
+#: ../src/gmtk_media_player.c:3425
 #, c-format
 msgid "External Subtitle #%i"
 msgstr "Napisy zewnętrzne #%i"
 
-#: ../src/gmtk_media_player.c:3548
+#: ../src/gmtk_media_player.c:3618
 #, c-format
 msgid "Screenshot saved to '%s'"
 msgstr "Obraz ekranu zapisano do pliku „%s”"
 
-#: ../src/gmtk_media_player.c:3551 ../src/gmtk_media_player.c:3652
+#: ../src/gmtk_media_player.c:3621 ../src/gmtk_media_player.c:3722
 msgid "GNOME MPlayer Notification"
 msgstr "Powiadomienie"
 
-#: ../src/gmtk_media_player.c:3649
+#: ../src/gmtk_media_player.c:3719
 msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr "MPlayer powinien zostać zaktualizowany do nowszej wersji"
 
-#: ../src/gmtk_media_player.c:3912
+#: ../src/gmtk_media_player.c:3982
 msgid "You might want to consider upgrading mplayer to a newer version"
 msgstr "Proszę rozważyć aktualizację mplayera do nowszej wersji"
 
@@ -94,7 +94,7 @@ msgstr "Proszę rozważyć aktualizację mplayera do nowszej wersji"
 msgid "No Information"
 msgstr "Brak informacji"
 
-#: ../src/gmtk_audio_meter.c:212
+#: ../src/gmtk_audio_meter.c:215
 msgid "No Data"
 msgstr "Brak danych"
 

@@ -1,9 +1,10 @@
 Development
-	Remove audio export filter when codec cannot use it
-	Remove cairo variable from gmtk_media_player
-	Version bump to 1.0.8a
-	Use cairo and the draw event to draw the background in GTK3
-	Set background color in gmtk_media_player widget using specific realize events
+    Run make update-po
+    Remove audio export filter when codec cannot use it
+    Remove cairo variable from gmtk_media_player
+    Version bump to 1.0.8a
+    Use cairo and the draw event to draw the background in GTK3
+    Set background color in gmtk_media_player widget using specific realize events
     Address parallel build problem from Issue #11
 1.0.7
     Rerun autoreconf -fiv
