@@ -1,4 +1,5 @@
 Development
+	Fix compliation of gmtk_media_tracker in generic application
     Run make update-po
     Remove audio export filter when codec cannot use it
     Remove cairo variable from gmtk_media_player

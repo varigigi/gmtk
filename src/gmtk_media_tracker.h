@@ -82,7 +82,7 @@ struct _GmtkMediaTracker {
     gfloat length;
     gboolean mouse_down;
     gboolean allow_expand;
-#ifndef GTK2_12_ENABLED
+#if GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION < 12
     GtkTooltips *progress_tip;
 #endif
 };
