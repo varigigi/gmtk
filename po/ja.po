@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: 0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-01-29 15:51-0700\n"
-"PO-Revision-Date: 2012-04-05 10:48+0900\n"
+"PO-Revision-Date: 2013-02-01 02:42+0900\n"
 "Last-Translator: Munehiro Yamamoto <munepixyz@gmail.com>\n"
 "Language-Team: munepi <munepixyz@gmail.com>\n"
 "Language: \n"
@@ -85,9 +85,8 @@ msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr "MPlayer を新しいバージョンへ更新すべきです。"
 
 #: ../src/gmtk_media_player.c:3982
-#, fuzzy
 msgid "You might want to consider upgrading mplayer to a newer version"
-msgstr "MPlayer を新しいバージョンへ更新したほうがよいかもしれません。\n"
+msgstr "MPlayer を新しいバージョンへ更新したほうがよいかもしれません。"
 
 #: ../src/gmtk_media_tracker.c:102 ../src/gmtk_media_tracker.c:106
 #: ../src/gmtk_media_tracker.c:216
