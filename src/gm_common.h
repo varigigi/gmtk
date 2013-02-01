@@ -26,14 +26,14 @@
 #include <config.h>
 #endif
 #include <glib.h>
-#ifndef GLIB2_18_ENABLED
+#if GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION < 18
 #include <libintl.h>
 #endif
 
 #ifndef __GM_COMMON_H__
 #define __GM_COMMON_H__
 
-#ifndef GLIB2_18_ENABLED
+#if GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION < 18
 const gchar *g_dgettext(const gchar * domain, const gchar * msgid);
 #endif
 

@@ -29,11 +29,11 @@
 #include <gdk/gdk.h>
 #ifdef X11_ENABLED
 #include <gdk/gdkx.h>
-#ifdef GTK3_ENABLED
+#if GTK_MAJOR_VERSION == 3
 #include <gtk/gtkx.h>
 #endif
 #endif
-#ifdef GTK3_ENABLED
+#if GTK_MAJOR_VERSION == 3
 #include <gdk/gdkkeysyms-compat.h>
 #else
 #include <gdk/gdkkeysyms.h>

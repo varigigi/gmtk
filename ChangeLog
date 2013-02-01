@@ -1,4 +1,5 @@
 Development
+	Switch to GTK VERSION tags when possible
 	Updated Japanese translation
 	Fix compliation of gmtk_media_tracker in generic application
     Run make update-po
