@@ -3625,6 +3625,14 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
             message = NULL;
         }
 
+        if (strstr(mplayer_output->str, "failed (forgot -vf screenshot?)") != 0) {
+            dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
+                                            GTK_BUTTONS_OK, g_dgettext(GETTEXT_PACKAGE, "Failed to take screenshot"));
+            gtk_window_set_title(GTK_WINDOW(dialog), g_dgettext(GETTEXT_PACKAGE, "GNOME MPlayer Notification"));
+            gtk_dialog_run(GTK_DIALOG(dialog));
+            gtk_widget_destroy(dialog);
+        }
+
         if (strstr(mplayer_output->str, "Name   : ") != 0) {
             buf = strstr(mplayer_output->str, "Name   : ");
             buf = strstr(mplayer_output->str, "Name   : ") + strlen("Name   : ");
