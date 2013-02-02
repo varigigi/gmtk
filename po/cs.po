@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gmtk 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-29 15:51-0700\n"
+"POT-Creation-Date: 2013-02-02 16:16-0700\n"
 "PO-Revision-Date: 2011-05-11 19:07+0000\n"
 "Last-Translator: Konki <pavel.konkol@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
@@ -75,15 +75,21 @@ msgstr "Externí titulky #%i"
 msgid "Screenshot saved to '%s'"
 msgstr "Snímek uložen do „%s“"
 
-#: ../src/gmtk_media_player.c:3621 ../src/gmtk_media_player.c:3722
+#: ../src/gmtk_media_player.c:3621 ../src/gmtk_media_player.c:3631
+#: ../src/gmtk_media_player.c:3730
 msgid "GNOME MPlayer Notification"
 msgstr "Upozorněni GNOME MPlayeru"
 
-#: ../src/gmtk_media_player.c:3719
+#: ../src/gmtk_media_player.c:3630
+#, fuzzy
+msgid "Failed to take screenshot"
+msgstr "Otevření %s selhalo"
+
+#: ../src/gmtk_media_player.c:3727
 msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr "MPlayer může být povýšen na novější verzi"
 
-#: ../src/gmtk_media_player.c:3982
+#: ../src/gmtk_media_player.c:3990
 #, fuzzy
 msgid "You might want to consider upgrading mplayer to a newer version"
 msgstr "Možná budete chtít zvážit přechod na novější verzi mplayeru\n"

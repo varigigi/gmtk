@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME MPlayer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-29 15:51-0700\n"
+"POT-Creation-Date: 2013-02-02 16:16-0700\n"
 "PO-Revision-Date: 2011-05-07 04:46+0000\n"
 "Last-Translator: Fitoschido <fitoschido@gmail.com>\n"
 "Language-Team: \n"
@@ -79,15 +79,21 @@ msgstr ""
 msgid "Screenshot saved to '%s'"
 msgstr "Captura guardada: '%s'"
 
-#: ../src/gmtk_media_player.c:3621 ../src/gmtk_media_player.c:3722
+#: ../src/gmtk_media_player.c:3621 ../src/gmtk_media_player.c:3631
+#: ../src/gmtk_media_player.c:3730
 msgid "GNOME MPlayer Notification"
 msgstr "Notificación GNOME MPlayer"
 
-#: ../src/gmtk_media_player.c:3719
+#: ../src/gmtk_media_player.c:3630
+#, fuzzy
+msgid "Failed to take screenshot"
+msgstr "Error al abrir %s"
+
+#: ../src/gmtk_media_player.c:3727
 msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:3982
+#: ../src/gmtk_media_player.c:3990
 msgid "You might want to consider upgrading mplayer to a newer version"
 msgstr ""
 

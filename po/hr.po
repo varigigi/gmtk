@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gmtk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-29 15:51-0700\n"
+"POT-Creation-Date: 2013-02-02 16:16-0700\n"
 "PO-Revision-Date: 2011-05-23 01:11+0000\n"
 "Last-Translator: zvacet <ikoli@yahoo.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
@@ -76,16 +76,21 @@ msgstr ""
 msgid "Screenshot saved to '%s'"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:3621 ../src/gmtk_media_player.c:3722
+#: ../src/gmtk_media_player.c:3621 ../src/gmtk_media_player.c:3631
+#: ../src/gmtk_media_player.c:3730
 #, fuzzy
 msgid "GNOME MPlayer Notification"
 msgstr "GNOME MPlayer greška"
 
-#: ../src/gmtk_media_player.c:3719
+#: ../src/gmtk_media_player.c:3630
+msgid "Failed to take screenshot"
+msgstr ""
+
+#: ../src/gmtk_media_player.c:3727
 msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:3982
+#: ../src/gmtk_media_player.c:3990
 msgid "You might want to consider upgrading mplayer to a newer version"
 msgstr ""
 

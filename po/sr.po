@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gmtk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-29 15:51-0700\n"
+"POT-Creation-Date: 2013-02-02 16:16-0700\n"
 "PO-Revision-Date: 2011-04-11 08:42-0700\n"
 "Last-Translator: Kevin DeKorte <kdekorte@gmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
@@ -77,15 +77,21 @@ msgstr ""
 msgid "Screenshot saved to '%s'"
 msgstr "Снимак екрана је сачуван у „%s“"
 
-#: ../src/gmtk_media_player.c:3621 ../src/gmtk_media_player.c:3722
+#: ../src/gmtk_media_player.c:3621 ../src/gmtk_media_player.c:3631
+#: ../src/gmtk_media_player.c:3730
 msgid "GNOME MPlayer Notification"
 msgstr "Обавештења Гномовог Мплејера"
 
-#: ../src/gmtk_media_player.c:3719
+#: ../src/gmtk_media_player.c:3630
+#, fuzzy
+msgid "Failed to take screenshot"
+msgstr "Не могу да отворим %s"
+
+#: ../src/gmtk_media_player.c:3727
 msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:3982
+#: ../src/gmtk_media_player.c:3990
 msgid "You might want to consider upgrading mplayer to a newer version"
 msgstr ""
 

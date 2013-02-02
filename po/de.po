@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-29 15:51-0700\n"
+"POT-Creation-Date: 2013-02-02 16:16-0700\n"
 "PO-Revision-Date: 2012-01-10 21:55+0000\n"
 "Last-Translator: Dominik Dehning <Unknown>\n"
 "Language-Team: tim__b <timbuening@uni-muenster.de>, Wolfgang Knauf <his-"
@@ -77,15 +77,21 @@ msgstr "Externer Untertitel #%i"
 msgid "Screenshot saved to '%s'"
 msgstr "Schnappschuss in '%s' gespeichert"
 
-#: ../src/gmtk_media_player.c:3621 ../src/gmtk_media_player.c:3722
+#: ../src/gmtk_media_player.c:3621 ../src/gmtk_media_player.c:3631
+#: ../src/gmtk_media_player.c:3730
 msgid "GNOME MPlayer Notification"
 msgstr "GNOME MPlayer Benachrichtigung"
 
-#: ../src/gmtk_media_player.c:3719
+#: ../src/gmtk_media_player.c:3630
+#, fuzzy
+msgid "Failed to take screenshot"
+msgstr "Öffnen von %s fehlgeschlagen"
+
+#: ../src/gmtk_media_player.c:3727
 msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr "MPlayer sollte auf eine neue Version aktualisiert werden"
 
-#: ../src/gmtk_media_player.c:3982
+#: ../src/gmtk_media_player.c:3990
 #, fuzzy
 msgid "You might want to consider upgrading mplayer to a newer version"
 msgstr ""

@@ -1,4 +1,5 @@
 Development
+	Run make update-po
 	Add message when screenshot capture fails
 	Switch to GLIB for GMLIB header files, since GTK is not included
 	Switch to GTK VERSION tags when possible

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.9.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-29 15:51-0700\n"
+"POT-Creation-Date: 2013-02-02 16:16-0700\n"
 "PO-Revision-Date: 2011-06-03 12:23+0000\n"
 "Last-Translator: rob <linuxned@gmail.com>\n"
 "Language-Team: Mark Huijgen <mark.sf.net@huijgen.tk>\n"
@@ -76,15 +76,21 @@ msgstr "Externe ondertiteling #%i"
 msgid "Screenshot saved to '%s'"
 msgstr "Schermafdruk opgeslagen in '%s'"
 
-#: ../src/gmtk_media_player.c:3621 ../src/gmtk_media_player.c:3722
+#: ../src/gmtk_media_player.c:3621 ../src/gmtk_media_player.c:3631
+#: ../src/gmtk_media_player.c:3730
 msgid "GNOME MPlayer Notification"
 msgstr "GNOME MPlayer-notificatie"
 
-#: ../src/gmtk_media_player.c:3719
+#: ../src/gmtk_media_player.c:3630
+#, fuzzy
+msgid "Failed to take screenshot"
+msgstr "Kon %s niet openen"
+
+#: ../src/gmtk_media_player.c:3727
 msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr "MPlayer zou opgewaardeerd moeten worden naar een nieuwere versie"
 
-#: ../src/gmtk_media_player.c:3982
+#: ../src/gmtk_media_player.c:3990
 #, fuzzy
 msgid "You might want to consider upgrading mplayer to a newer version"
 msgstr "U kunt overwegen om mplayer op te waarderen naar een nieuwere versie\n"
