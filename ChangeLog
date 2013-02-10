@@ -1,10 +1,11 @@
 Development
-	Run make update-po
-	Add message when screenshot capture fails
-	Switch to GLIB for GMLIB header files, since GTK is not included
-	Switch to GTK VERSION tags when possible
-	Updated Japanese translation
-	Fix compliation of gmtk_media_tracker in generic application
+    Updated Korean translation	
+    Run make update-po
+    Add message when screenshot capture fails
+    Switch to GLIB for GMLIB header files, since GTK is not included
+    Switch to GTK VERSION tags when possible
+    Updated Japanese translation
+    Fix compliation of gmtk_media_tracker in generic application
     Run make update-po
     Remove audio export filter when codec cannot use it
     Remove cairo variable from gmtk_media_player
