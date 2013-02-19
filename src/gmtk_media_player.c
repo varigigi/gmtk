@@ -2246,7 +2246,6 @@ gpointer launch_mplayer(gpointer data)
     player->enable_divx = TRUE;
     player->disable_xvmc = FALSE;
     player->retry_on_full_cache = FALSE;
-    player->sub_visible = TRUE;
     player->speed = 1.0;
     player->hardware_ac3 = FALSE;
 
@@ -3218,6 +3217,9 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                 allocation.height = player->video_height;
                 create_event_allocation(player, "size_allocate", &allocation);
                 player->video_present = TRUE;
+                buf = g_strdup_printf("set_property sub_visibility %i\n", player->sub_visible);
+                write_to_mplayer(player, buf);
+                g_free(buf);
                 write_to_mplayer(player, "get_property sub_source\n");
                 write_to_mplayer(player, "get_property sub_visibility\n");
                 create_event_int(player, "attribute-changed", ATTRIBUTE_SIZE);
