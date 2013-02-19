@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: 0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-02-02 16:16-0700\n"
-"PO-Revision-Date: 2013-02-01 02:42+0900\n"
+"PO-Revision-Date: 2013-02-17 23:10+0900\n"
 "Last-Translator: Munehiro Yamamoto <munepixyz@gmail.com>\n"
 "Language-Team: munepi <munepixyz@gmail.com>\n"
 "Language: \n"
@@ -82,9 +82,8 @@ msgid "GNOME MPlayer Notification"
 msgstr "GNOME MPlayer 通知"
 
 #: ../src/gmtk_media_player.c:3630
-#, fuzzy
 msgid "Failed to take screenshot"
-msgstr "%s を開くのに失敗しました"
+msgstr "スクリーンショットを撮るのに失敗しました"
 
 #: ../src/gmtk_media_player.c:3727
 msgid "MPlayer should be Upgraded to a Newer Version"
