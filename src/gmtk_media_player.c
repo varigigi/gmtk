@@ -477,6 +477,12 @@ static void gmtk_media_player_init(GmtkMediaPlayer * player)
     player->album = NULL;
     player->disposed = FALSE;
     player->player_lock = g_mutex_new();
+    player->name_regex = g_regex_new(".*name\\s*:\\s*(.*)\n", G_REGEX_CASELESS, 0, NULL);
+    player->genre_regex = g_regex_new(".*genre\\s*:\\s*(.*)\n", G_REGEX_CASELESS, 0, NULL);
+    player->title_regex = g_regex_new(".*title\\s*:\\s*(.*)\n", G_REGEX_CASELESS, 0, NULL);
+    player->artist_regex = g_regex_new(".*artist\\s*:\\s*(.*)\n", G_REGEX_CASELESS, 0, NULL);
+    player->album_regex = g_regex_new(".*album\\s*:\\s*(.*)\n", G_REGEX_CASELESS, 0, NULL);
+
     gmtk_media_player_log_state(player, "after init");
 }
 
@@ -1772,6 +1778,14 @@ const gchar *gmtk_media_player_get_attribute_string(GmtkMediaPlayer * player, Gm
             value = NULL;
         } else {
             value = player->album;
+        }
+        break;
+
+    case ATTRIBUTE_GENRE:
+        if (player->genre == NULL || strlen(player->genre) == 0) {
+            value = NULL;
+        } else {
+            value = player->genre;
         }
         break;
 
@@ -3161,6 +3175,8 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
     GmtkMediaPlayerAudioTrack *audio_track = NULL;
     GList *iter;
     GtkWidget *dialog;
+    gchar **split;
+    gint index;
 
     if (player == NULL) {
         gm_log(player->debug, G_LOG_LEVEL_MESSAGE, "player is NULL");
@@ -3635,94 +3651,119 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
             gtk_widget_destroy(dialog);
         }
 
-        if (strstr(mplayer_output->str, "Name   : ") != 0) {
-            buf = strstr(mplayer_output->str, "Name   : ");
-            buf = strstr(mplayer_output->str, "Name   : ") + strlen("Name   : ");
-            buf = g_strchomp(buf);
-            if (player->title != NULL) {
-                g_free(player->title);
-                player->title = NULL;
-            }
+        if (g_regex_match(player->name_regex, mplayer_output->str, 0, NULL)) {
+            split = g_regex_split(player->name_regex, mplayer_output->str, 0);
+            index = 0;
+            while (split[index]) {
+                if (strlen(split[index]) > 0) {
+                    if (player->title != NULL) {
+                        g_free(player->title);
+                        player->title = NULL;
+                    }
 
-            player->title = g_locale_to_utf8(buf, -1, NULL, NULL, NULL);
-            if (player->title == NULL) {
-                player->title = g_strdup(buf);
-                gm_str_strip_unicode(player->title, strlen(player->title));
+                    player->title = g_locale_to_utf8(split[index], -1, NULL, NULL, NULL);
+                    if (player->title == NULL) {
+                        player->title = g_strdup(split[index]);
+                        gm_str_strip_unicode(player->title, strlen(player->title));
+                    }
+                    player->has_metadata = TRUE;
+                    create_event_int(player, "attribute-changed", ATTRIBUTE_TITLE);
+                }
+                index++;
             }
-            player->has_metadata = TRUE;
-            create_event_int(player, "attribute-changed", ATTRIBUTE_TITLE);
+            g_strfreev(split);
         }
 
-        if (strstr(mplayer_output->str, "Genre  : ") != 0) {
-            buf = strstr(mplayer_output->str, "Genre  : ");
-            buf = strstr(mplayer_output->str, "Genre  : ") + strlen("Genre  : ");
-            buf = g_strchomp(buf);
-            if (player->artist != NULL) {
-                g_free(player->artist);
-                player->artist = NULL;
-            }
+        if (g_regex_match(player->genre_regex, mplayer_output->str, 0, NULL)) {
+            split = g_regex_split(player->genre_regex, mplayer_output->str, 0);
+            index = 0;
+            while (split[index]) {
+                if (strlen(split[index]) > 0) {
+                    if (player->title != NULL) {
+                        g_free(player->genre);
+                        player->title = NULL;
+                    }
 
-            player->artist = g_locale_to_utf8(buf, -1, NULL, NULL, NULL);
-            if (player->artist == NULL) {
-                player->artist = g_strdup(buf);
-                gm_str_strip_unicode(player->artist, strlen(player->artist));
+                    player->genre = g_locale_to_utf8(split[index], -1, NULL, NULL, NULL);
+                    if (player->genre == NULL) {
+                        player->genre = g_strdup(split[index]);
+                        gm_str_strip_unicode(player->genre, strlen(player->genre));
+                    }
+                    player->has_metadata = TRUE;
+                    create_event_int(player, "attribute-changed", ATTRIBUTE_GENRE);
+                }
+                index++;
             }
-            player->has_metadata = TRUE;
-            create_event_int(player, "attribute-changed", ATTRIBUTE_ARTIST);
+            g_strfreev(split);
         }
 
-        if (strstr(mplayer_output->str, "Title: ") != 0) {
-            buf = strstr(mplayer_output->str, "Title:");
-            buf = strstr(mplayer_output->str, "Title: ") + strlen("Title: ");
-            buf = g_strchomp(buf);
-            if (player->title != NULL) {
-                g_free(player->title);
-                player->title = NULL;
-            }
+        if (g_regex_match(player->title_regex, mplayer_output->str, 0, NULL)) {
+            split = g_regex_split(player->title_regex, mplayer_output->str, 0);
+            index = 0;
+            while (split[index]) {
+                if (strlen(split[index]) > 0) {
+                    if (player->title != NULL) {
+                        g_free(player->title);
+                        player->title = NULL;
+                    }
 
-            player->title = g_locale_to_utf8(buf, -1, NULL, NULL, NULL);
-            if (player->title == NULL) {
-                player->title = g_strdup(buf);
-                gm_str_strip_unicode(player->title, strlen(player->title));
+                    player->title = g_locale_to_utf8(split[index], -1, NULL, NULL, NULL);
+                    if (player->title == NULL) {
+                        player->title = g_strdup(split[index]);
+                        gm_str_strip_unicode(player->title, strlen(player->title));
+                    }
+                    player->has_metadata = TRUE;
+                    create_event_int(player, "attribute-changed", ATTRIBUTE_TITLE);
+                }
+                index++;
             }
-            player->has_metadata = TRUE;
-            create_event_int(player, "attribute-changed", ATTRIBUTE_TITLE);
+            g_strfreev(split);
         }
 
-        if (strstr(mplayer_output->str, "Artist: ") != 0) {
-            buf = strstr(mplayer_output->str, "Artist:");
-            buf = strstr(mplayer_output->str, "Artist: ") + strlen("Artist: ");
-            buf = g_strchomp(buf);
-            if (player->artist != NULL) {
-                g_free(player->artist);
-                player->artist = NULL;
-            }
+        if (g_regex_match(player->artist_regex, mplayer_output->str, 0, NULL)) {
+            split = g_regex_split(player->artist_regex, mplayer_output->str, 0);
+            index = 0;
+            while (split[index]) {
+                if (strlen(split[index]) > 0) {
+                    if (player->artist != NULL) {
+                        g_free(player->artist);
+                        player->artist = NULL;
+                    }
 
-            player->artist = g_locale_to_utf8(buf, -1, NULL, NULL, NULL);
-            if (player->artist == NULL) {
-                player->artist = g_strdup(buf);
-                gm_str_strip_unicode(player->artist, strlen(player->artist));
+                    player->artist = g_locale_to_utf8(split[index], -1, NULL, NULL, NULL);
+                    if (player->artist == NULL) {
+                        player->artist = g_strdup(split[index]);
+                        gm_str_strip_unicode(player->artist, strlen(player->artist));
+                    }
+                    player->has_metadata = TRUE;
+                    create_event_int(player, "attribute-changed", ATTRIBUTE_ARTIST);
+                }
+                index++;
             }
-            player->has_metadata = TRUE;
-            create_event_int(player, "attribute-changed", ATTRIBUTE_ARTIST);
+            g_strfreev(split);
         }
 
-        if (strstr(mplayer_output->str, "Album: ") != 0) {
-            buf = strstr(mplayer_output->str, "Album:");
-            buf = strstr(mplayer_output->str, "Album: ") + strlen("Album: ");
-            buf = g_strchomp(buf);
-            if (player->album != NULL) {
-                g_free(player->album);
-                player->album = NULL;
-            }
+        if (g_regex_match(player->album_regex, mplayer_output->str, 0, NULL)) {
+            split = g_regex_split(player->album_regex, mplayer_output->str, 0);
+            index = 0;
+            while (split[index]) {
+                if (strlen(split[index]) > 0) {
+                    if (player->album != NULL) {
+                        g_free(player->album);
+                        player->album = NULL;
+                    }
 
-            player->album = g_locale_to_utf8(buf, -1, NULL, NULL, NULL);
-            if (player->album == NULL) {
-                player->album = g_strdup(buf);
-                gm_str_strip_unicode(player->album, strlen(player->album));
+                    player->album = g_locale_to_utf8(split[index], -1, NULL, NULL, NULL);
+                    if (player->album == NULL) {
+                        player->album = g_strdup(split[index]);
+                        gm_str_strip_unicode(player->album, strlen(player->album));
+                    }
+                    player->has_metadata = TRUE;
+                    create_event_int(player, "attribute-changed", ATTRIBUTE_ALBUM);
+                }
+                index++;
             }
-            player->has_metadata = TRUE;
-            create_event_int(player, "attribute-changed", ATTRIBUTE_ALBUM);
+            g_strfreev(split);
         }
 
         if (player->minimum_mplayer == FALSE) {
