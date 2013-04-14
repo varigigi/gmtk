@@ -1,4 +1,5 @@
 Development
+	gmtk_media_player - exclude input.conf from file not found message
 	Use case inspecific parsing of metadata attributes fixes issue #13
 1.0.8
     Updated Spanish translation
