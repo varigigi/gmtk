@@ -768,8 +768,7 @@ static gboolean player_key_press_event_callback(GtkWidget * widget, GdkEventKey 
             break;
         case GDK_s:
         case GDK_S:
-			if (!player->use_mplayer2)
-        		write_to_mplayer(player, "screenshot 0\n");
+            write_to_mplayer(player, "screenshot 0\n");
             break;
         case GDK_x:
             write_to_mplayer(player, "sub_delay 0.1\n");
