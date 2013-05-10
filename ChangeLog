@@ -1,10 +1,11 @@
 Development
-	gmtk_media_player - exclude input.conf from file not found message
-	Use case inspecific parsing of metadata attributes fixes issue #13
+	gmtk_media_player - fix OSD messages so they only displayed for level 1 and higher
+    gmtk_media_player - exclude input.conf from file not found message
+    Use case inspecific parsing of metadata attributes fixes issue #13
 1.0.8
     Updated Spanish translation
     Updated Japanese translation
-	Rework initial subtitle visibility setting
+    Rework initial subtitle visibility setting
 1.0.8b
     Updated Korean translation	
     Run make update-po
@@ -23,15 +24,15 @@ Development
 1.0.7
     Rerun autoreconf -fiv
 1.0.7b
-	Make 'o' toggle the OSD in gmtk_media_player
+    Make 'o' toggle the OSD in gmtk_media_player
     Update makefile so that libgmtk is dependent on libgmlib so that parallel builds work
     Updated Polish translation
     Add anamorphic aspect ratio (2.39:1)
     Fix problem with audio only file restarts in gmtk_media_player gnome-mplayer Issue #634
     Clean up double setting of media_device in gmtk_media_player
-	Add subtitle step forward and backward commands
+    Add subtitle step forward and backward commands
     Basic scrolling wheel patch from Gnome Mplayer Issue #621
-	Don't flush events when querying devices
+    Don't flush events when querying devices
     Cleanup GTK depreciated warnings in gmtk_media_tracker
     Cleanup gtk_widget_get_pointer depreciated warning on GTK 3.4
     Version the libraries that are built

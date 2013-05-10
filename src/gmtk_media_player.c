@@ -747,7 +747,7 @@ static gboolean player_key_press_event_callback(GtkWidget * widget, GdkEventKey 
         case GDK_d:
             write_to_mplayer(player, "frame_drop\n");
             cmd =
-                g_strdup_printf("osd_show_property_text \"%s: ${framedropping}\"\n",
+                g_strdup_printf("osd_show_property_text \"%s: ${framedropping}\" 1000 1\n",
                                 g_dgettext(GETTEXT_PACKAGE, "Frame Dropping"));
             write_to_mplayer(player, cmd);
             g_free(cmd);
@@ -761,7 +761,7 @@ static gboolean player_key_press_event_callback(GtkWidget * widget, GdkEventKey 
         case GDK_D:
             write_to_mplayer(player, "step_property deinterlace\n");
             cmd =
-                g_strdup_printf("osd_show_property_text \"%s: ${deinterlace}\"\n",
+                g_strdup_printf("osd_show_property_text \"%s: ${deinterlace}\" 1000 1\n",
                                 g_dgettext(GETTEXT_PACKAGE, "Deinterlace"));
             write_to_mplayer(player, cmd);
             g_free(cmd);
@@ -1125,7 +1125,7 @@ void gmtk_media_player_send_command(GmtkMediaPlayer * player, GmtkMediaPlayerCom
         case COMMAND_SWITCH_FRAME_DROP:
             write_to_mplayer(player, "frame_drop\n");
             cmd =
-                g_strdup_printf("osd_show_property_text \"%s ${framedropping}\"\n",
+                g_strdup_printf("osd_show_property_text \"%s ${framedropping}\" 1000 1\n",
                                 g_dgettext(GETTEXT_PACKAGE, "Frame Dropping"));
             write_to_mplayer(player, cmd);
             g_free(cmd);
@@ -1153,11 +1153,12 @@ void gmtk_media_player_set_attribute_boolean(GmtkMediaPlayer * player,
             cmd = NULL;
             if (value) {
                 cmd =
-                    g_strdup_printf("osd_show_property_text \"%s\"\n",
+                    g_strdup_printf("osd_show_property_text \"%s\" 1000 1\n",
                                     g_dgettext(GETTEXT_PACKAGE, "Subtitles Visible"));
             } else {
                 cmd =
-                    g_strdup_printf("osd_show_property_text \"%s\"\n", g_dgettext(GETTEXT_PACKAGE, "Subtitles Hidden"));
+                    g_strdup_printf("osd_show_property_text \"%s\" 1000 1\n",
+                                    g_dgettext(GETTEXT_PACKAGE, "Subtitles Hidden"));
             }
             write_to_mplayer(player, cmd);
             g_free(cmd);
