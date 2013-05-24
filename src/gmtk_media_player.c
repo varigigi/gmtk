@@ -1348,6 +1348,7 @@ void gmtk_media_player_set_attribute_double(GmtkMediaPlayer * player,
                                             GmtkMediaPlayerMediaAttributes attribute, gdouble value)
 {
     gchar *cmd;
+    gchar *tmp;
 
     switch (attribute) {
     case ATTRIBUTE_CACHE_SIZE:
@@ -1374,9 +1375,16 @@ void gmtk_media_player_set_attribute_double(GmtkMediaPlayer * player,
         player->speed_multiplier = CLAMP(value, 0.1, 10.0);
         if (player->player_state == PLAYER_STATE_RUNNING) {
             if (player->speed_multiplier == 1.0) {
-                cmd = g_strdup_printf("speed_set %f\n", player->speed_multiplier);
+                tmp = g_new0(char, G_ASCII_DTOSTR_BUF_SIZE);
+                tmp = g_ascii_dtostr(tmp, G_ASCII_DTOSTR_BUF_SIZE, player->speed_multiplier);
+                cmd = g_strdup_printf("speed_set %s\n", tmp);
+                g_free(tmp);
+
             } else {
-                cmd = g_strdup_printf("speed_mult %f\n", player->speed_multiplier);
+                tmp = g_new0(char, G_ASCII_DTOSTR_BUF_SIZE);
+                tmp = g_ascii_dtostr(tmp, G_ASCII_DTOSTR_BUF_SIZE, player->speed_multiplier);
+                cmd = g_strdup_printf("speed_mult %s\n", tmp);
+                g_free(tmp);
             }
             write_to_mplayer(player, cmd);
             g_free(cmd);
@@ -1388,7 +1396,10 @@ void gmtk_media_player_set_attribute_double(GmtkMediaPlayer * player,
     case ATTRIBUTE_SPEED_SET:
         player->speed = CLAMP(value, 0.1, 10.0);
         if (player->player_state == PLAYER_STATE_RUNNING) {
-            cmd = g_strdup_printf("speed_set %f\n", player->speed);
+            tmp = g_new0(char, G_ASCII_DTOSTR_BUF_SIZE);
+            tmp = g_ascii_dtostr(tmp, G_ASCII_DTOSTR_BUF_SIZE, player->speed);
+            cmd = g_strdup_printf("speed_set %s\n", tmp);
+            g_free(tmp);
             write_to_mplayer(player, cmd);
             g_free(cmd);
             cmd = NULL;
@@ -1399,7 +1410,11 @@ void gmtk_media_player_set_attribute_double(GmtkMediaPlayer * player,
     case ATTRIBUTE_SUBTITLE_SCALE:
         player->subtitle_scale = CLAMP(value, 0.2, 100.0);
         if (player->player_state == PLAYER_STATE_RUNNING) {
-            cmd = g_strdup_printf("sub_scale %f 1\n", player->subtitle_scale);
+            tmp = g_new0(char, G_ASCII_DTOSTR_BUF_SIZE);
+            tmp = g_ascii_dtostr(tmp, G_ASCII_DTOSTR_BUF_SIZE, player->subtitle_scale);
+            cmd = g_strdup_printf("sub_scale %s\n", tmp);
+            g_free(tmp);
+
             write_to_mplayer(player, cmd);
             g_free(cmd);
             cmd = NULL;
@@ -1409,7 +1424,10 @@ void gmtk_media_player_set_attribute_double(GmtkMediaPlayer * player,
     case ATTRIBUTE_SUBTITLE_DELAY:
         player->subtitle_delay = value;
         if (player->player_state == PLAYER_STATE_RUNNING) {
-            cmd = g_strdup_printf("set_property sub_delay %f 1\n", player->subtitle_delay);
+            tmp = g_new0(char, G_ASCII_DTOSTR_BUF_SIZE);
+            tmp = g_ascii_dtostr(tmp, G_ASCII_DTOSTR_BUF_SIZE, player->subtitle_delay);
+            cmd = g_strdup_printf("set_property sub_delay %s\n", tmp);
+            g_free(tmp);
             write_to_mplayer(player, cmd);
             g_free(cmd);
             cmd = NULL;
@@ -1419,7 +1437,10 @@ void gmtk_media_player_set_attribute_double(GmtkMediaPlayer * player,
     case ATTRIBUTE_AUDIO_DELAY:
         player->audio_delay = CLAMP(value, -100.0, 100.0);
         if (player->player_state == PLAYER_STATE_RUNNING) {
-            cmd = g_strdup_printf("set_property audio_delay %f 1\n", player->audio_delay);
+            tmp = g_new0(char, G_ASCII_DTOSTR_BUF_SIZE);
+            tmp = g_ascii_dtostr(tmp, G_ASCII_DTOSTR_BUF_SIZE, player->audio_delay);
+            cmd = g_strdup_printf("set_property audio_delay %s\n", tmp);
+            g_free(tmp);
             write_to_mplayer(player, cmd);
             g_free(cmd);
             cmd = NULL;
@@ -2483,12 +2504,18 @@ gpointer launch_mplayer(gpointer data)
 
         if ((gint) (player->start_time) > 0) {
             argv[argn++] = g_strdup_printf("-ss");
-            argv[argn++] = g_strdup_printf("%f", player->start_time);
+            tmp = g_new0(char, G_ASCII_DTOSTR_BUF_SIZE);
+            tmp = g_ascii_dtostr(tmp, G_ASCII_DTOSTR_BUF_SIZE, player->start_time);
+            argv[argn++] = g_strdup(tmp);
+            g_free(tmp);
         }
 
         if ((gint) (player->run_time) > 0) {
             argv[argn++] = g_strdup_printf("-endpos");
-            argv[argn++] = g_strdup_printf("%f", player->run_time);
+            tmp = g_new0(char, G_ASCII_DTOSTR_BUF_SIZE);
+            tmp = g_ascii_dtostr(tmp, G_ASCII_DTOSTR_BUF_SIZE, player->run_time);
+            argv[argn++] = g_strdup(tmp);
+            g_free(tmp);
         }
 
         if (player->frame_drop)
@@ -2501,10 +2528,16 @@ gpointer launch_mplayer(gpointer data)
         argv[argn++] = g_strdup_printf("%i", player->osdlevel);
 
         argv[argn++] = g_strdup_printf("-delay");
-        argv[argn++] = g_strdup_printf("%f", player->audio_delay);
+        tmp = g_new0(char, G_ASCII_DTOSTR_BUF_SIZE);
+        tmp = g_ascii_dtostr(tmp, G_ASCII_DTOSTR_BUF_SIZE, player->audio_delay);
+        argv[argn++] = g_strdup(tmp);
+        g_free(tmp);
 
         argv[argn++] = g_strdup_printf("-subdelay");
-        argv[argn++] = g_strdup_printf("%f", player->subtitle_delay);
+        tmp = g_new0(char, G_ASCII_DTOSTR_BUF_SIZE);
+        tmp = g_ascii_dtostr(tmp, G_ASCII_DTOSTR_BUF_SIZE, player->subtitle_delay);
+        argv[argn++] = g_strdup(tmp);
+        g_free(tmp);
 
         argv[argn++] = g_strdup_printf("-subpos");
         argv[argn++] = g_strdup_printf("%i", player->subtitle_position);
@@ -2598,7 +2631,10 @@ gpointer launch_mplayer(gpointer data)
             }
 
             argv[argn++] = g_strdup_printf("-ass-font-scale");
-            argv[argn++] = g_strdup_printf("%1.2f", player->subtitle_scale);
+            tmp = g_new0(char, G_ASCII_DTOSTR_BUF_SIZE);
+            tmp = g_ascii_dtostr(tmp, G_ASCII_DTOSTR_BUF_SIZE, player->subtitle_scale);
+            argv[argn++] = g_strdup(tmp);
+            g_free(tmp);
 
             if (player->subtitle_color != NULL && strlen(player->subtitle_color) > 0) {
                 argv[argn++] = g_strdup_printf("-ass-color");
