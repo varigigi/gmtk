@@ -3689,7 +3689,8 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
             gtk_widget_destroy(dialog);
         }
 
-        if (g_regex_match(player->name_regex, mplayer_output->str, 0, NULL)) {
+        if (g_regex_match(player->name_regex, mplayer_output->str, 0, NULL) \
+        && (g_strrstr(mplayer_output->str, "CPU vendor name:") == NULL)) {
             split = g_regex_split(player->name_regex, mplayer_output->str, 0);
             index = 0;
             while (split[index]) {
