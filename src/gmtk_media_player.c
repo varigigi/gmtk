@@ -3691,6 +3691,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
 
         if (g_regex_match(player->name_regex, mplayer_output->str, 0, NULL) \
         && (g_strrstr(mplayer_output->str, "CPU vendor name:") == NULL)) {
+            gm_logs(player->debug, G_LOG_LEVEL_DEBUG, "recognized movie name - updating UI etc");
             split = g_regex_split(player->name_regex, mplayer_output->str, 0);
             index = 0;
             while (split[index]) {
@@ -3714,6 +3715,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
         }
 
         if (g_regex_match(player->genre_regex, mplayer_output->str, 0, NULL)) {
+            gm_logs(player->debug, G_LOG_LEVEL_DEBUG, "recognized genre - updating UI etc");
             split = g_regex_split(player->genre_regex, mplayer_output->str, 0);
             index = 0;
             while (split[index]) {
@@ -3737,6 +3739,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
         }
 
         if (g_regex_match(player->title_regex, mplayer_output->str, 0, NULL)) {
+            gm_logs(player->debug, G_LOG_LEVEL_DEBUG, "recognized title - updating UI etc");
             split = g_regex_split(player->title_regex, mplayer_output->str, 0);
             index = 0;
             while (split[index]) {
@@ -3760,6 +3763,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
         }
 
         if (g_regex_match(player->artist_regex, mplayer_output->str, 0, NULL)) {
+            gm_logs(player->debug, G_LOG_LEVEL_DEBUG, "recognized artist - updating UI etc");
             split = g_regex_split(player->artist_regex, mplayer_output->str, 0);
             index = 0;
             while (split[index]) {
@@ -3783,6 +3787,7 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
         }
 
         if (g_regex_match(player->album_regex, mplayer_output->str, 0, NULL)) {
+            gm_logs(player->debug, G_LOG_LEVEL_DEBUG, "recognized album - updating UI etc");
             split = g_regex_split(player->album_regex, mplayer_output->str, 0);
             index = 0;
             while (split[index]) {
