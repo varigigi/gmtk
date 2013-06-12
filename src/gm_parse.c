@@ -2,19 +2,19 @@
 /*
  * gm_parse.c
  * Copyright (C) Kevin DeKorte 2006 <kdekorte@gmail.com>
- * 
+ *
  * gm_parse.c is free software.
- * 
+ *
  * You may redistribute it and/or modify it under the terms of the
  * GNU General Public License, as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option)
  * any later version.
- * 
+ *
  * gm_parse.c is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with playlist.c.  If not, write to:
  * 	The Free Software Foundation, Inc.,
@@ -134,7 +134,7 @@ gboolean gm_parse_asx_is_asx(const gchar * uri)
                 continue;
             }
             newline = g_strdup(line);
-            /* if newline starts with "<asx" */
+            /* if newline starts with "<asx" (non case sensitive) */
             if (g_ascii_strncasecmp(newline, "<asx", strlen("<asx")) == 0) {
                 ret = TRUE;
                 g_free(newline);
@@ -181,7 +181,7 @@ gboolean gm_parse_asx_is_asx(const gchar * uri)
                 } else {
                     gm_log(FALSE, G_LOG_LEVEL_DEBUG, "line = %s", line);
                     newline = g_strdup(line);
-                    /* if newline starts with "<asx" */
+                    /* if newline starts with "<asx" (non case sensitive) */
                     if (g_ascii_strncasecmp(newline, "<asx", strlen("<asx")) == 0) {
                         gm_log(FALSE, G_LOG_LEVEL_DEBUG, "asx");
                         ret = TRUE;

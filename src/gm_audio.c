@@ -527,7 +527,7 @@ void gm_audio_pa_server_info_cb(pa_context * c, const pa_server_info * i, void *
         for (iter = gm_audio_devices; iter != NULL; iter = g_list_next(iter)) {
             device = (AudioDevice *) iter->data;
             if (device->pulse_sink_name != NULL) {
-                /* if default_sink_name starts with pulse_sink_name */
+                /* if default_sink_name starts with pulse_sink_name (non case sensitive) */
                 if (g_ascii_strncasecmp(i->default_sink_name, device->pulse_sink_name, strlen(i->default_sink_name)) ==
                     0) {
                     gm_log(FALSE, G_LOG_LEVEL_DEBUG, "The default output sink name is '%s'", i->default_sink_name);

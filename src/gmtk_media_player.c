@@ -641,6 +641,40 @@ gboolean gmtk_media_player_send_key_press_event(GmtkMediaPlayer * widget, GdkEve
     return player_key_press_event_callback(GTK_WIDGET(widget), event, data);
 }
 
+/*
+  sub_select [value]
+    Display subtitle with index [value]. Turn subtitle display off if
+    [value] is -1 or greater than the highest available subtitle index.
+    Cycle through the available subtitles if [value] is omitted or less
+    than -1 (forward or backward respectively).
+    Supported subtitle sources are -sub options on the command
+    line, VOBsubs, DVD subtitles, and Ogg and Matroska text streams.
+    This command is mainly for cycling all subtitles, if you want to set
+    a specific subtitle, use sub_file, sub_vob, or sub_demux.
+
+    GmtkMediaPlayerSubtitle
+
+    count: (gdouble) g_list_length(player->subtitles)
+
+    iter = player->subtitles;
+    while (iter) {
+        subtitle = (GmtkMediaPlayerSubtitle *) iter->data;
+        if (subtitle->id == player->subtitle_id && subtitle->is_file == player->subtitle_is_file)
+            value = subtitle->label;
+        iter = iter->next;
+    }
+
+    sub_visibility [0|1]
+
+    properties: sub
+       get_property <property>
+       set_property <property> <value>
+
+*/
+static void gmtk_media_player_cycle_subtitles(GmtkMediaPlayer * player) {
+    write_to_mplayer(player, "sub_select\n");
+}
+
 static gboolean player_key_press_event_callback(GtkWidget * widget, GdkEventKey * event, gpointer data)
 {
     GmtkMediaPlayer *player;
@@ -759,7 +793,7 @@ static gboolean player_key_press_event_callback(GtkWidget * widget, GdkEventKey 
             gmtk_media_player_size_allocate(GTK_WIDGET(player), &alloc);
             break;
         case GDK_j:
-            write_to_mplayer(player, "sub_select\n");
+            gmtk_media_player_cycle_subtitles(player);
             break;
         case GDK_d:
             write_to_mplayer(player, "frame_drop\n");
@@ -1128,7 +1162,7 @@ void gmtk_media_player_send_command(GmtkMediaPlayer * player, GmtkMediaPlayerCom
             break;
 
         case COMMAND_SUBTITLE_SELECT:
-            write_to_mplayer(player, "sub_select\n");
+            gmtk_media_player_cycle_subtitles(player);
             break;
 
         case COMMAND_SUBTITLE_STEP_FORWARD:
@@ -3097,7 +3131,7 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
         return TRUE;
     } else {
         if (g_strrstr(mplayer_output->str, "ANS") == NULL) {
-            gm_logsp(player->debug, G_LOG_LEVEL_INFO, "ERROR:", mplayer_output->str);
+            gm_logsp(player->debug, G_LOG_LEVEL_INFO, "< ERROR:", mplayer_output->str);
         }
 
         if (strstr(mplayer_output->str, "Couldn't open DVD device") != 0) {
@@ -3309,7 +3343,9 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
         return TRUE;
     } else {
         if (g_strrstr(mplayer_output->str, "ANS") == NULL) {
-            gm_logs(player->debug, G_LOG_LEVEL_INFO, mplayer_output->str);
+            gm_logsp(player->debug, G_LOG_LEVEL_INFO, "<", mplayer_output->str);
+        } else {
+            gm_logsp(player->debug, G_LOG_LEVEL_DEBUG, "<", mplayer_output->str);
         }
 
         if (strstr(mplayer_output->str, "Cache fill") != 0) {
@@ -4042,7 +4078,7 @@ gboolean write_to_mplayer(GmtkMediaPlayer * player, const gchar * cmd)
     gchar *pkf_cmd;
 
     /* ending \n is part of cmd */
-    gm_logsp(player->debug, G_LOG_LEVEL_DEBUG, "write to mplayer =", cmd);
+    gm_logsp(player->debug, G_LOG_LEVEL_DEBUG, ">", cmd);
 
     if (player->channel_in) {
         if (player->use_mplayer2) {
