@@ -2,19 +2,19 @@
 /*
  * gm_audio.c
  * Copyright (C) Kevin DeKorte 2006 <kdekorte@gmail.com>
- * 
+ *
  * gm_audio.c is free software.
- * 
+ *
  * You may redistribute it and/or modify it under the terms of the
  * GNU General Public License, as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option)
  * any later version.
- * 
+ *
  * gm_audio.c is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with playlist.c.  If not, write to:
  * 	The Free Software Foundation, Inc.,
@@ -527,6 +527,7 @@ void gm_audio_pa_server_info_cb(pa_context * c, const pa_server_info * i, void *
         for (iter = gm_audio_devices; iter != NULL; iter = g_list_next(iter)) {
             device = (AudioDevice *) iter->data;
             if (device->pulse_sink_name != NULL) {
+                /* if default_sink_name starts with pulse_sink_name */
                 if (g_ascii_strncasecmp(i->default_sink_name, device->pulse_sink_name, strlen(i->default_sink_name)) ==
                     0) {
                     gm_log(FALSE, G_LOG_LEVEL_DEBUG, "The default output sink name is '%s'", i->default_sink_name);

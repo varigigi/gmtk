@@ -134,7 +134,8 @@ gboolean gm_parse_asx_is_asx(const gchar * uri)
                 continue;
             }
             newline = g_strdup(line);
-            if (g_ascii_strncasecmp(newline, "<asx", g_utf8_strlen("<asx", -1)) == 0) {
+            /* if newline starts with "<asx" */
+            if (g_ascii_strncasecmp(newline, "<asx", strlen("<asx")) == 0) {
                 ret = TRUE;
                 g_free(newline);
                 break;
@@ -180,7 +181,8 @@ gboolean gm_parse_asx_is_asx(const gchar * uri)
                 } else {
                     gm_log(FALSE, G_LOG_LEVEL_DEBUG, "line = %s", line);
                     newline = g_strdup(line);
-                    if (g_ascii_strncasecmp(newline, "<asx", g_utf8_strlen("<asx", -1)) == 0) {
+                    /* if newline starts with "<asx" */
+                    if (g_ascii_strncasecmp(newline, "<asx", strlen("<asx")) == 0) {
                         gm_log(FALSE, G_LOG_LEVEL_DEBUG, "asx");
                         ret = TRUE;
                         g_free(newline);

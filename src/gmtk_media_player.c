@@ -2265,7 +2265,7 @@ static const gchar *playback_error_to_string(const GmtkMediaPlayerPlaybackError 
    returns newly-allocated string, passing ownership to caller */
 static gchar* vdpau_compute_vo_with_deint(GmtkMediaPlayer * player, gchar const*const vodesc) {
    gchar* ret;
-   if(g_regex_match(player->deintN_regex, vodesc, 0, NULL)) { 
+   if(g_regex_match(player->deintN_regex, vodesc, 0, NULL)) {
       ret = g_strdup(vodesc);
    } else {
       ret = g_strdup_printf("%s:deint=2", vodesc);
@@ -2278,7 +2278,7 @@ static gchar* vdpau_compute_vo_with_deint(GmtkMediaPlayer * player, gchar const*
 static gchar* vdpau_compute_vo_without_deint(GmtkMediaPlayer * player, gchar const*const vodesc) {
    GMatchInfo *match_info = NULL;
    gchar *ret;
-   if(g_regex_match(player->deintN_regex, vodesc, 0, &match_info)) { 
+   if(g_regex_match(player->deintN_regex, vodesc, 0, &match_info)) {
       gchar *before = g_match_info_fetch(match_info, 1);
       gchar *after  = g_match_info_fetch(match_info, 3);
       ret = g_strdup_printf("%s%s", before, after);
@@ -2302,7 +2302,7 @@ static gchar* vodesc_replace_gl_with_gl_nosw(GmtkMediaPlayer * player, gchar con
    } else {
       ret = g_strdup_printf("gl_nosw%s", colonptr);
    }
-   return ret;   
+   return ret;
 }
 
 gpointer launch_mplayer(gpointer data)
@@ -3128,7 +3128,7 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
         }
 
         if (strstr(mplayer_output->str, "Failed creating VDPAU decoder") != NULL) {
-            if (player->enable_divx && (g_ascii_strncasecmp(player->vo, "vdpau", strlen("vdpau")) == 0))
+            if (player->enable_divx && vodesc_looks_like_vo(player->vo, "vdpau"))
                 player->playback_error = ERROR_RETRY_WITHOUT_DIVX_VDPAU;
         }
 
@@ -3138,7 +3138,7 @@ gboolean thread_reader_error(GIOChannel * source, GIOCondition condition, gpoint
         }
 
         if (strstr(mplayer_output->str, "The selected video_out device is incompatible with this codec") != NULL) {
-            if (!player->disable_xvmc && (g_ascii_strncasecmp(player->vo, "xvmc", strlen("xvmc")) == 0))
+            if (!player->disable_xvmc && vodesc_looks_like_vo(player->vo, "xvmc"))
                 player->playback_error = ERROR_RETRY_WITHOUT_XVMC;
         }
 
@@ -4048,6 +4048,7 @@ gboolean write_to_mplayer(GmtkMediaPlayer * player, const gchar * cmd)
         if (player->use_mplayer2) {
             pkf_cmd = g_strdup(cmd);
         } else {
+            /* if cmd starts with "pause" (non case sensitive) */
             if (g_ascii_strncasecmp(cmd, "pause", strlen("pause")) == 0) {
                 pkf_cmd = g_strdup(cmd);
             } else {
@@ -4124,9 +4125,11 @@ gboolean detect_mplayer_features(GmtkMediaPlayer * player)
     output = g_strsplit(out, "\n", 0);
     ac = 0;
     while (output[ac] != NULL) {
+        /* if output[ac] starts with "Unknown option" (non case sensitive) */
         if (g_ascii_strncasecmp(output[ac], "Unknown option", strlen("Unknown option")) == 0) {
             ret = FALSE;
         }
+        /* if output[ac] starts with "MPlayer2" (non case sensitive) */
         if (g_ascii_strncasecmp(output[ac], "MPlayer2", strlen("MPlayer2")) == 0) {
             player->use_mplayer2 = TRUE;
         }
