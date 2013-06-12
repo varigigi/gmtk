@@ -75,6 +75,22 @@ static void alignment_realized(GtkWidget * widget, gpointer data)
 
 }
 
+static gboolean vodesc_looks_like_vo(gchar const*const desc, gchar const*const vo) {
+   if(g_strcmp0(desc, vo) == 0) {
+      return TRUE;
+   }
+   if(!g_str_has_prefix(desc, vo)) {
+      return FALSE;
+   }
+   /* we know that they are not equal but desc starts with vo, i.e. desc is longer than vo */
+   /* now to check that desc looks like vo: */
+   const size_t vol = strlen(vo);
+   if(desc[vol] == ':') {
+      return TRUE;
+   }
+   return FALSE;
+}
+
 static void socket_realized(GtkWidget * widget, gpointer data)
 {
     GmtkMediaPlayer *player = GMTK_MEDIA_PLAYER(data);
@@ -83,7 +99,7 @@ static void socket_realized(GtkWidget * widget, gpointer data)
     player->socket_id = GPOINTER_TO_INT(gtk_socket_get_id(GTK_SOCKET(widget)));
     style = gtk_widget_get_style(widget);
     if (player->vo != NULL) {
-        if (!(g_ascii_strncasecmp(player->vo, "vdpau", strlen("vdpau")) == 0)) {
+        if (!vodesc_looks_like_vo(player->vo, "vdpau")) {
             gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, &(style->black));
             gtk_widget_modify_bg(widget, GTK_STATE_ACTIVE, &(style->black));
             gtk_widget_modify_bg(widget, GTK_STATE_SELECTED, &(style->black));
@@ -253,7 +269,7 @@ const gchar *gmtk_media_state_to_string(const GmtkMediaPlayerMediaState media_st
 
 static void gmtk_media_player_log_state(GmtkMediaPlayer * player, char const *const context)
 {
-// Gmtk_Media_Player_Log_State  
+// Gmtk_Media_Player_Log_State
 #define GMPLS_LEN 1024
     gchar msg[GMPLS_LEN] = "";
     gchar *tmp;
@@ -482,6 +498,7 @@ static void gmtk_media_player_init(GmtkMediaPlayer * player)
     player->title_regex = g_regex_new(".*title\\s*:\\s*(.*)\n", G_REGEX_CASELESS, 0, NULL);
     player->artist_regex = g_regex_new(".*artist\\s*:\\s*(.*)\n", G_REGEX_CASELESS, 0, NULL);
     player->album_regex = g_regex_new(".*album\\s*:\\s*(.*)\n", G_REGEX_CASELESS, 0, NULL);
+    player->deintN_regex = g_regex_new("(.*)(:deint=[0-9]+)\\b(.*)", G_REGEX_CASELESS, 0, NULL);
 
     gmtk_media_player_log_state(player, "after init");
 }
@@ -2244,7 +2261,49 @@ static const gchar *playback_error_to_string(const GmtkMediaPlayerPlaybackError 
 
 }
 
+/* if it contains a deint=N leave as is, otherwise add deint=2
+   returns newly-allocated string, passing ownership to caller */
+static gchar* vdpau_compute_vo_with_deint(GmtkMediaPlayer * player, gchar const*const vodesc) {
+   gchar* ret;
+   if(g_regex_match(player->deintN_regex, vodesc, 0, NULL)) { 
+      ret = g_strdup(vodesc);
+   } else {
+      ret = g_strdup_printf("%s:deint=2", vodesc);
+   }
+   return ret;
+}
 
+/* if it contains a deint=N  remove that, otherwise leave as is
+   returns newly-allocated string, passing ownership to caller */
+static gchar* vdpau_compute_vo_without_deint(GmtkMediaPlayer * player, gchar const*const vodesc) {
+   GMatchInfo *match_info = NULL;
+   gchar *ret;
+   if(g_regex_match(player->deintN_regex, vodesc, 0, &match_info)) { 
+      gchar *before = g_match_info_fetch(match_info, 1);
+      gchar *after  = g_match_info_fetch(match_info, 3);
+      ret = g_strdup_printf("%s%s", before, after);
+      g_free(before);
+      g_free(after);
+   } else {
+      ret = g_strdup(vodesc);
+   }
+   g_match_info_free(match_info);
+   return ret;
+}
+
+/* replace the vo part with "gl_nosw"
+   returns newly-allocated string, passing ownership to caller */
+static gchar* vodesc_replace_gl_with_gl_nosw(GmtkMediaPlayer * player, gchar const*const vodesc) {
+   /* find the first colon : and replace the part before that with gl_nosw */
+   char *colonptr = strchr(vodesc, ':');
+   gchar *ret;
+   if(colonptr == NULL) {
+      ret = g_strdup("gl_nosw");
+   } else {
+      ret = g_strdup_printf("gl_nosw%s", colonptr);
+   }
+   return ret;   
+}
 
 gpointer launch_mplayer(gpointer data)
 {
@@ -2357,12 +2416,18 @@ gpointer launch_mplayer(gpointer data)
         if (player->vo != NULL) {
             argv[argn++] = g_strdup_printf("-vo");
 
-            if (g_ascii_strncasecmp(player->vo, "vdpau", strlen("vdpau")) == 0) {
+            if (vodesc_looks_like_vo(player->vo, "vdpau")) {
 
                 if (player->deinterlace) {
-                    argv[argn++] = g_strdup_printf("vdpau:deint=2,%s,gl,x11", player->vo);
+                    /* if it contains a deint=N leave as is, otherwise add deint=2 */
+                    gchar* vo_with_deint = vdpau_compute_vo_with_deint(player, player->vo);
+                    argv[argn++] = g_strdup_printf("%s,gl,x11,", player->vo);
+                    g_free(vo_with_deint);
                 } else {
-                    argv[argn++] = g_strdup_printf("%s,gl,x11", player->vo);
+                    /* if it contains a deint=N remove that, otherwise leave as is */
+                    gchar* vo_without_deint = vdpau_compute_vo_without_deint(player, player->vo);
+                    argv[argn++] = g_strdup_printf("%s,gl,x11,", player->vo);
+                    g_free(vo_without_deint);
                 }
 
                 // told by uau that vdpau without hardware decoding is often what you want
@@ -2375,12 +2440,12 @@ gpointer launch_mplayer(gpointer data)
                     }
                 }
 
-            } else if (g_ascii_strncasecmp(player->vo, "vaapi", strlen("vaapi")) == 0) {
+            } else if (vodesc_looks_like_vo(player->vo, "vaapi")) {
                 argv[argn++] = g_strdup_printf("%s,", player->vo);
                 argv[argn++] = g_strdup_printf("-va");
                 argv[argn++] = g_strdup_printf("vaapi");
 
-            } else if (g_ascii_strncasecmp(player->vo, "xvmc", strlen("xvmc")) == 0) {
+            } else if (vodesc_looks_like_vo(player->vo, "xvmc")) {
 
                 if (player->disable_xvmc) {
                     argv[argn++] = g_strdup_printf("xv,");
@@ -2390,13 +2455,15 @@ gpointer launch_mplayer(gpointer data)
 
             } else {
 
-                if (g_ascii_strncasecmp(player->vo, "gl", strlen("gl")) == 0 && player->enable_hardware_codecs) {
-                    argv[argn++] = g_strdup_printf("gl_nosw");
-                } else if (g_ascii_strncasecmp(player->vo, "gl2", strlen("gl2")) == 0 && player->enable_hardware_codecs) {
-                    argv[argn++] = g_strdup_printf("gl_nosw");
+                if (vodesc_looks_like_vo(player->vo, "gl") && player->enable_hardware_codecs) {
+                    gchar *vodesc = vodesc_replace_gl_with_gl_nosw(player, player->vo);
+                    argv[argn++]  = vodesc;
+                } else if (vodesc_looks_like_vo(player->vo, "gl2") && player->enable_hardware_codecs) {
+                    gchar *vodesc = vodesc_replace_gl_with_gl_nosw(player, player->vo);
+                    argv[argn++]  = vodesc;
                 } else {
                     argv[argn++] = g_strdup_printf("%s", player->vo);
-                    if (g_ascii_strncasecmp(player->vo, "x11", strlen("x11")) == 0) {
+                    if (vodesc_looks_like_vo(player->vo, "x11")) {
                         argv[argn++] = g_strdup_printf("-zoom");
                     }
                 }
