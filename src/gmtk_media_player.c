@@ -75,20 +75,21 @@ static void alignment_realized(GtkWidget * widget, gpointer data)
 
 }
 
-static gboolean vodesc_looks_like_vo(gchar const*const desc, gchar const*const vo) {
-   if(g_strcmp0(desc, vo) == 0) {
-      return TRUE;
-   }
-   if(!g_str_has_prefix(desc, vo)) {
-      return FALSE;
-   }
-   /* we know that they are not equal but desc starts with vo, i.e. desc is longer than vo */
-   /* now to check that desc looks like vo: */
-   const size_t vol = strlen(vo);
-   if(desc[vol] == ':') {
-      return TRUE;
-   }
-   return FALSE;
+static gboolean vodesc_looks_like_vo(gchar const *const desc, gchar const *const vo)
+{
+    if (g_strcmp0(desc, vo) == 0) {
+        return TRUE;
+    }
+    if (!g_str_has_prefix(desc, vo)) {
+        return FALSE;
+    }
+    /* we know that they are not equal but desc starts with vo, i.e. desc is longer than vo */
+    /* now to check that desc looks like vo: */
+    const size_t vol = strlen(vo);
+    if (desc[vol] == ':') {
+        return TRUE;
+    }
+    return FALSE;
 }
 
 static void socket_realized(GtkWidget * widget, gpointer data)
@@ -671,7 +672,8 @@ gboolean gmtk_media_player_send_key_press_event(GmtkMediaPlayer * widget, GdkEve
        set_property <property> <value>
 
 */
-static void gmtk_media_player_cycle_subtitles(GmtkMediaPlayer * player) {
+static void gmtk_media_player_cycle_subtitles(GmtkMediaPlayer * player)
+{
     write_to_mplayer(player, "sub_select\n");
 }
 
@@ -2297,46 +2299,49 @@ static const gchar *playback_error_to_string(const GmtkMediaPlayerPlaybackError 
 
 /* if it contains a deint=N leave as is, otherwise add deint=2
    returns newly-allocated string, passing ownership to caller */
-static gchar* vdpau_compute_vo_with_deint(GmtkMediaPlayer * player, gchar const*const vodesc) {
-   gchar* ret;
-   if(g_regex_match(player->deintN_regex, vodesc, 0, NULL)) {
-      ret = g_strdup(vodesc);
-   } else {
-      ret = g_strdup_printf("%s:deint=2", vodesc);
-   }
-   return ret;
+static gchar *vdpau_compute_vo_with_deint(GmtkMediaPlayer * player, gchar const *const vodesc)
+{
+    gchar *ret;
+    if (g_regex_match(player->deintN_regex, vodesc, 0, NULL)) {
+        ret = g_strdup(vodesc);
+    } else {
+        ret = g_strdup_printf("%s:deint=2", vodesc);
+    }
+    return ret;
 }
 
 /* if it contains a deint=N  remove that, otherwise leave as is
    returns newly-allocated string, passing ownership to caller */
-static gchar* vdpau_compute_vo_without_deint(GmtkMediaPlayer * player, gchar const*const vodesc) {
-   GMatchInfo *match_info = NULL;
-   gchar *ret;
-   if(g_regex_match(player->deintN_regex, vodesc, 0, &match_info)) {
-      gchar *before = g_match_info_fetch(match_info, 1);
-      gchar *after  = g_match_info_fetch(match_info, 3);
-      ret = g_strdup_printf("%s%s", before, after);
-      g_free(before);
-      g_free(after);
-   } else {
-      ret = g_strdup(vodesc);
-   }
-   g_match_info_free(match_info);
-   return ret;
+static gchar *vdpau_compute_vo_without_deint(GmtkMediaPlayer * player, gchar const *const vodesc)
+{
+    GMatchInfo *match_info = NULL;
+    gchar *ret;
+    if (g_regex_match(player->deintN_regex, vodesc, 0, &match_info)) {
+        gchar *before = g_match_info_fetch(match_info, 1);
+        gchar *after = g_match_info_fetch(match_info, 3);
+        ret = g_strdup_printf("%s%s", before, after);
+        g_free(before);
+        g_free(after);
+    } else {
+        ret = g_strdup(vodesc);
+    }
+    g_match_info_free(match_info);
+    return ret;
 }
 
 /* replace the vo part with "gl_nosw"
    returns newly-allocated string, passing ownership to caller */
-static gchar* vodesc_replace_gl_with_gl_nosw(GmtkMediaPlayer * player, gchar const*const vodesc) {
-   /* find the first colon : and replace the part before that with gl_nosw */
-   char *colonptr = strchr(vodesc, ':');
-   gchar *ret;
-   if(colonptr == NULL) {
-      ret = g_strdup("gl_nosw");
-   } else {
-      ret = g_strdup_printf("gl_nosw%s", colonptr);
-   }
-   return ret;
+static gchar *vodesc_replace_gl_with_gl_nosw(GmtkMediaPlayer * player, gchar const *const vodesc)
+{
+    /* find the first colon : and replace the part before that with gl_nosw */
+    char *colonptr = strchr(vodesc, ':');
+    gchar *ret;
+    if (colonptr == NULL) {
+        ret = g_strdup("gl_nosw");
+    } else {
+        ret = g_strdup_printf("gl_nosw%s", colonptr);
+    }
+    return ret;
 }
 
 gpointer launch_mplayer(gpointer data)
@@ -2454,12 +2459,12 @@ gpointer launch_mplayer(gpointer data)
 
                 if (player->deinterlace) {
                     /* if it contains a deint=N leave as is, otherwise add deint=2 */
-                    gchar* vo_with_deint = vdpau_compute_vo_with_deint(player, player->vo);
+                    gchar *vo_with_deint = vdpau_compute_vo_with_deint(player, player->vo);
                     argv[argn++] = g_strdup_printf("%s,gl,x11,", player->vo);
                     g_free(vo_with_deint);
                 } else {
                     /* if it contains a deint=N remove that, otherwise leave as is */
-                    gchar* vo_without_deint = vdpau_compute_vo_without_deint(player, player->vo);
+                    gchar *vo_without_deint = vdpau_compute_vo_without_deint(player, player->vo);
                     argv[argn++] = g_strdup_printf("%s,gl,x11,", player->vo);
                     g_free(vo_without_deint);
                 }
@@ -2491,10 +2496,10 @@ gpointer launch_mplayer(gpointer data)
 
                 if (vodesc_looks_like_vo(player->vo, "gl") && player->enable_hardware_codecs) {
                     gchar *vodesc = vodesc_replace_gl_with_gl_nosw(player, player->vo);
-                    argv[argn++]  = vodesc;
+                    argv[argn++] = vodesc;
                 } else if (vodesc_looks_like_vo(player->vo, "gl2") && player->enable_hardware_codecs) {
                     gchar *vodesc = vodesc_replace_gl_with_gl_nosw(player, player->vo);
-                    argv[argn++]  = vodesc;
+                    argv[argn++] = vodesc;
                 } else {
                     argv[argn++] = g_strdup_printf("%s", player->vo);
                     if (vodesc_looks_like_vo(player->vo, "x11")) {
@@ -3792,8 +3797,8 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
             gtk_widget_destroy(dialog);
         }
 
-        if (g_regex_match(player->name_regex, mplayer_output->str, 0, NULL) \
-        && (g_strrstr(mplayer_output->str, "CPU vendor name:") == NULL)) {
+        if (g_regex_match(player->name_regex, mplayer_output->str, 0, NULL)
+            && (g_strrstr(mplayer_output->str, "CPU vendor name:") == NULL)) {
             gm_logs(player->debug, G_LOG_LEVEL_DEBUG, "recognized movie name - updating UI etc");
             split = g_regex_split(player->name_regex, mplayer_output->str, 0);
             index = 0;
