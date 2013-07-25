@@ -3828,9 +3828,9 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
             index = 0;
             while (split[index]) {
                 if (strlen(split[index]) > 0) {
-                    if (player->title != NULL) {
+                    if (player->genre != NULL) {
                         g_free(player->genre);
-                        player->title = NULL;
+                        player->genre = NULL;
                     }
 
                     player->genre = g_locale_to_utf8(split[index], -1, NULL, NULL, NULL);

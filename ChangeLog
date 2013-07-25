@@ -1,4 +1,5 @@
 Development
+    Fix bug where title was getting reset when genre was found
     Fix gnome-mplayer Issue 683 more granular
 	gmtk_media_player - fix OSD messages so they only displayed for level 1 and higher
     gmtk_media_player - exclude input.conf from file not found message
