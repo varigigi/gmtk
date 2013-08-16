@@ -147,8 +147,10 @@ gboolean signal_event(gpointer data)
             break;
 
         case EVENT_TYPE_ALLOCATION:
-            if (!(event->event_allocation->width >= 65535 || event->event_allocation->height >= 65535))
-                g_signal_emit_by_name(event->player, event->event_name, event->event_allocation);
+            if (gtk_widget_get_visible(event->player)) {
+                if (!(event->event_allocation->width >= 65535 || event->event_allocation->height >= 65535))
+                    g_signal_emit_by_name(event->player, event->event_name, event->event_allocation);
+            }
             g_free(event->event_allocation);
             event->event_allocation = NULL;
             break;
