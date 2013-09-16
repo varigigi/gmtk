@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-02 16:16-0700\n"
+"POT-Creation-Date: 2013-09-16 12:46-0600\n"
 "PO-Revision-Date: 2012-03-26 01:10+0300\n"
 "Last-Translator: Onur Küçük <onur@ozguryazilim.com.tr>\n"
 "Language-Team: Turkish <turkce@pardus.org.tr>\n"
@@ -24,72 +24,72 @@ msgstr ""
 msgid "Default"
 msgstr "Öntanımlı"
 
-#: ../src/gmtk_media_player.c:745 ../src/gmtk_media_player.c:1123
+#: ../src/gmtk_media_player.c:806 ../src/gmtk_media_player.c:1184
 msgid "Frame Dropping"
 msgstr "Kare Atlaması"
 
-#: ../src/gmtk_media_player.c:759
+#: ../src/gmtk_media_player.c:820
 msgid "Deinterlace"
 msgstr "Satır Birleştirme"
 
-#: ../src/gmtk_media_player.c:1013
+#: ../src/gmtk_media_player.c:1074
 msgid "Loading..."
 msgstr "Yükleniyor..."
 
-#: ../src/gmtk_media_player.c:1151
+#: ../src/gmtk_media_player.c:1212
 msgid "Subtitles Visible"
 msgstr "Altyazılar Görünür"
 
-#: ../src/gmtk_media_player.c:1154
+#: ../src/gmtk_media_player.c:1216
 msgid "Subtitles Hidden"
 msgstr "Altyazılar Gizli"
 
-#: ../src/gmtk_media_player.c:3051
+#: ../src/gmtk_media_player.c:3210
 #, c-format
 msgid "Failed to open %s"
 msgstr "Açma başarısız %s"
 
-#: ../src/gmtk_media_player.c:3093
+#: ../src/gmtk_media_player.c:3252
 msgid "Compressed SWF format not supported"
 msgstr "Sıkıştırılmış SWF desteklenmiyor"
 
-#: ../src/gmtk_media_player.c:3198
+#: ../src/gmtk_media_player.c:3361
 #, c-format
 msgid "Cache fill: %2.2f%%"
 msgstr "Önbellek: %2.2f%%"
 
-#: ../src/gmtk_media_player.c:3364 ../src/gmtk_media_player.c:3365
-#: ../src/gmtk_media_player.c:3414 ../src/gmtk_media_player.c:3446
-#: ../src/gmtk_media_player.c:3447 ../src/gmtk_media_player.c:3479
-#: ../src/gmtk_media_player.c:3511
+#: ../src/gmtk_media_player.c:3530 ../src/gmtk_media_player.c:3531
+#: ../src/gmtk_media_player.c:3580 ../src/gmtk_media_player.c:3612
+#: ../src/gmtk_media_player.c:3613 ../src/gmtk_media_player.c:3645
+#: ../src/gmtk_media_player.c:3677
 msgid "Unknown"
 msgstr "Bilinmeyen"
 
-#: ../src/gmtk_media_player.c:3425
+#: ../src/gmtk_media_player.c:3591
 #, c-format
 msgid "External Subtitle #%i"
 msgstr "Harici Altyazı #%i"
 
-#: ../src/gmtk_media_player.c:3618
+#: ../src/gmtk_media_player.c:3784
 #, c-format
 msgid "Screenshot saved to '%s'"
 msgstr "Ekran görüntüsü '%s' olarak kaydedildi"
 
-#: ../src/gmtk_media_player.c:3621 ../src/gmtk_media_player.c:3631
-#: ../src/gmtk_media_player.c:3730
+#: ../src/gmtk_media_player.c:3787 ../src/gmtk_media_player.c:3797
+#: ../src/gmtk_media_player.c:3927
 msgid "GNOME MPlayer Notification"
 msgstr "GNOME MPlayer Uyarısı"
 
-#: ../src/gmtk_media_player.c:3630
+#: ../src/gmtk_media_player.c:3796
 #, fuzzy
 msgid "Failed to take screenshot"
 msgstr "Açma başarısız %s"
 
-#: ../src/gmtk_media_player.c:3727
+#: ../src/gmtk_media_player.c:3924
 msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr "MPlayer daha yeni bir sürüme güncellenmeli"
 
-#: ../src/gmtk_media_player.c:3990
+#: ../src/gmtk_media_player.c:4190
 #, fuzzy
 msgid "You might want to consider upgrading mplayer to a newer version"
 msgstr "MPlayer'ı daha yeni bir sürüme güncellemeyi düşünmelisiniz\n"

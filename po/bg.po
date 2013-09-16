@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-02 16:16-0700\n"
+"POT-Creation-Date: 2013-09-16 12:46-0600\n"
 "PO-Revision-Date: 2011-03-03 17:38+0000\n"
 "Last-Translator: Adrian Dimitrov <Enzo_01@abv.bg>\n"
 "Language-Team: \n"
@@ -19,72 +19,72 @@ msgstr ""
 msgid "Default"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:745 ../src/gmtk_media_player.c:1123
+#: ../src/gmtk_media_player.c:806 ../src/gmtk_media_player.c:1184
 msgid "Frame Dropping"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:759
+#: ../src/gmtk_media_player.c:820
 msgid "Deinterlace"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:1013
+#: ../src/gmtk_media_player.c:1074
 msgid "Loading..."
 msgstr ""
 
-#: ../src/gmtk_media_player.c:1151
+#: ../src/gmtk_media_player.c:1212
 msgid "Subtitles Visible"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:1154
+#: ../src/gmtk_media_player.c:1216
 msgid "Subtitles Hidden"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:3051
+#: ../src/gmtk_media_player.c:3210
 #, c-format
 msgid "Failed to open %s"
 msgstr "Грешка при отварянето на %s"
 
-#: ../src/gmtk_media_player.c:3093
+#: ../src/gmtk_media_player.c:3252
 msgid "Compressed SWF format not supported"
 msgstr "Компресираните SFW формати за неподдържани"
 
-#: ../src/gmtk_media_player.c:3198
+#: ../src/gmtk_media_player.c:3361
 #, c-format
 msgid "Cache fill: %2.2f%%"
 msgstr "Запълване на кеша: %2.2f%%"
 
-#: ../src/gmtk_media_player.c:3364 ../src/gmtk_media_player.c:3365
-#: ../src/gmtk_media_player.c:3414 ../src/gmtk_media_player.c:3446
-#: ../src/gmtk_media_player.c:3447 ../src/gmtk_media_player.c:3479
-#: ../src/gmtk_media_player.c:3511
+#: ../src/gmtk_media_player.c:3530 ../src/gmtk_media_player.c:3531
+#: ../src/gmtk_media_player.c:3580 ../src/gmtk_media_player.c:3612
+#: ../src/gmtk_media_player.c:3613 ../src/gmtk_media_player.c:3645
+#: ../src/gmtk_media_player.c:3677
 msgid "Unknown"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:3425
+#: ../src/gmtk_media_player.c:3591
 #, c-format
 msgid "External Subtitle #%i"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:3618
+#: ../src/gmtk_media_player.c:3784
 #, c-format
 msgid "Screenshot saved to '%s'"
 msgstr "Снимката е записана в '%s'"
 
-#: ../src/gmtk_media_player.c:3621 ../src/gmtk_media_player.c:3631
-#: ../src/gmtk_media_player.c:3730
+#: ../src/gmtk_media_player.c:3787 ../src/gmtk_media_player.c:3797
+#: ../src/gmtk_media_player.c:3927
 msgid "GNOME MPlayer Notification"
 msgstr "GNOME MPlayer известяване"
 
-#: ../src/gmtk_media_player.c:3630
+#: ../src/gmtk_media_player.c:3796
 #, fuzzy
 msgid "Failed to take screenshot"
 msgstr "Грешка при отварянето на %s"
 
-#: ../src/gmtk_media_player.c:3727
+#: ../src/gmtk_media_player.c:3924
 msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:3990
+#: ../src/gmtk_media_player.c:4190
 msgid "You might want to consider upgrading mplayer to a newer version"
 msgstr ""
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gmtk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-02 16:16-0700\n"
+"POT-Creation-Date: 2013-09-16 12:46-0600\n"
 "PO-Revision-Date: 2011-06-05 06:07+0000\n"
 "Last-Translator: Arve Eriksson <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
@@ -24,72 +24,72 @@ msgstr ""
 msgid "Default"
 msgstr "Default"
 
-#: ../src/gmtk_media_player.c:745 ../src/gmtk_media_player.c:1123
+#: ../src/gmtk_media_player.c:806 ../src/gmtk_media_player.c:1184
 msgid "Frame Dropping"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:759
+#: ../src/gmtk_media_player.c:820
 msgid "Deinterlace"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:1013
+#: ../src/gmtk_media_player.c:1074
 msgid "Loading..."
 msgstr "Loading…"
 
-#: ../src/gmtk_media_player.c:1151
+#: ../src/gmtk_media_player.c:1212
 msgid "Subtitles Visible"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:1154
+#: ../src/gmtk_media_player.c:1216
 msgid "Subtitles Hidden"
 msgstr ""
 
-#: ../src/gmtk_media_player.c:3051
+#: ../src/gmtk_media_player.c:3210
 #, c-format
 msgid "Failed to open %s"
 msgstr "Failed to open %s"
 
-#: ../src/gmtk_media_player.c:3093
+#: ../src/gmtk_media_player.c:3252
 msgid "Compressed SWF format not supported"
 msgstr "Compressed SWF format not supported"
 
-#: ../src/gmtk_media_player.c:3198
+#: ../src/gmtk_media_player.c:3361
 #, c-format
 msgid "Cache fill: %2.2f%%"
 msgstr "Cache fill: %2.2f%%"
 
-#: ../src/gmtk_media_player.c:3364 ../src/gmtk_media_player.c:3365
-#: ../src/gmtk_media_player.c:3414 ../src/gmtk_media_player.c:3446
-#: ../src/gmtk_media_player.c:3447 ../src/gmtk_media_player.c:3479
-#: ../src/gmtk_media_player.c:3511
+#: ../src/gmtk_media_player.c:3530 ../src/gmtk_media_player.c:3531
+#: ../src/gmtk_media_player.c:3580 ../src/gmtk_media_player.c:3612
+#: ../src/gmtk_media_player.c:3613 ../src/gmtk_media_player.c:3645
+#: ../src/gmtk_media_player.c:3677
 msgid "Unknown"
 msgstr "Unknown"
 
-#: ../src/gmtk_media_player.c:3425
+#: ../src/gmtk_media_player.c:3591
 #, c-format
 msgid "External Subtitle #%i"
 msgstr "External Subtitle #%i"
 
-#: ../src/gmtk_media_player.c:3618
+#: ../src/gmtk_media_player.c:3784
 #, c-format
 msgid "Screenshot saved to '%s'"
 msgstr "Screenshot saved to '%s'"
 
-#: ../src/gmtk_media_player.c:3621 ../src/gmtk_media_player.c:3631
-#: ../src/gmtk_media_player.c:3730
+#: ../src/gmtk_media_player.c:3787 ../src/gmtk_media_player.c:3797
+#: ../src/gmtk_media_player.c:3927
 msgid "GNOME MPlayer Notification"
 msgstr "GNOME MPlayer Notification"
 
-#: ../src/gmtk_media_player.c:3630
+#: ../src/gmtk_media_player.c:3796
 #, fuzzy
 msgid "Failed to take screenshot"
 msgstr "Failed to open %s"
 
-#: ../src/gmtk_media_player.c:3727
+#: ../src/gmtk_media_player.c:3924
 msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr "MPlayer should be Upgraded to a Newer Version"
 
-#: ../src/gmtk_media_player.c:3990
+#: ../src/gmtk_media_player.c:4190
 #, fuzzy
 msgid "You might want to consider upgrading mplayer to a newer version"
 msgstr "You might want to consider upgrading mplayer to a newer version\n"

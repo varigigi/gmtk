@@ -834,6 +834,12 @@ static gboolean player_key_press_event_callback(GtkWidget * widget, GdkEventKey 
         case GDK_o:
             write_to_mplayer(player, "osd\n");
             break;
+		case GDK_h:
+			write_to_mplayer(player, "tv_step_channel -1\n");
+			break;
+		case GDK_k:
+			write_to_mplayer(player, "tv_step_channel 1\n");
+			break;
         default:
             gm_log(player->debug, G_LOG_LEVEL_INFO, "ignoring key %s%s%s%s",
                    (event->state & GDK_CONTROL_MASK) ? "Control-" : "", (event->state & GDK_MOD1_MASK) ? "Alt-" : "",

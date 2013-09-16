@@ -1,4 +1,6 @@
 Development
+    Add key bindings for h tv_step_channel down and k tv_step_channel up
+1.0.9a
     Only emit size_allocation when the widget is visible
     Fix bug where title was getting reset when genre was found
     Fix gnome-mplayer Issue 683 more granular
