@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: gmtk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-16 12:46-0600\n"
-"PO-Revision-Date: 2011-07-19 16:29-0000\n"
+"PO-Revision-Date: 2013-09-17 14:05-0000\n"
 "Last-Translator: Sérgio Marques <smarquespt@gmail.com>\n"
-"Language-Team: Portuguese <pt@li.org>\n"
+"Language-Team: Portuguese\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2011-06-09 16:08+0000\n"
-"X-Generator: Launchpad (build 13175)\n"
+"X-Generator: Poedit 1.5.7\n"
 
 #: ../src/gm_audio.c:80 ../src/gm_audio.c:266
 #: ../src/gmtk_output_combo_box.c:150
@@ -30,7 +30,7 @@ msgstr "Perda de imagens"
 
 #: ../src/gmtk_media_player.c:820
 msgid "Deinterlace"
-msgstr ""
+msgstr "Deinterlace"
 
 #: ../src/gmtk_media_player.c:1074
 msgid "Loading..."
@@ -81,19 +81,17 @@ msgid "GNOME MPlayer Notification"
 msgstr "Notificação do GNOME MPlayer"
 
 #: ../src/gmtk_media_player.c:3796
-#, fuzzy
 msgid "Failed to take screenshot"
-msgstr "Falha ao abrir %s"
+msgstr "Falha ao obter captura de ecrã"
 
 #: ../src/gmtk_media_player.c:3924
 msgid "MPlayer should be Upgraded to a Newer Version"
 msgstr "Deve atualizar o MPlayer para uma versão mais recente"
 
 #: ../src/gmtk_media_player.c:4190
-#, fuzzy
 msgid "You might want to consider upgrading mplayer to a newer version"
 msgstr ""
-"Considere a hipótese de atualizar o mPlayer para uma versão mais recente\n"
+"Considere a hipótese de atualizar o mplayer para uma versão mais recente"
 
 #: ../src/gmtk_media_tracker.c:102 ../src/gmtk_media_tracker.c:106
 #: ../src/gmtk_media_tracker.c:216
@@ -102,7 +100,7 @@ msgstr "Sem informações"
 
 #: ../src/gmtk_audio_meter.c:215
 msgid "No Data"
-msgstr ""
+msgstr "Sem dados"
 
 #~ msgid "GNOME MPlayer Error"
 #~ msgstr "Erro do GNOME MPlayer"
