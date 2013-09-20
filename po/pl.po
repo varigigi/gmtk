@@ -3,13 +3,13 @@
 # Copyright (C) 2007 THE gmtk'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the gmtk package.
 #
-# Julian Sikorski <belegdol@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012.
+# Julian Sikorski <belegdol@gmail.com>, 2007, 2008, 2009, 2010, 2011, 2012, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-16 12:46-0600\n"
-"PO-Revision-Date: 2012-09-22 10:58+0200\n"
+"PO-Revision-Date: 2013-09-20 22:17+0200\n"
 "Last-Translator: Julian Sikorski <belegdol@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
 "X-Launchpad-Export-Date: 2011-06-09 16:08+0000\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: ../src/gm_audio.c:80 ../src/gm_audio.c:266
 #: ../src/gmtk_output_combo_box.c:150
@@ -83,9 +83,8 @@ msgid "GNOME MPlayer Notification"
 msgstr "Powiadomienie"
 
 #: ../src/gmtk_media_player.c:3796
-#, fuzzy
 msgid "Failed to take screenshot"
-msgstr "Nie udało się otworzyć „%s”"
+msgstr "Nie udało się pobrać zrzutu ekranu"
 
 #: ../src/gmtk_media_player.c:3924
 msgid "MPlayer should be Upgraded to a Newer Version"
