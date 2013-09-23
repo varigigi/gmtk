@@ -9,9 +9,9 @@ msgstr ""
 "Project-Id-Version: 0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-16 12:46-0600\n"
-"PO-Revision-Date: 2011-03-19 15:28+0000\n"
-"Last-Translator: Krasznecz Zoltán <zoltan.krasznecz@gmail.com>\n"
-"Language-Team: Angelique OS <info@angelique.hu>\n"
+"PO-Revision-Date: 2013-09-23 18:27+0100\n"
+"Last-Translator: Kazmer Kulcsar <info@angelique.hu>\n"
+"Language-Team: angelique os <info@angelique.hu>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,30 +22,32 @@ msgstr ""
 "X-Poedit-Country: HUNGARY\n"
 "X-Poedit-Language: Hungarian\n"
 
-#: ../src/gm_audio.c:80 ../src/gm_audio.c:266
+#: ../src/gm_audio.c:80
+#: ../src/gm_audio.c:266
 #: ../src/gmtk_output_combo_box.c:150
 msgid "Default"
 msgstr "Alapértelmezett"
 
-#: ../src/gmtk_media_player.c:806 ../src/gmtk_media_player.c:1184
+#: ../src/gmtk_media_player.c:806
+#: ../src/gmtk_media_player.c:1184
 msgid "Frame Dropping"
-msgstr ""
+msgstr "Képkocka eldobás"
 
 #: ../src/gmtk_media_player.c:820
 msgid "Deinterlace"
-msgstr ""
+msgstr "Váltottsor-mentesítő"
 
 #: ../src/gmtk_media_player.c:1074
 msgid "Loading..."
-msgstr ""
+msgstr "Betöltés..."
 
 #: ../src/gmtk_media_player.c:1212
 msgid "Subtitles Visible"
-msgstr ""
+msgstr "Feliratok megjelenítése"
 
 #: ../src/gmtk_media_player.c:1216
 msgid "Subtitles Hidden"
-msgstr ""
+msgstr "Feliratok elrejtése"
 
 #: ../src/gmtk_media_player.c:3210
 #, c-format
@@ -59,51 +61,55 @@ msgstr "A tömörített SWF formátum nem támogatott"
 #: ../src/gmtk_media_player.c:3361
 #, c-format
 msgid "Cache fill: %2.2f%%"
-msgstr "Gyorstár %2.2f%%"
+msgstr "Gyorsítótár %2.2f%%"
 
-#: ../src/gmtk_media_player.c:3530 ../src/gmtk_media_player.c:3531
-#: ../src/gmtk_media_player.c:3580 ../src/gmtk_media_player.c:3612
-#: ../src/gmtk_media_player.c:3613 ../src/gmtk_media_player.c:3645
+#: ../src/gmtk_media_player.c:3530
+#: ../src/gmtk_media_player.c:3531
+#: ../src/gmtk_media_player.c:3580
+#: ../src/gmtk_media_player.c:3612
+#: ../src/gmtk_media_player.c:3613
+#: ../src/gmtk_media_player.c:3645
 #: ../src/gmtk_media_player.c:3677
 msgid "Unknown"
-msgstr ""
+msgstr "Ismeretlen"
 
 #: ../src/gmtk_media_player.c:3591
 #, c-format
 msgid "External Subtitle #%i"
-msgstr ""
+msgstr "Külső felirat #%i"
 
 #: ../src/gmtk_media_player.c:3784
 #, c-format
 msgid "Screenshot saved to '%s'"
-msgstr "Képernyőkép mentve a '%s' fájlba"
+msgstr "Pillanatkép mentve a '%s' fájlba"
 
-#: ../src/gmtk_media_player.c:3787 ../src/gmtk_media_player.c:3797
+#: ../src/gmtk_media_player.c:3787
+#: ../src/gmtk_media_player.c:3797
 #: ../src/gmtk_media_player.c:3927
 msgid "GNOME MPlayer Notification"
 msgstr "GNOME MPlayer figyelmeztetés"
 
 #: ../src/gmtk_media_player.c:3796
-#, fuzzy
 msgid "Failed to take screenshot"
-msgstr "Nem lehet megnyitni: %s"
+msgstr "A pillanatkép készítése sikertelen"
 
 #: ../src/gmtk_media_player.c:3924
 msgid "MPlayer should be Upgraded to a Newer Version"
-msgstr ""
+msgstr "Az mplayer frissíthető egy egy újabb verzióra"
 
 #: ../src/gmtk_media_player.c:4190
 msgid "You might want to consider upgrading mplayer to a newer version"
-msgstr ""
+msgstr "Érdemes fontolóra vennie az mplayer frissítését egy újabb verzióra"
 
-#: ../src/gmtk_media_tracker.c:102 ../src/gmtk_media_tracker.c:106
+#: ../src/gmtk_media_tracker.c:102
+#: ../src/gmtk_media_tracker.c:106
 #: ../src/gmtk_media_tracker.c:216
 msgid "No Information"
-msgstr "Nincsenek információk"
+msgstr "Nincs információ"
 
 #: ../src/gmtk_audio_meter.c:215
 msgid "No Data"
-msgstr ""
+msgstr "Nincs adat"
 
 #~ msgid "GNOME MPlayer Error"
 #~ msgstr "GNOME MPlayer hiba"
