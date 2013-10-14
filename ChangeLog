@@ -1,4 +1,7 @@
 Development
+    Fix parameter warning to gtk_widget_get_visible
+    Add backend variable to gmtk.pc
+    Run autoreconf
     Updated Hungarian translation
     Updated Polish translation
     Updated Portuguese translation
