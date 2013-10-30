@@ -205,7 +205,7 @@ static gboolean gmtk_media_tracker_motion_notify(GtkWidget * tracker, GdkEventMo
         gtk_range_set_value(GTK_RANGE(GMTK_MEDIA_TRACKER(tracker)->scale), position);
         g_signal_emit_by_name(tracker, "value-changed", (gint) (100 * position));
         difference = (GMTK_MEDIA_TRACKER(tracker)->length * position) - GMTK_MEDIA_TRACKER(tracker)->position;
-        gm_log(FALSE, G_LOG_LEVEL_MESSAGE, "difference = %lf", difference);
+        gm_log(FALSE, G_LOG_LEVEL_DEBUG, "difference = %lf", difference);
         //if (ABS(difference) > 15)
         //    g_signal_emit_by_name(tracker, "difference-changed", difference);
 

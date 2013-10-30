@@ -2381,7 +2381,7 @@ gpointer launch_mplayer(gpointer data)
 
     player->seekable = FALSE;
     player->has_chapters = FALSE;
-    player->video_present = FALSE;
+    //player->video_present = FALSE;
     player->position = 0.0;
     player->cache_percent = -1.0;
     player->title_is_menu = FALSE;
@@ -3385,7 +3385,9 @@ gboolean thread_reader(GIOChannel * source, GIOCondition condition, gpointer dat
                 create_event_int(player, "media-state-changed", player->media_state);
                 allocation.width = player->video_width;
                 allocation.height = player->video_height;
-                create_event_allocation(player, "size_allocate", &allocation);
+				if (player->video_present == FALSE) {
+            		create_event_allocation(player, "size_allocate", &allocation);
+				}
                 player->video_present = TRUE;
                 buf = g_strdup_printf("set_property sub_visibility %i\n", player->sub_visible);
                 write_to_mplayer(player, buf);
