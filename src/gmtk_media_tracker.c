@@ -93,7 +93,7 @@ static void gmtk_media_tracker_init(GmtkMediaTracker * tracker)
 #else
     GTK_WIDGET_UNSET_FLAGS(tracker->scale, GTK_CAN_FOCUS);
 #endif
-    gtk_widget_set_size_request(tracker->scale, 200, -1);
+    gtk_widget_set_size_request(tracker->scale, -1, -1);
     gtk_widget_show(tracker->scale);
     gtk_box_pack_start(GTK_BOX(tracker), GTK_WIDGET(tracker->scale), TRUE, TRUE, 0);
     gtk_widget_set_sensitive(tracker->scale, FALSE);
