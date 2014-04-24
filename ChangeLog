@@ -1,4 +1,5 @@
 Development
+1.0.9
     Don't force a minimum size on the tracker
 1.0.9b
     Only do the media player allocation event if no video is present
